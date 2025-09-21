@@ -1,4 +1,4 @@
-﻿function Favourites(): JSX.Element {
+﻿function FavouritesPage(): JSX.Element {
   return (
     <div className="page">
       <header className="header">
@@ -226,4 +226,4 @@
   );
 }
 
-export default Favourites;
+export default FavouritesPage;

@@ -1,11 +1,11 @@
-﻿import HotelSuggestion from '../hotel-suggestion/hotel-suggestion';
+﻿import HotelInfo from '../../components/hotel-info/hotel-info.tsx';
 import HotelType from '../../src/enums/hotel-type.ts';
 
 type MainProps = {
   placesCount: number;
 }
 
-function Main({placesCount}: MainProps): JSX.Element {
+function MainPage({placesCount}: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -116,33 +116,33 @@ function Main({placesCount}: MainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <HotelSuggestion
+                <HotelInfo
                   isPremium
                   imageSrc="img/apartment-01.jpg"
                   price={120}
                   hotelType={HotelType.Apartment}
                   name="Beautiful & luxurious apartment at great location"
                 />
-                <HotelSuggestion
+                <HotelInfo
                   imageSrc="img/room.jpg"
                   price={80}
                   hotelType={HotelType.Room}
                   name="Wood and stone place"
                 />
-                <HotelSuggestion
+                <HotelInfo
                   imageSrc="img/apartment-02.jpg"
                   price={132}
                   hotelType={HotelType.Apartment}
                   name="Canal View Prinsengracht"
                 />
-                <HotelSuggestion
+                <HotelInfo
                   isPremium
                   imageSrc="img/apartment-03.jpg"
                   price={180}
                   hotelType={HotelType.Apartment}
                   name="Nice, cozy, warm big bed apartment"
                 />
-                <HotelSuggestion
+                <HotelInfo
                   imageSrc="img/room.jpg"
                   price={80}
                   hotelType={HotelType.Room}
@@ -160,4 +160,4 @@ function Main({placesCount}: MainProps): JSX.Element {
   );
 }
 
-export default Main;
+export default MainPage;

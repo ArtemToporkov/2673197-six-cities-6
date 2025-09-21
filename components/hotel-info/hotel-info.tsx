@@ -1,6 +1,6 @@
 ﻿import HotelType from '../../src/enums/hotel-type.ts';
 
-type HotelSuggestionProps = {
+type HotelInfoProps = {
   isPremium?: boolean;
   imageSrc: string;
   price: number; // может нам объявить класс/интерфейс/type Price с enum Currency
@@ -17,7 +17,7 @@ function PremiumLabel(): JSX.Element {
   );
 }
 
-function HotelSuggestion({isPremium = false, imageSrc, price, hotelType, name}: HotelSuggestionProps): JSX.Element {
+function HotelInfo({isPremium = false, imageSrc, price, hotelType, name}: HotelInfoProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       {isPremium && <PremiumLabel />}
@@ -69,4 +69,4 @@ function HotelSuggestion({isPremium = false, imageSrc, price, hotelType, name}: 
   );
 }
 
-export default HotelSuggestion;
+export default HotelInfo;
