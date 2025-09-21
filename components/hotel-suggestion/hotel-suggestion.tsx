@@ -2,7 +2,7 @@
 import PremiumLabel from '../premium-label/premium-label';
 
 type HotelSuggestionProps = {
-  isPremium: boolean;
+  isPremium?: boolean;
   imageSrc: string;
   price: number; // может нам объявить класс/интерфейс/type Price с enum Currency
   // чтобы иметь возможность отображать цену в разных валютах?
@@ -10,7 +10,7 @@ type HotelSuggestionProps = {
   name: string;
 };
 
-function HotelSuggestion({isPremium, imageSrc, price, hotelType, name}: HotelSuggestionProps): JSX.Element {
+function HotelSuggestion({isPremium = false, imageSrc, price, hotelType, name}: HotelSuggestionProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       {isPremium && <PremiumLabel />}

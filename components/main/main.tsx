@@ -113,35 +113,32 @@ function Main(): JSX.Element {
               </form>
               <div className="cities__places-list places__list tabs__content">
                 <HotelSuggestion
-                  isPremium={true}
+                  isPremium
                   imageSrc="img/apartment-01.jpg"
                   price={120}
                   hotelType={HotelType.Apartment}
                   name="Beautiful & luxurious apartment at great location"
                 />
                 <HotelSuggestion
-                  isPremium={false}
                   imageSrc="img/room.jpg"
                   price={80}
                   hotelType={HotelType.Room}
                   name="Wood and stone place"
                 />
                 <HotelSuggestion
-                  isPremium={false}
                   imageSrc="img/apartment-02.jpg"
                   price={132}
                   hotelType={HotelType.Apartment}
                   name="Canal View Prinsengracht"
                 />
                 <HotelSuggestion
-                  isPremium={true}
+                  isPremium
                   imageSrc="img/apartment-03.jpg"
                   price={180}
                   hotelType={HotelType.Apartment}
                   name="Nice, cozy, warm big bed apartment"
                 />
                 <HotelSuggestion
-                  isPremium={false}
                   imageSrc="img/room.jpg"
                   price={80}
                   hotelType={HotelType.Room}
