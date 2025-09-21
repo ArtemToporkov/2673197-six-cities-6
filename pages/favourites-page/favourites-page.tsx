@@ -24,8 +24,8 @@
                   >
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     <span className="header__user-name user__name">
-                  Oliver.conner@gmail.com
-                </span>
+                      Oliver.conner@gmail.com
+                    </span>
                     <span className="header__favorite-count">3</span>
                   </a>
                 </li>
@@ -73,8 +73,8 @@
                         <div className="place-card__price">
                           <b className="place-card__price-value">€180</b>
                           <span className="place-card__price-text">
-                        /&nbsp;night
-                      </span>
+                            /&nbsp;night
+                          </span>
                         </div>
                         <button
                           className="place-card__bookmark-button place-card__bookmark-button--active button"
@@ -85,14 +85,14 @@
                             width={18}
                             height={19}
                           >
-                            <use xlinkHref="#icon-bookmark" />
+                            <use xlinkHref="#icon-bookmark"/>
                           </svg>
                           <span className="visually-hidden">In bookmarks</span>
                         </button>
                       </div>
                       <div className="place-card__rating rating">
                         <div className="place-card__stars rating__stars">
-                          <span style={{ width: "100%" }} />
+                          <span style={{width: '100%'}}/>
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>
@@ -119,8 +119,8 @@
                         <div className="place-card__price">
                           <b className="place-card__price-value">€80</b>
                           <span className="place-card__price-text">
-                        /&nbsp;night
-                      </span>
+                            /&nbsp;night
+                          </span>
                         </div>
                         <button
                           className="place-card__bookmark-button place-card__bookmark-button--active button"
@@ -131,14 +131,14 @@
                             width={18}
                             height={19}
                           >
-                            <use xlinkHref="#icon-bookmark" />
+                            <use xlinkHref="#icon-bookmark"/>
                           </svg>
                           <span className="visually-hidden">In bookmarks</span>
                         </button>
                       </div>
                       <div className="place-card__rating rating">
                         <div className="place-card__stars rating__stars">
-                          <span style={{ width: "80%" }} />
+                          <span style={{width: '80%'}} />
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>
@@ -176,8 +176,8 @@
                         <div className="place-card__price">
                           <b className="place-card__price-value">€180</b>
                           <span className="place-card__price-text">
-                        /&nbsp;night
-                      </span>
+                            /&nbsp;night
+                          </span>
                         </div>
                         <button
                           className="place-card__bookmark-button place-card__bookmark-button--active button"
@@ -195,7 +195,7 @@
                       </div>
                       <div className="place-card__rating rating">
                         <div className="place-card__stars rating__stars">
-                          <span style={{ width: "100%" }} />
+                          <span style={{width: '100%'}} />
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>
