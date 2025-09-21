@@ -1,5 +1,5 @@
-﻿import HotelSuggestion from "../hotel-suggestion/hotel-suggestion";
-import HotelType from "../hotel-suggestion/hotel-suggestion.enums";
+﻿import HotelSuggestion from '../hotel-suggestion/hotel-suggestion';
+import HotelType from '../hotel-suggestion/hotel-suggestion.enums';
 
 function Main(): JSX.Element {
   return (
@@ -28,7 +28,7 @@ function Main(): JSX.Element {
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     <span className="header__user-name user__name">
                   Oliver.conner@gmail.com
-                </span>
+                    </span>
                     <span className="header__favorite-count">3</span>
                   </a>
                 </li>
@@ -88,11 +88,11 @@ function Main(): JSX.Element {
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
-              Popular
-              <svg className="places__sorting-arrow" width={7} height={4}>
-                <use xlinkHref="#icon-arrow-select" />
-              </svg>
-            </span>
+                  Popular
+                  <svg className="places__sorting-arrow" width={7} height={4}>
+                    <use xlinkHref="#icon-arrow-select" />
+                  </svg>
+                </span>
                 <ul className="places__options places__options--custom places__options--opened">
                   <li
                     className="places__option places__option--active"
@@ -117,31 +117,36 @@ function Main(): JSX.Element {
                   imageSrc="img/apartment-01.jpg"
                   price={120}
                   hotelType={HotelType.Apartment}
-                  name="Beautiful & luxurious apartment at great location" />
+                  name="Beautiful & luxurious apartment at great location"
+                />
                 <HotelSuggestion
                   isPremium={false}
                   imageSrc="img/room.jpg"
                   price={80}
                   hotelType={HotelType.Room}
-                  name="Wood and stone place" />
+                  name="Wood and stone place"
+                />
                 <HotelSuggestion
                   isPremium={false}
                   imageSrc="img/apartment-02.jpg"
                   price={132}
                   hotelType={HotelType.Apartment}
-                  name="Canal View Prinsengracht" />
+                  name="Canal View Prinsengracht"
+                />
                 <HotelSuggestion
                   isPremium={true}
                   imageSrc="img/apartment-03.jpg"
                   price={180}
                   hotelType={HotelType.Apartment}
-                  name="Nice, cozy, warm big bed apartment" />
+                  name="Nice, cozy, warm big bed apartment"
+                />
                 <HotelSuggestion
                   isPremium={false}
                   imageSrc="img/room.jpg"
                   price={80}
                   hotelType={HotelType.Room}
-                  name="Wood and stone place" />
+                  name="Wood and stone place"
+                />
               </div>
             </section>
             <div className="cities__right-section">
