@@ -1,4 +1,5 @@
-﻿export function FavouritesPage(): JSX.Element {
+﻿// нужно ли на текущем этапе выносить карточки избранных отелей, как в main?
+export function FavouritesPage(): JSX.Element {
   return (
     <div className="page">
       <header className="header">
