@@ -1,4 +1,4 @@
-﻿import HotelType from './hotel-suggestion.enums';
+﻿import HotelType from '../../src/enums/hotel-type.ts';
 
 type HotelSuggestionProps = {
   isPremium?: boolean;
