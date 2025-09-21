@@ -1,5 +1,4 @@
 ﻿import HotelType from './hotel-suggestion.enums';
-import PremiumLabel from '../premium-label/premium-label';
 
 type HotelSuggestionProps = {
   isPremium?: boolean;
@@ -9,6 +8,14 @@ type HotelSuggestionProps = {
   hotelType: HotelType;
   name: string;
 };
+
+function PremiumLabel(): JSX.Element {
+  return (
+    <div className="place-card__mark">
+      <span>Premium</span>
+    </div>
+  );
+}
 
 function HotelSuggestion({isPremium = false, imageSrc, price, hotelType, name}: HotelSuggestionProps): JSX.Element {
   return (
