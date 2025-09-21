@@ -1,10 +1,10 @@
-﻿import HotelType from "./hotel-suggestion.enums";
-import PremiumLabel from "../premium-label/premium-label";
+﻿import HotelType from './hotel-suggestion.enums';
+import PremiumLabel from '../premium-label/premium-label';
 
 type HotelSuggestionProps = {
   isPremium: boolean;
   imageSrc: string;
-  price: number; // может нам объявить класс или интерфейс Price с enum Currency
+  price: number; // может нам объявить класс/интерфейс/type Price с enum Currency
   // чтобы иметь возможность отображать цену в разных валютах?
   hotelType: HotelType;
   name: string;
@@ -47,7 +47,7 @@ function HotelSuggestion({isPremium, imageSrc, price, hotelType, name}: HotelSug
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: "80%" }} />
+            <span style={{ width: '80%' }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
