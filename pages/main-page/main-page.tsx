@@ -1,11 +1,11 @@
-﻿import HotelInfo from '../../components/hotel-info/hotel-info.tsx';
-import HotelType from '../../src/enums/hotel-type.ts';
+﻿import { HotelInfo } from '../../components/hotel-info/hotel-info.tsx';
+import { HotelType } from '../../src/enums/hotel-type.ts';
 
 type MainProps = {
   placesCount: number;
 }
 
-function MainPage({placesCount}: MainProps): JSX.Element {
+export function MainPage({placesCount}: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -159,5 +159,3 @@ function MainPage({placesCount}: MainProps): JSX.Element {
     </div>
   );
 }
-
-export default MainPage;

@@ -1,4 +1,4 @@
-﻿import HotelType from '../../src/enums/hotel-type.ts';
+﻿import { HotelType } from '../../src/enums/hotel-type.ts';
 
 type HotelInfoProps = {
   isPremium?: boolean;
@@ -17,7 +17,7 @@ function PremiumLabel(): JSX.Element {
   );
 }
 
-function HotelInfo({isPremium = false, imageSrc, price, hotelType, name}: HotelInfoProps): JSX.Element {
+export function HotelInfo({isPremium = false, imageSrc, price, hotelType, name}: HotelInfoProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       {isPremium && <PremiumLabel />}
@@ -68,5 +68,3 @@ function HotelInfo({isPremium = false, imageSrc, price, hotelType, name}: HotelI
     </article>
   );
 }
-
-export default HotelInfo;
