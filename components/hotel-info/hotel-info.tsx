@@ -3,8 +3,7 @@
 type HotelInfoProps = {
   isPremium?: boolean;
   imageSrc: string;
-  price: number; // может нам объявить класс/интерфейс/type Price с enum Currency
-  // чтобы иметь возможность отображать цену в разных валютах?
+  price: number;
   hotelType: HotelType;
   name: string;
 };
