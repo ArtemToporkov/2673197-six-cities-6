@@ -1,5 +1,5 @@
 ﻿import { HotelInfo } from '../../components/hotel-info/hotel-info.tsx';
-import { HotelType } from '../../src/enums/hotel-type.ts';
+import { HotelType } from '../../enums/hotel-type.ts';
 
 type MainProps = {
   placesCount: number;
