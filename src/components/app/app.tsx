@@ -6,23 +6,23 @@ import { NotFoundPage } from '../../pages/not-found-page/not-found-page.tsx';
 import { PrivateRoute } from '../private-route/private-route.tsx';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { FavouritesPage } from '../../pages/favourites-page/favourites-page.tsx';
+import { AppRoute } from '../../enums/app-route.ts';
 
 type AppProps = {
   placesCount: number;
 }
 
 export function App({placesCount}: AppProps): JSX.Element {
-  // return <MainPage placesCount={placesCount} />;
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<MainPage placesCount={placesCount} />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/offer/:id' element={<OfferPage />} />
+        <Route path={AppRoute.Main} element={<MainPage placesCount={placesCount} />} />
+        <Route path={AppRoute.Login} element={<LoginPage />} />
+        <Route path={AppRoute.Offer} element={<OfferPage />} />
       </Routes>
       <Routes>
         <Route
-          path='/favourites'
+          path={AppRoute.Favourites}
           element={
             <PrivateRoute authStatus={AuthStatus.NotAuthorized}>
               <FavouritesPage />
@@ -31,7 +31,7 @@ export function App({placesCount}: AppProps): JSX.Element {
         />
       </Routes>
       <Routes>
-        <Route path='*' element={<NotFoundPage />} />
+        <Route path={AppRoute.Unknown} element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
