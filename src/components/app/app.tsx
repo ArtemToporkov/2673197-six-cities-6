@@ -20,6 +20,7 @@ export function App({offers}: AppProps): JSX.Element {
         <Route path={AppRoute.Main} element={<MainPage offers={offers} />} />
         <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route path={AppRoute.Offer} element={<OfferPage />} />
+        <Route path={AppRoute.Unknown} element={<NotFoundPage />} />
       </Routes>
       <Routes>
         <Route
@@ -30,9 +31,6 @@ export function App({offers}: AppProps): JSX.Element {
             </PrivateRoute>
           }
         />
-      </Routes>
-      <Routes>
-        <Route path={AppRoute.Unknown} element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
