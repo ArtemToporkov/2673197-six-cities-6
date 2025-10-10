@@ -14,11 +14,12 @@ export function OffersList({offers}: OffersListProps): JSX.Element {
       {offers.map((offer: OfferDetails) => (
         <HotelCard
           key={offer.id}
+          {...offer}
           isPremium={offer.isPremium}
           imageUrl={offer.imageUrl}
           price={offer.price}
           hotelType={offer.hotelType}
-          description={offer.name}
+          description={offer.description}
           onMouseOver={() => setSelectedOffer(offer.id)}
           onMouseLeave={() => (setSelectedOffer(null))}
         />

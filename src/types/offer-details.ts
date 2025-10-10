@@ -1,17 +1,12 @@
-﻿import { HotelType } from '../enums/hotel-type.ts';
-import { Amenities } from './amenities.ts';
+﻿import { Amenities } from './amenities.ts';
 import { City } from '../enums/city.ts';
+import { HotelInfo } from './hotel-info.ts';
 
-export type OfferDetails = {
+export type OfferDetails = HotelInfo & {
   id: number;
-  name: string;
   city: City;
-  isPremium?: boolean;
-  price: number;
-  hotelType: HotelType;
   rating: number;
   bedroomsCount: number;
   maxAdultsCount: number;
-  offerInside: Amenities;
-  imageUrl: string;
+  amenities: Amenities;
 };

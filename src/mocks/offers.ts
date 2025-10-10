@@ -7,7 +7,7 @@ export const offers: OfferDetails[] = [
   {
     id: 1,
     imageUrl: 'img/apartment-01.jpg',
-    name: 'Beautiful & luxurious apartment at great location',
+    description: 'Beautiful & luxurious apartment at great location',
     city: City.Amsterdam,
     isPremium: true,
     price: 120,
@@ -15,7 +15,7 @@ export const offers: OfferDetails[] = [
     rating: 4.8,
     bedroomsCount: 3,
     maxAdultsCount: 4,
-    offerInside: {
+    amenities: {
       [Amenity.WiFi]: true,
       [Amenity.WashingMachine]: true,
       [Amenity.Towels]: true,
@@ -31,14 +31,14 @@ export const offers: OfferDetails[] = [
   {
     id: 2,
     imageUrl: 'img/room.jpg',
-    name: 'Wood and stone place',
+    description: 'Wood and stone place',
     city: City.Amsterdam,
     price: 80,
     hotelType: HotelType.Room,
     rating: 3.2,
     bedroomsCount: 1,
     maxAdultsCount: 1,
-    offerInside: {
+    amenities: {
       [Amenity.Towels]: true,
       [Amenity.Kitchen]: true,
       [Amenity.Dishwasher]: true,
@@ -47,14 +47,14 @@ export const offers: OfferDetails[] = [
   {
     id: 3,
     imageUrl: 'img/apartment-02.jpg',
-    name: 'Canal View Prinsengracht',
+    description: 'Canal View Prinsengracht',
     city: City.Amsterdam,
     price: 132,
     hotelType: HotelType.Apartment,
     rating: 4.1,
     bedroomsCount: 2,
     maxAdultsCount: 2,
-    offerInside: {
+    amenities: {
       [Amenity.WiFi]: true,
       [Amenity.Towels]: true,
       [Amenity.Kitchen]: true,
@@ -62,7 +62,7 @@ export const offers: OfferDetails[] = [
   },
   {
     id: 4,
-    name: 'Nice, cozy, warm big bed apartment',
+    description: 'Nice, cozy, warm big bed apartment',
     city: City.Cologne,
     imageUrl: 'img/apartment-03.jpg',
     price: 180,
@@ -70,7 +70,7 @@ export const offers: OfferDetails[] = [
     rating: 4.9,
     bedroomsCount: 3,
     maxAdultsCount: 6,
-    offerInside: {
+    amenities: {
       [Amenity.WiFi]: true,
       [Amenity.Towels]: true,
       [Amenity.Kitchen]: true,
