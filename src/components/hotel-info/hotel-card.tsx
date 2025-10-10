@@ -1,17 +1,10 @@
 ﻿import { HotelInfo } from '../../types/hotel-info.ts';
+import { PremiumLabel } from '../premium-label/premium-label.tsx';
 
 type HotelInfoProps = HotelInfo & {
   onMouseOver: () => void;
   onMouseLeave: () => void;
 };
-
-function PremiumLabel(): JSX.Element {
-  return (
-    <div className="place-card__mark">
-      <span>Premium</span>
-    </div>
-  );
-}
 
 export function HotelCard({isPremium = false, imageSrc, price, hotelType, name, onMouseOver, onMouseLeave}: HotelInfoProps): JSX.Element {
   return (

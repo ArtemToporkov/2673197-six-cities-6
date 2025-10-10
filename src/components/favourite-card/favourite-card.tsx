@@ -1,15 +1,8 @@
 ﻿import { HotelInfo } from '../../types/hotel-info.ts';
+import { PremiumLabel } from '../premium-label/premium-label.tsx';
 
 type FavouriteCardProps = {
   hotelInfo: HotelInfo;
-}
-
-function PremiumLabel(): JSX.Element {
-  return (
-    <div className="place-card__mark">
-      <span>Premium</span>
-    </div>
-  );
 }
 
 export function FavouriteCard({
