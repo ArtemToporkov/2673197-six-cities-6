@@ -1,6 +1,5 @@
-﻿import { HotelInfo } from '../../components/hotel-info/hotel-info.tsx';
-import { HotelType } from '../../enums/hotel-type.ts';
-import { Offer } from '../../types/offer.ts';
+﻿import { Offer } from '../../types/offer.ts';
+import { OffersList } from '../../components/offers-list/offers-list.tsx';
 
 type MainProps = {
   offers: Offer[];
@@ -117,38 +116,7 @@ export function MainPage({offers}: MainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <HotelInfo
-                  isPremium
-                  imageSrc="img/apartment-01.jpg"
-                  price={120}
-                  hotelType={HotelType.Apartment}
-                  name="Beautiful & luxurious apartment at great location"
-                />
-                <HotelInfo
-                  imageSrc="img/room.jpg"
-                  price={80}
-                  hotelType={HotelType.Room}
-                  name="Wood and stone place"
-                />
-                <HotelInfo
-                  imageSrc="img/apartment-02.jpg"
-                  price={132}
-                  hotelType={HotelType.Apartment}
-                  name="Canal View Prinsengracht"
-                />
-                <HotelInfo
-                  isPremium
-                  imageSrc="img/apartment-03.jpg"
-                  price={180}
-                  hotelType={HotelType.Apartment}
-                  name="Nice, cozy, warm big bed apartment"
-                />
-                <HotelInfo
-                  imageSrc="img/room.jpg"
-                  price={80}
-                  hotelType={HotelType.Room}
-                  name="Wood and stone place"
-                />
+                <OffersList offers={offers} />
               </div>
             </section>
             <div className="cities__right-section">
