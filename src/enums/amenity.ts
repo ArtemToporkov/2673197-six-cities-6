@@ -1,4 +1,4 @@
-﻿export enum OfferInsideItem {
+﻿export enum Amenity {
   WiFi = 'Wi-Fi',
   WashingMachine = 'Washing machine',
   Towels = 'Towels',

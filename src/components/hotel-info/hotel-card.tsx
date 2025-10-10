@@ -6,7 +6,7 @@ type HotelInfoProps = HotelInfo & {
   onMouseLeave: () => void;
 };
 
-export function HotelCard({isPremium = false, imageSrc, price, hotelType, name, onMouseOver, onMouseLeave}: HotelInfoProps): JSX.Element {
+export function HotelCard({isPremium = false, imageUrl, price, hotelType, description, onMouseOver, onMouseLeave}: HotelInfoProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       {isPremium && <PremiumLabel />}
@@ -14,7 +14,7 @@ export function HotelCard({isPremium = false, imageSrc, price, hotelType, name, 
         <a href="#">
           <img
             className="place-card__image"
-            src={imageSrc}
+            src={imageUrl}
             width={260}
             height={200}
             alt="Place image"
@@ -51,7 +51,7 @@ export function HotelCard({isPremium = false, imageSrc, price, hotelType, name, 
         </div>
         <h2 className="place-card__name">
           <a href="#">
-            {name}
+            {description}
           </a>
         </h2>
         <p className="place-card__type">{hotelType}</p>

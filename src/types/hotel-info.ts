@@ -1,9 +1,9 @@
 ﻿import { HotelType } from '../enums/hotel-type.ts';
 
 export type HotelInfo = {
+  description: string;
   isPremium?: boolean;
-  imageSrc: string;
+  imageUrl: string;
   price: number;
   hotelType: HotelType;
-  name: string;
 };

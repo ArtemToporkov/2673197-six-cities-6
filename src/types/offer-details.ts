@@ -1,8 +1,8 @@
 ﻿import { HotelType } from '../enums/hotel-type.ts';
-import { OfferInside } from './offer-inside.ts';
+import { Amenities } from './amenities.ts';
 import { City } from '../enums/city.ts';
 
-export type Offer = {
+export type OfferDetails = {
   id: number;
   name: string;
   city: City;
@@ -12,6 +12,6 @@ export type Offer = {
   rating: number;
   bedroomsCount: number;
   maxAdultsCount: number;
-  offerInside: OfferInside;
+  offerInside: Amenities;
   imageUrl: string;
 };

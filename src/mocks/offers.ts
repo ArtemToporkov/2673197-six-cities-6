@@ -1,9 +1,9 @@
 ﻿import { HotelType } from '../enums/hotel-type.ts';
-import { OfferInsideItem } from '../enums/offer-inside-item.ts';
-import { Offer } from '../types/offer.ts';
+import { Amenity } from '../enums/amenity.ts';
+import { OfferDetails } from '../types/offer-details.ts';
 import { City } from '../enums/city.ts';
 
-export const offers: Offer[] = [
+export const offers: OfferDetails[] = [
   {
     id: 1,
     imageUrl: 'img/apartment-01.jpg',
@@ -16,16 +16,16 @@ export const offers: Offer[] = [
     bedroomsCount: 3,
     maxAdultsCount: 4,
     offerInside: {
-      [OfferInsideItem.WiFi]: true,
-      [OfferInsideItem.WashingMachine]: true,
-      [OfferInsideItem.Towels]: true,
-      [OfferInsideItem.Heating]: true,
-      [OfferInsideItem.CoffeeMachine]: true,
-      [OfferInsideItem.BabySeat]: true,
-      [OfferInsideItem.Kitchen]: true,
-      [OfferInsideItem.Dishwasher]: true,
-      [OfferInsideItem.CableTV]: true,
-      [OfferInsideItem.Fridge]: true
+      [Amenity.WiFi]: true,
+      [Amenity.WashingMachine]: true,
+      [Amenity.Towels]: true,
+      [Amenity.Heating]: true,
+      [Amenity.CoffeeMachine]: true,
+      [Amenity.BabySeat]: true,
+      [Amenity.Kitchen]: true,
+      [Amenity.Dishwasher]: true,
+      [Amenity.CableTV]: true,
+      [Amenity.Fridge]: true
     }
   },
   {
@@ -39,9 +39,9 @@ export const offers: Offer[] = [
     bedroomsCount: 1,
     maxAdultsCount: 1,
     offerInside: {
-      [OfferInsideItem.Towels]: true,
-      [OfferInsideItem.Kitchen]: true,
-      [OfferInsideItem.Dishwasher]: true,
+      [Amenity.Towels]: true,
+      [Amenity.Kitchen]: true,
+      [Amenity.Dishwasher]: true,
     }
   },
   {
@@ -55,9 +55,9 @@ export const offers: Offer[] = [
     bedroomsCount: 2,
     maxAdultsCount: 2,
     offerInside: {
-      [OfferInsideItem.WiFi]: true,
-      [OfferInsideItem.Towels]: true,
-      [OfferInsideItem.Kitchen]: true,
+      [Amenity.WiFi]: true,
+      [Amenity.Towels]: true,
+      [Amenity.Kitchen]: true,
     }
   },
   {
@@ -71,12 +71,12 @@ export const offers: Offer[] = [
     bedroomsCount: 3,
     maxAdultsCount: 6,
     offerInside: {
-      [OfferInsideItem.WiFi]: true,
-      [OfferInsideItem.Towels]: true,
-      [OfferInsideItem.Kitchen]: true,
-      [OfferInsideItem.Dishwasher]: true,
-      [OfferInsideItem.CableTV]: true,
-      [OfferInsideItem.Fridge]: true
+      [Amenity.WiFi]: true,
+      [Amenity.Towels]: true,
+      [Amenity.Kitchen]: true,
+      [Amenity.Dishwasher]: true,
+      [Amenity.CableTV]: true,
+      [Amenity.Fridge]: true
     }
   }
 ];

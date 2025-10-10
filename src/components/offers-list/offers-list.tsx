@@ -1,9 +1,9 @@
-﻿import { Offer } from '../../types/offer.ts';
+﻿import { OfferDetails } from '../../types/offer-details.ts';
 import { HotelCard } from '../hotel-info/hotel-card.tsx';
 import { useState } from 'react';
 
 type OffersListProps = {
-  offers: Offer[];
+  offers: OfferDetails[];
 }
 
 export function OffersList({offers}: OffersListProps): JSX.Element {
@@ -11,14 +11,14 @@ export function OffersList({offers}: OffersListProps): JSX.Element {
   console.log(selectedOffer);
   return (
     <>
-      {offers.map((offer: Offer) => (
+      {offers.map((offer: OfferDetails) => (
         <HotelCard
           key={offer.id}
           isPremium={offer.isPremium}
-          imageSrc={offer.imageUrl}
+          imageUrl={offer.imageUrl}
           price={offer.price}
           hotelType={offer.hotelType}
-          name={offer.name}
+          description={offer.name}
           onMouseOver={() => setSelectedOffer(offer.id)}
           onMouseLeave={() => (setSelectedOffer(null))}
         />

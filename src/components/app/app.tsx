@@ -7,10 +7,10 @@ import { PrivateRoute } from '../private-route/private-route.tsx';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { FavouritesPage } from '../../pages/favourites-page/favourites-page.tsx';
 import { AppRoute } from '../../enums/app-route.ts';
-import { Offer } from '../../types/offer.ts';
+import { OfferDetails } from '../../types/offer-details.ts';
 
 type AppProps = {
-  offers: Offer[];
+  offers: OfferDetails[];
 }
 
 export function App({offers}: AppProps): JSX.Element {

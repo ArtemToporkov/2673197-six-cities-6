@@ -6,7 +6,7 @@ type FavouriteCardProps = {
 }
 
 export function FavouriteCard({
-  hotelInfo: { isPremium, imageSrc, price, name, hotelType },
+  hotelInfo: { isPremium, imageUrl, price, description, hotelType },
 }: FavouriteCardProps): JSX.Element {
   return (
     <article className="favorites__card place-card">
@@ -15,7 +15,7 @@ export function FavouriteCard({
         <a href="#">
           <img
             className="place-card__image"
-            src={imageSrc}
+            src={imageUrl}
             width={150}
             height={110}
             alt="Place image"
@@ -51,7 +51,7 @@ export function FavouriteCard({
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{name}</a>
+          <a href="#">{description}</a>
         </h2>
         <p className="place-card__type">{hotelType}</p>
       </div>

@@ -1,8 +1,8 @@
-﻿import { Offer } from '../../types/offer.ts';
+﻿import { OfferDetails } from '../../types/offer-details.ts';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
 
 type MainPageProps = {
-  offers: Offer[];
+  offers: OfferDetails[];
 }
 
 export function MainPage({offers}: MainPageProps): JSX.Element {
