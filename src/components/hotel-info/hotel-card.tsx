@@ -1,11 +1,6 @@
-﻿import { HotelType } from '../../enums/hotel-type.ts';
+﻿import { HotelInfo } from '../../types/hotel-info.ts';
 
-type HotelInfoProps = {
-  isPremium?: boolean;
-  imageSrc: string;
-  price: number;
-  hotelType: HotelType;
-  name: string;
+type HotelInfoProps = HotelInfo & {
   onMouseOver: () => void;
   onMouseLeave: () => void;
 };
@@ -18,7 +13,7 @@ function PremiumLabel(): JSX.Element {
   );
 }
 
-export function HotelInfo({isPremium = false, imageSrc, price, hotelType, name, onMouseOver, onMouseLeave}: HotelInfoProps): JSX.Element {
+export function HotelCard({isPremium = false, imageSrc, price, hotelType, name, onMouseOver, onMouseLeave}: HotelInfoProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       {isPremium && <PremiumLabel />}

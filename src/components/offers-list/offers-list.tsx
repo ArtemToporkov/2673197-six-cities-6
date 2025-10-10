@@ -1,5 +1,5 @@
 ﻿import { Offer } from '../../types/offer.ts';
-import { HotelInfo } from '../hotel-info/hotel-info.tsx';
+import { HotelCard } from '../hotel-info/hotel-card.tsx';
 import { useState } from 'react';
 
 type OffersListProps = {
@@ -12,7 +12,7 @@ export function OffersList({offers}: OffersListProps): JSX.Element {
   return (
     <>
       {offers.map((offer: Offer) => (
-        <HotelInfo
+        <HotelCard
           key={offer.id}
           isPremium={offer.isPremium}
           imageSrc={offer.imageUrl}
