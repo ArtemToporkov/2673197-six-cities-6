@@ -6,6 +6,8 @@ type HotelInfoProps = {
   price: number;
   hotelType: HotelType;
   name: string;
+  onMouseOver: () => void;
+  onMouseLeave: () => void;
 };
 
 function PremiumLabel(): JSX.Element {
@@ -16,7 +18,7 @@ function PremiumLabel(): JSX.Element {
   );
 }
 
-export function HotelInfo({isPremium = false, imageSrc, price, hotelType, name}: HotelInfoProps): JSX.Element {
+export function HotelInfo({isPremium = false, imageSrc, price, hotelType, name, onMouseOver, onMouseLeave}: HotelInfoProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       {isPremium && <PremiumLabel />}
@@ -28,6 +30,8 @@ export function HotelInfo({isPremium = false, imageSrc, price, hotelType, name}:
             width={260}
             height={200}
             alt="Place image"
+            onMouseOver={onMouseOver}
+            onMouseLeave={onMouseLeave}
           />
         </a>
       </div>
