@@ -2,6 +2,6 @@
   Main = '/',
   Login = '/login',
   Offer = '/offer/:id',
-  Favourites = '/favorites',
+  Favourites = '/favourites',
   Unknown = '*'
 }

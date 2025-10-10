@@ -20,17 +20,15 @@ export function App({offers}: AppProps): JSX.Element {
         <Route path={AppRoute.Main} element={<MainPage offers={offers} />} />
         <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route path={AppRoute.Offer} element={<OfferPage />} />
-        <Route path={AppRoute.Unknown} element={<NotFoundPage />} />
-      </Routes>
-      <Routes>
         <Route
           path={AppRoute.Favourites}
           element={
-            <PrivateRoute authStatus={AuthStatus.NotAuthorized}>
+            <PrivateRoute authStatus={AuthStatus.Authorized}>
               <FavouritesPage />
             </PrivateRoute>
           }
         />
+        <Route path={AppRoute.Unknown} element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
