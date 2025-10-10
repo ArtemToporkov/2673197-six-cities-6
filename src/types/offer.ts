@@ -11,4 +11,5 @@ export type Offer = {
   bedroomsCount: number;
   maxAdultsCount: number;
   offerInside: OfferInside;
+  imageUrl: string;
 };

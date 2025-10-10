@@ -7,16 +7,17 @@ import { PrivateRoute } from '../private-route/private-route.tsx';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { FavouritesPage } from '../../pages/favourites-page/favourites-page.tsx';
 import { AppRoute } from '../../enums/app-route.ts';
+import { Offer } from '../../types/offer.ts';
 
 type AppProps = {
-  placesCount: number;
+  offers: Offer[];
 }
 
-export function App({placesCount}: AppProps): JSX.Element {
+export function App({offers}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<MainPage placesCount={placesCount} />} />
+        <Route path={AppRoute.Main} element={<MainPage offers={offers} />} />
         <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route path={AppRoute.Offer} element={<OfferPage />} />
       </Routes>

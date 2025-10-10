@@ -5,6 +5,7 @@ import {Offer} from '../types/offer.ts';
 export const offers: Offer[] = [
   {
     id: 1,
+    imageUrl: 'img/apartment-01.jpg',
     name: 'Beautiful & luxurious apartment at great location',
     isPremium: true,
     price: 120,
@@ -27,6 +28,7 @@ export const offers: Offer[] = [
   },
   {
     id: 2,
+    imageUrl: 'img/room.jpg',
     name: 'Wood and stone place',
     price: 80,
     hotelType: HotelType.Room,
@@ -41,6 +43,7 @@ export const offers: Offer[] = [
   },
   {
     id: 3,
+    imageUrl: 'img/apartment-02.jpg',
     name: 'Canal View Prinsengracht',
     price: 132,
     hotelType: HotelType.Apartment,
@@ -56,6 +59,7 @@ export const offers: Offer[] = [
   {
     id: 4,
     name: 'Nice, cozy, warm big bed apartment',
+    imageUrl: 'img/apartment-03.jpg',
     price: 180,
     hotelType: HotelType.Apartment,
     rating: 4.9,
