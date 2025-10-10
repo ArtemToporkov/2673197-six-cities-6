@@ -24,7 +24,7 @@ export function App({offers}: AppProps): JSX.Element {
           path={AppRoute.Favourites}
           element={
             <PrivateRoute authStatus={AuthStatus.Authorized}>
-              <FavouritesPage />
+              <FavouritesPage favouriteOffers={offers} />
             </PrivateRoute>
           }
         />

@@ -1,11 +1,11 @@
 ﻿import { Offer } from '../../types/offer.ts';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
 
-type MainProps = {
+type MainPageProps = {
   offers: Offer[];
 }
 
-export function MainPage({offers}: MainProps): JSX.Element {
+export function MainPage({offers}: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
