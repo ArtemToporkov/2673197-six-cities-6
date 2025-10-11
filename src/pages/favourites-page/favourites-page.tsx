@@ -6,7 +6,7 @@ type FavouritesPageProps = {
   favouriteOffers: OfferDetails[];
 }
 
-function groupOffersByCity(offers: OfferDetails[]): Record<CityName, OfferDetails[]> {
+function groupOffersByCityName(offers: OfferDetails[]): Record<CityName, OfferDetails[]> {
   return offers.reduce((acc, item) => {
     const cityName = item.city.name;
     (acc[cityName] ||= []).push(item);
@@ -14,13 +14,13 @@ function groupOffersByCity(offers: OfferDetails[]): Record<CityName, OfferDetail
   }, {} as Record<CityName, OfferDetails[]>);
 }
 
-function getFavouritesSections(offersByCity: Record<CityName, OfferDetails[]>): JSX.Element[] {
+function getFavouritesSections(offersByCityName: Record<CityName, OfferDetails[]>): JSX.Element[] {
   const sections: JSX.Element[] = [];
-  for (const [city, cityOffers] of Object.entries(offersByCity) as [CityName, OfferDetails[]][]) {
+  for (const [city, cityOffers] of Object.entries(offersByCityName) as [CityName, OfferDetails[]][]) {
     sections.push(
       <FavouritesSection
         key={city}
-        city={city}
+        cityName={city}
         offers={cityOffers}
       />
     );
@@ -29,7 +29,7 @@ function getFavouritesSections(offersByCity: Record<CityName, OfferDetails[]>): 
 }
 
 export function FavouritesPage({favouriteOffers}: FavouritesPageProps): JSX.Element {
-  const offersByCity = groupOffersByCity(favouriteOffers);
+  const offersByCity = groupOffersByCityName(favouriteOffers);
   const sections = getFavouritesSections(offersByCity);
   return (
     <div className="page">
