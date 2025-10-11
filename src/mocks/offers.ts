@@ -2,6 +2,7 @@
 import { Amenity } from '../enums/amenity.ts';
 import { OfferDetails } from '../types/offer-details.ts';
 import { City } from '../enums/city.ts';
+import { HostStatus } from '../enums/host-status.ts';
 
 export const offers: OfferDetails[] = [
   {
@@ -34,6 +35,19 @@ export const offers: OfferDetails[] = [
       'img/apartment-03.jpg',
       'img/studio-01.jpg',
       'img/apartment-01.jpg',
+    ],
+    hostInfo: {
+      name: 'Angelina',
+      status: HostStatus.Pro,
+      avatarUrl: 'img/avatar-angelina.jpg'
+    },
+    offerDescriptions: [
+      'A quiet cozy and picturesque that hides behind a a river by the\n' +
+      'unique lightness of Amsterdam. The building is green and from\n' +
+      '18th century.',
+      'An independent House, strategically located between Rembrand\n' +
+      'Square and National Opera, but where the bustle of the city\n' +
+      'comes to rest in this alley flowery and colorful.'
     ]
   },
   {
@@ -58,6 +72,14 @@ export const offers: OfferDetails[] = [
       'img/apartment-03.jpg',
       'img/studio-01.jpg',
       'img/apartment-01.jpg',
+    ],
+    hostInfo: {
+      name: 'Maxim',
+      status: HostStatus.Pro,
+      avatarUrl: 'img/avatar-max.jpg'
+    },
+    offerDescriptions: [
+      'Insane crazy house with ghosts and penguins.'
     ]
   },
   {
@@ -82,6 +104,16 @@ export const offers: OfferDetails[] = [
       'img/apartment-03.jpg',
       'img/apartment-01.jpg',
       'img/studio-01.jpg',
+    ],
+    hostInfo: {
+      name: 'Angelina',
+      status: HostStatus.Default,
+      avatarUrl: 'img/avatar-angelina.jpg'
+    },
+    offerDescriptions: [
+      'Some description and description and cute quiet smart bla bla bla. ' +
+      'Some description and description and cute quiet smart bla bla bla.',
+      'Some description and description and cute quiet smart bla bla bla.'
     ]
   },
   {
@@ -109,6 +141,14 @@ export const offers: OfferDetails[] = [
       'img/apartment-03.jpg',
       'img/room.jpg',
       'img/apartment-01.jpg',
+    ],
+    hostInfo: {
+      name: 'Maxim',
+      status: HostStatus.Pro,
+      avatarUrl: 'img/avatar-max.jpg'
+    },
+    offerDescriptions: [
+      'Some description and description and description.'
     ]
   }
 ];
