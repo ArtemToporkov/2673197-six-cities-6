@@ -3,13 +3,13 @@ import { OfferDetails } from '../../types/offer-details.ts';
 import { FavouriteCard } from '../favourite-card/favourite-card.tsx';
 
 type FavouritesSectionProps = {
-  city: CityName;
+  cityName: CityName;
   offers: OfferDetails[];
 }
 
-export function FavouritesSection({city, offers}: FavouritesSectionProps): JSX.Element {
+export function FavouritesSection({cityName, offers}: FavouritesSectionProps): JSX.Element {
   for (const offer of offers) {
-    if (offer.city !== city) {
+    if (offer.city.name !== cityName) {
       throw new Error(`City mismatch on offer: ${JSON.stringify(offer)}`);
     }
   }
@@ -18,7 +18,7 @@ export function FavouritesSection({city, offers}: FavouritesSectionProps): JSX.E
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <a className="locations__item-link" href="#">
-            <span>{city}</span>
+            <span>{cityName}</span>
           </a>
         </div>
       </div>
@@ -29,6 +29,7 @@ export function FavouritesSection({city, offers}: FavouritesSectionProps): JSX.E
               id: offer.id,
               type: offer.type,
               title: offer.title,
+              description: offer.description,
               price: offer.price,
               isPremium: offer.isPremium,
               imageUrl: offer.imageUrl,
