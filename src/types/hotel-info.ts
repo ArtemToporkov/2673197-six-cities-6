@@ -9,5 +9,5 @@ export type HotelInfo = {
   imageUrl: Url;
   price: number;
   isPremium?: boolean;
-  ifFavourite?: boolean;
+  isFavourite?: boolean;
 };

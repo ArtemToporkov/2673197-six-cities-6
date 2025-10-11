@@ -8,19 +8,21 @@ type FavouritesPageProps = {
 
 function groupOffersByCityName(offers: OfferDetails[]): Record<CityName, OfferDetails[]> {
   return offers.reduce((acc, item) => {
-    const cityName = item.city.name;
-    (acc[cityName] ||= []).push(item);
+    if (item.isFavourite) {
+      const cityName = item.city.name;
+      (acc[cityName] ||= []).push(item);
+    }
     return acc;
   }, {} as Record<CityName, OfferDetails[]>);
 }
 
 function getFavouritesSections(offersByCityName: Record<CityName, OfferDetails[]>): JSX.Element[] {
   const sections: JSX.Element[] = [];
-  for (const [city, cityOffers] of Object.entries(offersByCityName) as [CityName, OfferDetails[]][]) {
+  for (const [cityName, cityOffers] of Object.entries(offersByCityName) as [CityName, OfferDetails[]][]) {
     sections.push(
       <FavouritesSection
-        key={city}
-        cityName={city}
+        key={cityName}
+        cityName={cityName}
         offers={cityOffers}
       />
     );

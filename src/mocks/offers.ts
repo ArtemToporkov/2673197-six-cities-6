@@ -11,7 +11,6 @@ export const offers: OfferDetails[] = [
     title: 'Beautiful & luxurious apartment at great location',
     city: cities.Amsterdam,
     location: cities.Amsterdam.location,
-    isPremium: true,
     price: 120,
     type: HotelType.Apartment,
     rating: 4.8,
@@ -42,10 +41,11 @@ export const offers: OfferDetails[] = [
       status: HostStatus.Pro,
       avatarUrl: 'img/avatar-angelina.jpg'
     },
-    description:
-      'A quiet cozy and picturesque that hides behind a a river by the\n' +
+    description: 'A quiet cozy and picturesque that hides behind a a river by the\n' +
       'unique lightness of Amsterdam. The building is green and from\n' +
-      '18th century.'
+      '18th century.',
+    isPremium: true,
+    isFavourite: true,
   },
   {
     id: '2',
@@ -76,7 +76,8 @@ export const offers: OfferDetails[] = [
       status: HostStatus.Pro,
       avatarUrl: 'img/avatar-max.jpg'
     },
-    description: 'Insane crazy house with ghosts and penguins.'
+    description: 'Insane crazy house with ghosts and penguins.',
+    isFavourite: true
   },
   {
     id: '3',
@@ -142,6 +143,7 @@ export const offers: OfferDetails[] = [
       status: HostStatus.Pro,
       avatarUrl: 'img/avatar-max.jpg'
     },
-    description: 'Some description and description and description.'
+    description: 'Some description and description and description.',
+    isFavourite: true
   }
 ];
