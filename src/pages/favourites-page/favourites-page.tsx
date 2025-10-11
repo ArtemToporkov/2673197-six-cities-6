@@ -1,6 +1,6 @@
 ﻿import { OfferDetails } from '../../types/offer-details.ts';
 import { City } from '../../enums/city.ts';
-import { FavouritesSection } from '../../components/favourites-list/favourites-section.tsx';
+import { FavouritesSection } from '../../components/favourites-section/favourites-section.tsx';
 
 type FavouritesPageProps = {
   favouriteOffers: OfferDetails[];

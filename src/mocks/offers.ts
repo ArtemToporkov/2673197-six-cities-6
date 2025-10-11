@@ -5,7 +5,7 @@ import { City } from '../enums/city.ts';
 
 export const offers: OfferDetails[] = [
   {
-    id: 1,
+    id: '1',
     imageUrl: 'img/apartment-01.jpg',
     description: 'Beautiful & luxurious apartment at great location',
     city: City.Amsterdam,
@@ -29,7 +29,7 @@ export const offers: OfferDetails[] = [
     }
   },
   {
-    id: 2,
+    id: '2',
     imageUrl: 'img/room.jpg',
     description: 'Wood and stone place',
     city: City.Amsterdam,
@@ -45,7 +45,7 @@ export const offers: OfferDetails[] = [
     }
   },
   {
-    id: 3,
+    id: '3',
     imageUrl: 'img/apartment-02.jpg',
     description: 'Canal View Prinsengracht',
     city: City.Amsterdam,
@@ -61,7 +61,7 @@ export const offers: OfferDetails[] = [
     }
   },
   {
-    id: 4,
+    id: '4',
     description: 'Nice, cozy, warm big bed apartment',
     city: City.Cologne,
     imageUrl: 'img/apartment-03.jpg',

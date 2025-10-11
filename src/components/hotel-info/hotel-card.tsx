@@ -1,17 +1,19 @@
 ﻿import { HotelInfo } from '../../types/hotel-info.ts';
 import { PremiumLabel } from '../premium-label/premium-label.tsx';
+import { generatePath, Link } from 'react-router-dom';
+import { AppRoute } from '../../enums/app-route.ts';
 
 type HotelInfoProps = HotelInfo & {
   onMouseOver: () => void;
   onMouseLeave: () => void;
 };
 
-export function HotelCard({isPremium = false, imageUrl, price, hotelType, description, onMouseOver, onMouseLeave}: HotelInfoProps): JSX.Element {
+export function HotelCard({id, isPremium = false, imageUrl, price, hotelType, description, onMouseOver, onMouseLeave}: HotelInfoProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       {isPremium && <PremiumLabel />}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={generatePath(AppRoute.Offer, { id: id })}>
           <img
             className="place-card__image"
             src={imageUrl}
@@ -21,7 +23,7 @@ export function HotelCard({isPremium = false, imageUrl, price, hotelType, descri
             onMouseOver={onMouseOver}
             onMouseLeave={onMouseLeave}
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -50,9 +52,9 @@ export function HotelCard({isPremium = false, imageUrl, price, hotelType, descri
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">
+          <Link to={generatePath(AppRoute.Offer, { id: id })}>
             {description}
-          </a>
+          </Link>
         </h2>
         <p className="place-card__type">{hotelType}</p>
       </div>

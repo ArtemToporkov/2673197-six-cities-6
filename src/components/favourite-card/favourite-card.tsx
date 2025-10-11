@@ -1,18 +1,20 @@
 ﻿import { HotelInfo } from '../../types/hotel-info.ts';
 import { PremiumLabel } from '../premium-label/premium-label.tsx';
+import { generatePath, Link } from 'react-router-dom';
+import { AppRoute } from '../../enums/app-route.ts';
 
 type FavouriteCardProps = {
   hotelInfo: HotelInfo;
 }
 
 export function FavouriteCard({
-  hotelInfo: { isPremium, imageUrl, price, description, hotelType },
+  hotelInfo: { id, isPremium, imageUrl, price, description, hotelType },
 }: FavouriteCardProps): JSX.Element {
   return (
     <article className="favorites__card place-card">
       {isPremium && <PremiumLabel />}
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={generatePath(AppRoute.Offer, { id: id })}>
           <img
             className="place-card__image"
             src={imageUrl}
@@ -20,7 +22,7 @@ export function FavouriteCard({
             height={110}
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
@@ -51,7 +53,7 @@ export function FavouriteCard({
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{description}</a>
+          <Link to={generatePath(AppRoute.Offer, { id: id })}>{description}</Link>
         </h2>
         <p className="place-card__type">{hotelType}</p>
       </div>

@@ -7,7 +7,7 @@ type OffersListProps = {
 }
 
 export function OffersList({offers}: OffersListProps): JSX.Element {
-  const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
+  const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
   console.log(selectedOffer);
   return (
     <>

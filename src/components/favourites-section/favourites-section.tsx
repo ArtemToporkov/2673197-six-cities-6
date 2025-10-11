@@ -26,6 +26,7 @@ export function FavouritesSection({city, offers}: FavouritesSectionProps): JSX.E
         {offers.map((offer) => (
           <FavouriteCard
             hotelInfo={{
+              id: offer.id,
               hotelType: offer.hotelType,
               description: offer.description,
               price: offer.price,
