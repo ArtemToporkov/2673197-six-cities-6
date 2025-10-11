@@ -1,5 +1,4 @@
-﻿
-import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
+﻿import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
 import { Amenity } from '../../enums/amenity.ts';
 import { useParams } from 'react-router-dom';
 import { offers } from '../../mocks/offers.ts';
@@ -20,7 +19,8 @@ export function OfferPage(): JSX.Element {
     maxAdultsCount,
     hotelType,
     price,
-    amenities
+    amenities,
+    galleryImagesUrls
   } = offer;
   return (
     <div className="page">
@@ -66,48 +66,15 @@ export function OfferPage(): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/room.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/apartment-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/apartment-02.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/apartment-03.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/studio-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/apartment-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
+              {galleryImagesUrls.map((url) => (
+                <div key={url} className="offer__image-wrapper">
+                  <img
+                    className="offer__image"
+                    src={url}
+                    alt="Photo studio"
+                  />
+                </div>
+              ))}
             </div>
           </div>
           <div className="offer__container container">

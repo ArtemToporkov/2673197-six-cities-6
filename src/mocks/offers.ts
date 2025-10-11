@@ -26,7 +26,15 @@ export const offers: OfferDetails[] = [
       [Amenity.Dishwasher]: true,
       [Amenity.CableTV]: true,
       [Amenity.Fridge]: true
-    }
+    },
+    galleryImagesUrls: [
+      'img/room.jpg',
+      'img/apartment-01.jpg',
+      'img/apartment-02.jpg',
+      'img/apartment-03.jpg',
+      'img/studio-01.jpg',
+      'img/apartment-01.jpg',
+    ]
   },
   {
     id: '2',
@@ -42,7 +50,15 @@ export const offers: OfferDetails[] = [
       [Amenity.Towels]: true,
       [Amenity.Kitchen]: true,
       [Amenity.Dishwasher]: true,
-    }
+    },
+    galleryImagesUrls: [
+      'img/apartment-01.jpg',
+      'img/room.jpg',
+      'img/apartment-02.jpg',
+      'img/apartment-03.jpg',
+      'img/studio-01.jpg',
+      'img/apartment-01.jpg',
+    ]
   },
   {
     id: '3',
@@ -58,7 +74,15 @@ export const offers: OfferDetails[] = [
       [Amenity.WiFi]: true,
       [Amenity.Towels]: true,
       [Amenity.Kitchen]: true,
-    }
+    },
+    galleryImagesUrls: [
+      'img/room.jpg',
+      'img/apartment-01.jpg',
+      'img/apartment-02.jpg',
+      'img/apartment-03.jpg',
+      'img/apartment-01.jpg',
+      'img/studio-01.jpg',
+    ]
   },
   {
     id: '4',
@@ -77,6 +101,14 @@ export const offers: OfferDetails[] = [
       [Amenity.Dishwasher]: true,
       [Amenity.CableTV]: true,
       [Amenity.Fridge]: true
-    }
+    },
+    galleryImagesUrls: [
+      'img/apartment-03.jpg',
+      'img/apartment-01.jpg',
+      'img/apartment-02.jpg',
+      'img/apartment-03.jpg',
+      'img/room.jpg',
+      'img/apartment-01.jpg',
+    ]
   }
 ];

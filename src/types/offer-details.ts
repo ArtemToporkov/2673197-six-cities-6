@@ -8,4 +8,5 @@ export type OfferDetails = HotelInfo & {
   bedroomsCount: number;
   maxAdultsCount: number;
   amenities: Amenities;
+  galleryImagesUrls: readonly [string, string, string, string, string, string];
 };
