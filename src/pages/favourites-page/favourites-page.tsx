@@ -8,8 +8,8 @@ type FavouritesPageProps = {
 
 function groupOffersByCity(offers: OfferDetails[]): Record<CityName, OfferDetails[]> {
   return offers.reduce((acc, item) => {
-    const city = item.city;
-    (acc[city] ||= []).push(item);
+    const cityName = item.city.name;
+    (acc[cityName] ||= []).push(item);
     return acc;
   }, {} as Record<CityName, OfferDetails[]>);
 }

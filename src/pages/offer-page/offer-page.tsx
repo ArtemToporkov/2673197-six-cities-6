@@ -23,7 +23,7 @@ export function OfferPage(): JSX.Element {
     goods,
     images,
     hostInfo,
-    offerDescriptions
+    description
   } = offer;
   return (
     <div className="page">
@@ -128,7 +128,7 @@ export function OfferPage(): JSX.Element {
                 <h2 className="offer__host-title">Meet the host</h2>
                 <HostCard hostInfo={hostInfo} />
                 <div className="offer__description">
-                  {offerDescriptions.map((d) => <p key={d} className="offer__text">{d}</p>)}
+                  <p className="offer__text">{description}</p>
                 </div>
               </div>
               <section className="offer__reviews reviews">

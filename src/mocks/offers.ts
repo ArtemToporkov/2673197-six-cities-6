@@ -1,15 +1,16 @@
 ﻿import { HotelType } from '../enums/hotel-type.ts';
 import { Good } from '../enums/good.ts';
 import { OfferDetails } from '../types/offer-details.ts';
-import { CityName } from '../enums/city-name.ts';
 import { HostStatus } from '../enums/host-status.ts';
+import { cities } from './cities.ts';
 
 export const offers: OfferDetails[] = [
   {
     id: '1',
     imageUrl: 'img/apartment-01.jpg',
     title: 'Beautiful & luxurious apartment at great location',
-    city: CityName.Amsterdam,
+    city: cities.Amsterdam,
+    location: cities.Amsterdam.location,
     isPremium: true,
     price: 120,
     type: HotelType.Apartment,
@@ -41,20 +42,17 @@ export const offers: OfferDetails[] = [
       status: HostStatus.Pro,
       avatarUrl: 'img/avatar-angelina.jpg'
     },
-    offerDescriptions: [
+    description:
       'A quiet cozy and picturesque that hides behind a a river by the\n' +
       'unique lightness of Amsterdam. The building is green and from\n' +
-      '18th century.',
-      'An independent House, strategically located between Rembrand\n' +
-      'Square and National Opera, but where the bustle of the city\n' +
-      'comes to rest in this alley flowery and colorful.'
-    ]
+      '18th century.'
   },
   {
     id: '2',
     imageUrl: 'img/room.jpg',
     title: 'Wood and stone place',
-    city: CityName.Amsterdam,
+    city: cities.Amsterdam,
+    location: cities.Amsterdam.location,
     price: 80,
     type: HotelType.Room,
     rating: 3.2,
@@ -78,15 +76,14 @@ export const offers: OfferDetails[] = [
       status: HostStatus.Pro,
       avatarUrl: 'img/avatar-max.jpg'
     },
-    offerDescriptions: [
-      'Insane crazy house with ghosts and penguins.'
-    ]
+    description: 'Insane crazy house with ghosts and penguins.'
   },
   {
     id: '3',
     imageUrl: 'img/apartment-02.jpg',
     title: 'Canal View Prinsengracht',
-    city: CityName.Amsterdam,
+    city: cities.Amsterdam,
+    location: cities.Amsterdam.location,
     price: 132,
     type: HotelType.Apartment,
     rating: 4.1,
@@ -110,16 +107,14 @@ export const offers: OfferDetails[] = [
       status: HostStatus.Default,
       avatarUrl: 'img/avatar-angelina.jpg'
     },
-    offerDescriptions: [
-      'Some description and description and cute quiet smart bla bla bla. ' +
-      'Some description and description and cute quiet smart bla bla bla.',
+    description: 'Some description and description and cute quiet smart bla bla bla. ' +
       'Some description and description and cute quiet smart bla bla bla.'
-    ]
   },
   {
     id: '4',
     title: 'Nice, cozy, warm big bed apartment',
-    city: CityName.Cologne,
+    city: cities.Cologne,
+    location: cities.Cologne.location,
     imageUrl: 'img/apartment-03.jpg',
     price: 180,
     type: HotelType.Apartment,
@@ -147,8 +142,6 @@ export const offers: OfferDetails[] = [
       status: HostStatus.Pro,
       avatarUrl: 'img/avatar-max.jpg'
     },
-    offerDescriptions: [
-      'Some description and description and description.'
-    ]
+    description: 'Some description and description and description.'
   }
 ];

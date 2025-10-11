@@ -14,5 +14,4 @@ export type OfferDetails = HotelInfo & {
   goods: Goods;
   images: readonly [Url, Url, Url, Url, Url, Url];
   hostInfo: HostInfo;
-  offerDescriptions: string[];
 };
