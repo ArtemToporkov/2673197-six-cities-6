@@ -1,6 +1,6 @@
-﻿import { Score } from './score.ts';
+﻿import { RatingScore } from './rating-score.ts';
 
 export type Review = {
   comment: string;
-  score?: Score;
+  score?: RatingScore;
 };

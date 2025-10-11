@@ -1,6 +1,7 @@
 ﻿import { Amenities } from './amenities.ts';
 import { City } from '../enums/city.ts';
 import { HotelInfo } from './hotel-info.ts';
+import { Url } from './url.ts';
 
 export type OfferDetails = HotelInfo & {
   city: City;
@@ -8,5 +9,5 @@ export type OfferDetails = HotelInfo & {
   bedroomsCount: number;
   maxAdultsCount: number;
   amenities: Amenities;
-  galleryImagesUrls: readonly [string, string, string, string, string, string];
+  galleryImagesUrls: readonly [Url, Url, Url, Url, Url, Url];
 };

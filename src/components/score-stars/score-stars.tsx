@@ -1,13 +1,13 @@
 ﻿import { Fragment } from 'react';
-import { Score } from '../../types/score.ts';
+import { RatingScore } from '../../types/rating-score.ts';
 
 type RatingWithDescription = {
-  score: Score;
+  score: RatingScore;
   description: string;
 }
 
 type ScoreStarsProps = {
-  onScoreChanged: (score: Score) => void;
+  onScoreChanged: (score: RatingScore) => void;
 }
 
 export function ScoreStars({ onScoreChanged }: ScoreStarsProps): JSX.Element {
