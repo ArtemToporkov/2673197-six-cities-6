@@ -8,7 +8,7 @@ type HotelInfoProps = HotelInfo & {
   onMouseLeave: () => void;
 };
 
-export function HotelCard({id, isPremium = false, imageUrl, price, hotelType, description, onMouseOver, onMouseLeave}: HotelInfoProps): JSX.Element {
+export function HotelCard({id, isPremium = false, imageUrl, price, type, title, onMouseOver, onMouseLeave}: HotelInfoProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       {isPremium && <PremiumLabel />}
@@ -53,10 +53,10 @@ export function HotelCard({id, isPremium = false, imageUrl, price, hotelType, de
         </div>
         <h2 className="place-card__name">
           <Link to={generatePath(AppRoute.Offer, { id: id })}>
-            {description}
+            {title}
           </Link>
         </h2>
-        <p className="place-card__type">{hotelType}</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );

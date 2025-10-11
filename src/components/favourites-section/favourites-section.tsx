@@ -1,9 +1,9 @@
-﻿import { City } from '../../enums/city.ts';
+﻿import { CityName } from '../../enums/city-name.ts';
 import { OfferDetails } from '../../types/offer-details.ts';
 import { FavouriteCard } from '../favourite-card/favourite-card.tsx';
 
 type FavouritesSectionProps = {
-  city: City;
+  city: CityName;
   offers: OfferDetails[];
 }
 
@@ -27,8 +27,8 @@ export function FavouritesSection({city, offers}: FavouritesSectionProps): JSX.E
           <FavouriteCard
             hotelInfo={{
               id: offer.id,
-              hotelType: offer.hotelType,
-              description: offer.description,
+              type: offer.type,
+              title: offer.title,
               price: offer.price,
               isPremium: offer.isPremium,
               imageUrl: offer.imageUrl,

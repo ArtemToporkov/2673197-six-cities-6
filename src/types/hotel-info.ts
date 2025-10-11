@@ -3,9 +3,11 @@ import { Url } from './url.ts';
 
 export type HotelInfo = {
   id: string;
+  title: string;
   description: string;
-  hotelType: HotelType;
+  type: HotelType;
   imageUrl: Url;
   price: number;
   isPremium?: boolean;
+  ifFavourite?: boolean;
 };

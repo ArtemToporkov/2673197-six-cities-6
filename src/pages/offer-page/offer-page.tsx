@@ -1,5 +1,5 @@
 ﻿import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
-import { Amenity } from '../../enums/amenity.ts';
+import { Good } from '../../enums/good.ts';
 import { useParams } from 'react-router-dom';
 import { offers } from '../../mocks/offers.ts';
 import { NotFoundPage } from '../not-found-page/not-found-page.tsx';
@@ -13,15 +13,15 @@ export function OfferPage(): JSX.Element {
     return <NotFoundPage />;
   }
   const {
-    description,
+    title,
     rating,
     isPremium,
     bedroomsCount,
     maxAdultsCount,
-    hotelType,
+    type,
     price,
-    amenities,
-    galleryImagesUrls,
+    goods,
+    images,
     hostInfo,
     offerDescriptions
   } = offer;
@@ -69,7 +69,7 @@ export function OfferPage(): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {galleryImagesUrls.map((url) => (
+              {images.map((url) => (
                 <div key={url} className="offer__image-wrapper">
                   <img
                     className="offer__image"
@@ -85,7 +85,7 @@ export function OfferPage(): JSX.Element {
               {isPremium && <PremiumLabel />}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {description}
+                  {title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width={31} height={33}>
@@ -102,7 +102,7 @@ export function OfferPage(): JSX.Element {
                 <span className="offer__rating-value rating__value">{rating}</span>
               </div>
               <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">{hotelType}</li>
+                <li className="offer__feature offer__feature--entire">{type}</li>
                 <li className="offer__feature offer__feature--bedrooms">
                   {bedroomsCount} Bedrooms
                 </li>
@@ -117,8 +117,8 @@ export function OfferPage(): JSX.Element {
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  {(Object.keys(amenities) as Amenity[])
-                    .filter((am) => amenities[am])
+                  {(Object.keys(goods) as Good[])
+                    .filter((am) => goods[am])
                     .map((am) => (
                       <li key={am} className="offer__inside-item">{am}</li>
                     ))}

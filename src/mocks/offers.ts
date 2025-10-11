@@ -1,34 +1,34 @@
 ﻿import { HotelType } from '../enums/hotel-type.ts';
-import { Amenity } from '../enums/amenity.ts';
+import { Good } from '../enums/good.ts';
 import { OfferDetails } from '../types/offer-details.ts';
-import { City } from '../enums/city.ts';
+import { CityName } from '../enums/city-name.ts';
 import { HostStatus } from '../enums/host-status.ts';
 
 export const offers: OfferDetails[] = [
   {
     id: '1',
     imageUrl: 'img/apartment-01.jpg',
-    description: 'Beautiful & luxurious apartment at great location',
-    city: City.Amsterdam,
+    title: 'Beautiful & luxurious apartment at great location',
+    city: CityName.Amsterdam,
     isPremium: true,
     price: 120,
-    hotelType: HotelType.Apartment,
+    type: HotelType.Apartment,
     rating: 4.8,
     bedroomsCount: 3,
     maxAdultsCount: 4,
-    amenities: {
-      [Amenity.WiFi]: true,
-      [Amenity.WashingMachine]: true,
-      [Amenity.Towels]: true,
-      [Amenity.Heating]: true,
-      [Amenity.CoffeeMachine]: true,
-      [Amenity.BabySeat]: true,
-      [Amenity.Kitchen]: true,
-      [Amenity.Dishwasher]: true,
-      [Amenity.CableTV]: true,
-      [Amenity.Fridge]: true
+    goods: {
+      [Good.WiFi]: true,
+      [Good.WashingMachine]: true,
+      [Good.Towels]: true,
+      [Good.Heating]: true,
+      [Good.CoffeeMachine]: true,
+      [Good.BabySeat]: true,
+      [Good.Kitchen]: true,
+      [Good.Dishwasher]: true,
+      [Good.CableTV]: true,
+      [Good.Fridge]: true
     },
-    galleryImagesUrls: [
+    images: [
       'img/room.jpg',
       'img/apartment-01.jpg',
       'img/apartment-02.jpg',
@@ -53,19 +53,19 @@ export const offers: OfferDetails[] = [
   {
     id: '2',
     imageUrl: 'img/room.jpg',
-    description: 'Wood and stone place',
-    city: City.Amsterdam,
+    title: 'Wood and stone place',
+    city: CityName.Amsterdam,
     price: 80,
-    hotelType: HotelType.Room,
+    type: HotelType.Room,
     rating: 3.2,
     bedroomsCount: 1,
     maxAdultsCount: 1,
-    amenities: {
-      [Amenity.Towels]: true,
-      [Amenity.Kitchen]: true,
-      [Amenity.Dishwasher]: true,
+    goods: {
+      [Good.Towels]: true,
+      [Good.Kitchen]: true,
+      [Good.Dishwasher]: true,
     },
-    galleryImagesUrls: [
+    images: [
       'img/apartment-01.jpg',
       'img/room.jpg',
       'img/apartment-02.jpg',
@@ -85,19 +85,19 @@ export const offers: OfferDetails[] = [
   {
     id: '3',
     imageUrl: 'img/apartment-02.jpg',
-    description: 'Canal View Prinsengracht',
-    city: City.Amsterdam,
+    title: 'Canal View Prinsengracht',
+    city: CityName.Amsterdam,
     price: 132,
-    hotelType: HotelType.Apartment,
+    type: HotelType.Apartment,
     rating: 4.1,
     bedroomsCount: 2,
     maxAdultsCount: 2,
-    amenities: {
-      [Amenity.WiFi]: true,
-      [Amenity.Towels]: true,
-      [Amenity.Kitchen]: true,
+    goods: {
+      [Good.WiFi]: true,
+      [Good.Towels]: true,
+      [Good.Kitchen]: true,
     },
-    galleryImagesUrls: [
+    images: [
       'img/room.jpg',
       'img/apartment-01.jpg',
       'img/apartment-02.jpg',
@@ -118,23 +118,23 @@ export const offers: OfferDetails[] = [
   },
   {
     id: '4',
-    description: 'Nice, cozy, warm big bed apartment',
-    city: City.Cologne,
+    title: 'Nice, cozy, warm big bed apartment',
+    city: CityName.Cologne,
     imageUrl: 'img/apartment-03.jpg',
     price: 180,
-    hotelType: HotelType.Apartment,
+    type: HotelType.Apartment,
     rating: 4.9,
     bedroomsCount: 3,
     maxAdultsCount: 6,
-    amenities: {
-      [Amenity.WiFi]: true,
-      [Amenity.Towels]: true,
-      [Amenity.Kitchen]: true,
-      [Amenity.Dishwasher]: true,
-      [Amenity.CableTV]: true,
-      [Amenity.Fridge]: true
+    goods: {
+      [Good.WiFi]: true,
+      [Good.Towels]: true,
+      [Good.Kitchen]: true,
+      [Good.Dishwasher]: true,
+      [Good.CableTV]: true,
+      [Good.Fridge]: true
     },
-    galleryImagesUrls: [
+    images: [
       'img/apartment-03.jpg',
       'img/apartment-01.jpg',
       'img/apartment-02.jpg',

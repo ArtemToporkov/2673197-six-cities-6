@@ -1,22 +1,22 @@
 ﻿import { OfferDetails } from '../../types/offer-details.ts';
-import { City } from '../../enums/city.ts';
+import { CityName } from '../../enums/city-name.ts';
 import { FavouritesSection } from '../../components/favourites-section/favourites-section.tsx';
 
 type FavouritesPageProps = {
   favouriteOffers: OfferDetails[];
 }
 
-function groupOffersByCity(offers: OfferDetails[]): Record<City, OfferDetails[]> {
+function groupOffersByCity(offers: OfferDetails[]): Record<CityName, OfferDetails[]> {
   return offers.reduce((acc, item) => {
     const city = item.city;
     (acc[city] ||= []).push(item);
     return acc;
-  }, {} as Record<City, OfferDetails[]>);
+  }, {} as Record<CityName, OfferDetails[]>);
 }
 
-function getFavouritesSections(offersByCity: Record<City, OfferDetails[]>): JSX.Element[] {
+function getFavouritesSections(offersByCity: Record<CityName, OfferDetails[]>): JSX.Element[] {
   const sections: JSX.Element[] = [];
-  for (const [city, cityOffers] of Object.entries(offersByCity) as [City, OfferDetails[]][]) {
+  for (const [city, cityOffers] of Object.entries(offersByCity) as [CityName, OfferDetails[]][]) {
     sections.push(
       <FavouritesSection
         key={city}

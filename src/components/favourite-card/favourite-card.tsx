@@ -8,7 +8,7 @@ type FavouriteCardProps = {
 }
 
 export function FavouriteCard({
-  hotelInfo: { id, isPremium, imageUrl, price, description, hotelType },
+  hotelInfo: { id, isPremium, imageUrl, price, title, type },
 }: FavouriteCardProps): JSX.Element {
   return (
     <article className="favorites__card place-card">
@@ -53,9 +53,9 @@ export function FavouriteCard({
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={generatePath(AppRoute.Offer, { id: id })}>{description}</Link>
+          <Link to={generatePath(AppRoute.Offer, { id: id })}>{title}</Link>
         </h2>
-        <p className="place-card__type">{hotelType}</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );

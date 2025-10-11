@@ -1,4 +1,4 @@
-﻿export enum Amenity {
+﻿export enum Good {
   WiFi = 'Wi-Fi',
   WashingMachine = 'Washing machine',
   Towels = 'Towels',

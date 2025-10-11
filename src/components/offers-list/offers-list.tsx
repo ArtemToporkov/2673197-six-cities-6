@@ -1,5 +1,5 @@
 ﻿import { OfferDetails } from '../../types/offer-details.ts';
-import { HotelCard } from '../hotel-info/hotel-card.tsx';
+import { HotelCard } from '../hotel-card/hotel-card.tsx';
 import { useState } from 'react';
 
 type OffersListProps = {
@@ -20,8 +20,8 @@ export function OffersList({offers}: OffersListProps): JSX.Element {
           isPremium={offer.isPremium}
           imageUrl={offer.imageUrl}
           price={offer.price}
-          hotelType={offer.hotelType}
-          description={offer.description}
+          type={offer.type}
+          title={offer.title}
           onMouseOver={() => setSelectedOffer(offer.id)}
           onMouseLeave={() => (setSelectedOffer(null))}
         />
