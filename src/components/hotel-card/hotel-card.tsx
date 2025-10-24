@@ -1,35 +1,29 @@
-﻿import { HotelType } from '../../enums/hotel-type.ts';
+﻿import { HotelInfo } from '../../types/hotel-info.ts';
+import { PremiumLabel } from '../premium-label/premium-label.tsx';
+import { generatePath, Link } from 'react-router-dom';
+import { AppRoute } from '../../enums/app-route.ts';
 
-type HotelInfoProps = {
-  isPremium?: boolean;
-  imageSrc: string;
-  price: number;
-  hotelType: HotelType;
-  name: string;
+type HotelInfoProps = HotelInfo & {
+  onMouseOver: () => void;
+  onMouseLeave: () => void;
 };
 
-function PremiumLabel(): JSX.Element {
-  return (
-    <div className="place-card__mark">
-      <span>Premium</span>
-    </div>
-  );
-}
-
-export function HotelInfo({isPremium = false, imageSrc, price, hotelType, name}: HotelInfoProps): JSX.Element {
+export function HotelCard({id, isPremium = false, imageUrl, price, type, title, onMouseOver, onMouseLeave}: HotelInfoProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       {isPremium && <PremiumLabel />}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={generatePath(AppRoute.Offer, { id: id })}>
           <img
             className="place-card__image"
-            src={imageSrc}
+            src={imageUrl}
             width={260}
             height={200}
             alt="Place image"
+            onMouseOver={onMouseOver}
+            onMouseLeave={onMouseLeave}
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -58,11 +52,11 @@ export function HotelInfo({isPremium = false, imageSrc, price, hotelType, name}:
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">
-            {name}
-          </a>
+          <Link to={generatePath(AppRoute.Offer, { id: id })}>
+            {title}
+          </Link>
         </h2>
-        <p className="place-card__type">{hotelType}</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );

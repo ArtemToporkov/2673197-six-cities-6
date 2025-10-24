@@ -1,11 +1,11 @@
-﻿import { HotelInfo } from '../../components/hotel-info/hotel-info.tsx';
-import { HotelType } from '../../enums/hotel-type.ts';
+﻿import { OfferDetails } from '../../types/offer-details.ts';
+import { OffersList } from '../../components/offers-list/offers-list.tsx';
 
-type MainProps = {
-  placesCount: number;
+type MainPageProps = {
+  offers: OfferDetails[];
 }
 
-export function MainPage({placesCount}: MainProps): JSX.Element {
+export function MainPage({offers}: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -88,7 +88,7 @@ export function MainPage({placesCount}: MainProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placesCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -116,38 +116,7 @@ export function MainPage({placesCount}: MainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <HotelInfo
-                  isPremium
-                  imageSrc="img/apartment-01.jpg"
-                  price={120}
-                  hotelType={HotelType.Apartment}
-                  name="Beautiful & luxurious apartment at great location"
-                />
-                <HotelInfo
-                  imageSrc="img/room.jpg"
-                  price={80}
-                  hotelType={HotelType.Room}
-                  name="Wood and stone place"
-                />
-                <HotelInfo
-                  imageSrc="img/apartment-02.jpg"
-                  price={132}
-                  hotelType={HotelType.Apartment}
-                  name="Canal View Prinsengracht"
-                />
-                <HotelInfo
-                  isPremium
-                  imageSrc="img/apartment-03.jpg"
-                  price={180}
-                  hotelType={HotelType.Apartment}
-                  name="Nice, cozy, warm big bed apartment"
-                />
-                <HotelInfo
-                  imageSrc="img/room.jpg"
-                  price={80}
-                  hotelType={HotelType.Room}
-                  name="Wood and stone place"
-                />
+                <OffersList offers={offers} />
               </div>
             </section>
             <div className="cities__right-section">
