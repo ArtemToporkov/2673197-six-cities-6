@@ -1,12 +1,12 @@
 ﻿import { OfferDetails } from '../../types/offer-details.ts';
 import { HotelCard } from '../hotel-card/hotel-card.tsx';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 type OffersListProps = {
   offers: OfferDetails[];
 }
 
-export function OffersList({offers}: OffersListProps): JSX.Element {
+export function OffersList({offers}: OffersListProps): ReactNode {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

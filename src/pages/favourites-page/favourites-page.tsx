@@ -1,6 +1,7 @@
 ﻿import { OfferDetails } from '../../types/offer-details.ts';
 import { CityName } from '../../enums/city-name.ts';
 import { FavouritesSection } from '../../components/favourites-section/favourites-section.tsx';
+import { ReactNode } from 'react';
 
 type FavouritesPageProps = {
   favouriteOffers: OfferDetails[];
@@ -16,8 +17,8 @@ function groupOffersByCityName(offers: OfferDetails[]): Record<CityName, OfferDe
   }, {} as Record<CityName, OfferDetails[]>);
 }
 
-function getFavouritesSections(offersByCityName: Record<CityName, OfferDetails[]>): JSX.Element[] {
-  const sections: JSX.Element[] = [];
+function getFavouritesSections(offersByCityName: Record<CityName, OfferDetails[]>): ReactNode[] {
+  const sections: ReactNode[] = [];
   for (const [cityName, cityOffers] of Object.entries(offersByCityName) as [CityName, OfferDetails[]][]) {
     sections.push(
       <FavouritesSection
@@ -30,7 +31,7 @@ function getFavouritesSections(offersByCityName: Record<CityName, OfferDetails[]
   return sections;
 }
 
-export function FavouritesPage({favouriteOffers}: FavouritesPageProps): JSX.Element {
+export function FavouritesPage({favouriteOffers}: FavouritesPageProps): ReactNode {
   const offersByCity = groupOffersByCityName(favouriteOffers);
   const sections = getFavouritesSections(offersByCity);
   return (

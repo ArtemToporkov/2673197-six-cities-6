@@ -1,11 +1,12 @@
 ﻿import { OfferDetails } from '../../types/offer-details.ts';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
+import { ReactNode } from 'react';
 
 type MainPageProps = {
   offers: OfferDetails[];
 }
 
-export function MainPage({offers}: MainPageProps): JSX.Element {
+export function MainPage({offers}: MainPageProps): ReactNode {
   return (
     <div className="page page--gray page--main">
       <header className="header">

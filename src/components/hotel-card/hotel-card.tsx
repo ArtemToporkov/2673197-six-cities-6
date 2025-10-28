@@ -2,13 +2,14 @@
 import { PremiumLabel } from '../premium-label/premium-label.tsx';
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute } from '../../enums/app-route.ts';
+import { ReactNode } from 'react';
 
 type HotelInfoProps = HotelInfo & {
   onMouseOver: () => void;
   onMouseLeave: () => void;
 };
 
-export function HotelCard({id, isPremium = false, imageUrl, price, type, title, onMouseOver, onMouseLeave}: HotelInfoProps): JSX.Element {
+export function HotelCard({id, isPremium = false, imageUrl, price, type, title, onMouseOver, onMouseLeave}: HotelInfoProps): ReactNode {
   return (
     <article className="cities__card place-card">
       {isPremium && <PremiumLabel />}

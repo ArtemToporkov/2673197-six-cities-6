@@ -1,8 +1,8 @@
 ﻿import { Review } from '../../types/review.ts';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { ScoreStars } from '../score-stars/score-stars.tsx';
 
-export function ReviewForm() {
+export function ReviewForm(): ReactNode {
   const [review, setReview] = useState<Review>({ score: undefined, comment: '' });
   const minCommentLength = 50;
   return (

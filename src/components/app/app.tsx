@@ -8,12 +8,13 @@ import { AuthStatus } from '../../enums/auth-status.ts';
 import { FavouritesPage } from '../../pages/favourites-page/favourites-page.tsx';
 import { AppRoute } from '../../enums/app-route.ts';
 import { OfferDetails } from '../../types/offer-details.ts';
+import { ReactNode } from 'react';
 
 type AppProps = {
   offers: OfferDetails[];
 }
 
-export function App({offers}: AppProps): JSX.Element {
+export function App({offers}: AppProps): ReactNode {
   return (
     <BrowserRouter>
       <Routes>
