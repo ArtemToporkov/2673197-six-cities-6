@@ -11,20 +11,22 @@ type MapProps = {
   selectedPoint: Point | null;
 };
 
-const defaultCustomIcon = new Icon({
-  iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+const customMarkerOptions = {
+  iconSize: [40, 40] as [number, number],
+  iconAnchor: [20, 40] as [number, number]
+};
+
+const defaultCustomMarker = new Icon({
+  ...customMarkerOptions,
+  iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg'
 });
 
-const currentCustomIcon = new Icon({
+const currentCustomMarker = new Icon({
+  ...customMarkerOptions,
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
 });
 
 export function Map({city, points, selectedPoint}: MapProps): ReactNode {
-
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -40,8 +42,8 @@ export function Map({city, points, selectedPoint}: MapProps): ReactNode {
         marker
           .setIcon(
             selectedPoint && point.key === selectedPoint.key
-              ? currentCustomIcon
-              : defaultCustomIcon
+              ? currentCustomMarker
+              : defaultCustomMarker
           )
           .addTo(markerLayer);
       });
