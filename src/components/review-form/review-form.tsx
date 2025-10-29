@@ -1,11 +1,11 @@
-﻿import { Review } from '../../types/review.ts';
+﻿import { ReviewContent } from '../../types/review-content.ts';
 import { ReactNode, useState } from 'react';
 import { ScoreStars } from '../score-stars/score-stars.tsx';
 
 const MIN_COMMENT_LENGTH = 50;
 
 export function ReviewForm(): ReactNode {
-  const [review, setReview] = useState<Review>({ score: undefined, comment: '' });
+  const [review, setReview] = useState<ReviewContent>({ score: undefined, comment: '' });
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
