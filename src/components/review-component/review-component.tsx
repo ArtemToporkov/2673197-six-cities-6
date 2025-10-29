@@ -5,7 +5,7 @@ type ReviewProps = {
   review: Review;
 }
 
-export function Review({review}: ReviewProps): ReactNode {
+export function ReviewComponent({review}: ReviewProps): ReactNode {
   return (
     <>
       <div className="reviews__user user">
@@ -18,7 +18,12 @@ export function Review({review}: ReviewProps): ReactNode {
             alt="Reviews avatar"
           />
         </div>
-        <span className="reviews__user-name">{review.user.name}</span>
+        <span
+          className="reviews__user-name"
+          style={{wordBreak: 'normal'}}
+        >
+          {review.user.name}
+        </span>
       </div>
       <div className="reviews__info">
         <div className="reviews__rating rating">
