@@ -20,10 +20,9 @@ type MainPageProps = {
 
 export function MainPage({offers}: MainPageProps): ReactNode {
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
-  let selectedPoint = hoveredOfferId
+  const selectedPoint = hoveredOfferId
     ? mapOfferDetailsToPoint(offers.find((o) => o.id === hoveredOfferId) as OfferDetails)
     : null;
-
 
   return (
     <div className="page page--gray page--main">
