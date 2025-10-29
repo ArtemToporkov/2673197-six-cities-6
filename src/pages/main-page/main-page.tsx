@@ -1,12 +1,30 @@
 ﻿import { OfferDetails } from '../../types/offer-details.ts';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { ReactNode } from 'react';
+import { Map } from '../../components/map/map.tsx';
+import { cities } from '../../mocks/cities.ts';
+import { Point } from '../../types/point.ts';
+import { useState } from 'react';
+
+function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
+  return ({
+    latitude: offerDetails.location.latitude,
+    longitude: offerDetails.location.longitude,
+    key: offerDetails.id
+  });
+}
 
 type MainPageProps = {
   offers: OfferDetails[];
 }
 
 export function MainPage({offers}: MainPageProps): ReactNode {
+  const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
+  let selectedPoint = hoveredOfferId
+    ? mapOfferDetailsToPoint(offers.find((o) => o.id === hoveredOfferId) as OfferDetails)
+    : null;
+
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -117,11 +135,21 @@ export function MainPage({offers}: MainPageProps): ReactNode {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={offers} />
+                <OffersList
+                  offers={offers}
+                  onOfferCardHover={setHoveredOfferId}
+                  onOfferCardUnhover={() => setHoveredOfferId(null)}
+                />
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <section className="cities__map map" style={{backgroundImage: 'none'}}>
+                <Map
+                  city={cities.Amsterdam}
+                  points={offers.map<Point>((o) => mapOfferDetailsToPoint(o))}
+                  selectedPoint={selectedPoint}
+                />
+              </section>
             </div>
           </div>
         </div>

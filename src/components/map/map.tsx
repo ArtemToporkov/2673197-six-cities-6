@@ -8,7 +8,7 @@ import { Point } from '../../types/point.ts';
 type MapProps = {
   city: City;
   points: Point[];
-  selectedPoint: Point | undefined;
+  selectedPoint: Point | null;
 };
 
 const defaultCustomIcon = new Icon({
@@ -31,15 +31,15 @@ export function Map({city, points, selectedPoint}: MapProps): ReactNode {
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
-      points.forEach((location) => {
+      points.forEach((point) => {
         const marker = new Marker({
-          lat: location.latitude,
-          lng: location.longitude
+          lat: point.latitude,
+          lng: point.longitude
         });
 
         marker
           .setIcon(
-            selectedPoint !== undefined && location.key === selectedPoint.key
+            selectedPoint && point.key === selectedPoint.key
               ? currentCustomIcon
               : defaultCustomIcon
           )
