@@ -1,4 +1,6 @@
-﻿export function LoginPage(): JSX.Element {
+﻿import { ReactNode } from 'react';
+
+export function LoginPage(): ReactNode {
   return (
     <div className="page page--gray page--login">
       <header className="header">

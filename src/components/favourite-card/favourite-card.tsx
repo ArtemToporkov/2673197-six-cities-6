@@ -2,6 +2,7 @@
 import { PremiumLabel } from '../premium-label/premium-label.tsx';
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute } from '../../enums/app-route.ts';
+import { ReactNode } from 'react';
 
 type FavouriteCardProps = {
   hotelInfo: HotelInfo;
@@ -9,7 +10,7 @@ type FavouriteCardProps = {
 
 export function FavouriteCard({
   hotelInfo: { id, isPremium, imageUrl, price, title, type },
-}: FavouriteCardProps): JSX.Element {
+}: FavouriteCardProps): ReactNode {
   return (
     <article className="favorites__card place-card">
       {isPremium && <PremiumLabel />}

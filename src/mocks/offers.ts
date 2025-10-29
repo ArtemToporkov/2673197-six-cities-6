@@ -10,7 +10,11 @@ export const offers: OfferDetails[] = [
     imageUrl: 'img/apartment-01.jpg',
     title: 'Beautiful & luxurious apartment at great location',
     city: cities.Amsterdam,
-    location: cities.Amsterdam.location,
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 1
+    },
     price: 120,
     type: HotelType.Apartment,
     rating: 4.8,
@@ -52,7 +56,11 @@ export const offers: OfferDetails[] = [
     imageUrl: 'img/room.jpg',
     title: 'Wood and stone place',
     city: cities.Amsterdam,
-    location: cities.Amsterdam.location,
+    location: {
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
+      zoom: 1
+    },
     price: 80,
     type: HotelType.Room,
     rating: 3.2,
@@ -84,7 +92,11 @@ export const offers: OfferDetails[] = [
     imageUrl: 'img/apartment-02.jpg',
     title: 'Canal View Prinsengracht',
     city: cities.Amsterdam,
-    location: cities.Amsterdam.location,
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.939309666406198,
+      zoom: 1
+    },
     price: 132,
     type: HotelType.Apartment,
     rating: 4.1,
@@ -115,7 +127,11 @@ export const offers: OfferDetails[] = [
     id: '4',
     title: 'Nice, cozy, warm big bed apartment',
     city: cities.Cologne,
-    location: cities.Cologne.location,
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 1
+    },
     imageUrl: 'img/apartment-03.jpg',
     price: 180,
     type: HotelType.Apartment,

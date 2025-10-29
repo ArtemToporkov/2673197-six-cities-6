@@ -1,13 +1,14 @@
 ﻿import { CityName } from '../../enums/city-name.ts';
 import { OfferDetails } from '../../types/offer-details.ts';
 import { FavouriteCard } from '../favourite-card/favourite-card.tsx';
+import { ReactNode } from 'react';
 
 type FavouritesSectionProps = {
   cityName: CityName;
   offers: OfferDetails[];
 }
 
-export function FavouritesSection({cityName, offers}: FavouritesSectionProps): JSX.Element {
+export function FavouritesSection({cityName, offers}: FavouritesSectionProps): ReactNode {
   for (const offer of offers) {
     if (offer.city.name !== cityName) {
       throw new Error(`City mismatch on offer: ${JSON.stringify(offer)}`);

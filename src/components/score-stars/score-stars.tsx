@@ -1,4 +1,4 @@
-﻿import { Fragment } from 'react';
+﻿import { Fragment, ReactNode } from 'react';
 import { RatingScore } from '../../types/rating-score.ts';
 
 type RatingWithDescription = {
@@ -10,7 +10,7 @@ type ScoreStarsProps = {
   onScoreChanged: (score: RatingScore) => void;
 }
 
-export function ScoreStars({ onScoreChanged }: ScoreStarsProps): JSX.Element {
+export function ScoreStars({ onScoreChanged }: ScoreStarsProps): ReactNode {
   const ratings = [
     {score: 5, description: 'perfect'},
     {score: 4, description: 'good'},

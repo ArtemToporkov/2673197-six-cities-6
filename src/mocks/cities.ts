@@ -5,9 +5,9 @@ export const cities = Object.freeze({
   Amsterdam: {
     name: CityName.Amsterdam,
     location: {
-      latitude: 10.1,
-      longitude: 10.1,
-      zoom: 8
+      latitude: 52.3740,
+      longitude: 4.8897,
+      zoom: 12
     }
   },
   Cologne: {
@@ -15,7 +15,7 @@ export const cities = Object.freeze({
     location: {
       latitude: 10.1,
       longitude: 10.1,
-      zoom: 8
+      zoom: 12
     }
   }
 }) as Readonly<Record<CityName, City>>;

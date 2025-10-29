@@ -1,12 +1,14 @@
 ﻿import { OfferDetails } from '../../types/offer-details.ts';
 import { HotelCard } from '../hotel-card/hotel-card.tsx';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 type OffersListProps = {
   offers: OfferDetails[];
+  onOfferCardHover: (hoveredOfferId: string) => void;
+  onOfferCardUnhover: () => void;
 }
 
-export function OffersList({offers}: OffersListProps): JSX.Element {
+export function OffersList({offers, onOfferCardHover, onOfferCardUnhover}: OffersListProps): ReactNode {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -22,8 +24,14 @@ export function OffersList({offers}: OffersListProps): JSX.Element {
           price={offer.price}
           type={offer.type}
           title={offer.title}
-          onMouseOver={() => setSelectedOffer(offer.id)}
-          onMouseLeave={() => (setSelectedOffer(null))}
+          onMouseOver={() => {
+            setSelectedOffer(offer.id);
+            onOfferCardHover(offer.id);
+          }}
+          onMouseLeave={() => {
+            setSelectedOffer(null);
+            onOfferCardUnhover();
+          }}
         />
       ))}
     </>

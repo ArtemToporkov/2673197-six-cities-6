@@ -5,8 +5,9 @@ import { offers } from '../../mocks/offers.ts';
 import { NotFoundPage } from '../not-found-page/not-found-page.tsx';
 import { ReviewForm } from '../../components/review-form/review-form.tsx';
 import { HostCard } from '../../components/host-card/host-card.tsx';
+import { ReactNode } from 'react';
 
-export function OfferPage(): JSX.Element {
+export function OfferPage(): ReactNode {
   const { id } = useParams<{ id: string }>();
   const offer = offers.find((of) => of.id === id);
   if (offer === undefined) {

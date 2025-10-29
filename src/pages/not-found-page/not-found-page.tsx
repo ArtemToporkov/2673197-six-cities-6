@@ -1,6 +1,7 @@
 ﻿import { Link } from 'react-router-dom';
+import { ReactNode } from 'react';
 
-export function NotFoundPage(): JSX.Element {
+export function NotFoundPage(): ReactNode {
   return (
     <div className="page page--gray page--main">
       <main className="page__main">
