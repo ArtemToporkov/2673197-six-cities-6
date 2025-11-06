@@ -142,7 +142,7 @@ export function MainPage({offers}: MainPageProps): ReactNode {
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" style={{backgroundImage: 'none'}}> {/* здесь приходится хардкодить стиль, чтобы на фоне не рисовалось изображение карты, в данном проекте по другому не сделать? */}
+              <section className="cities__map map" style={{backgroundImage: 'none'}}>
                 <Map
                   city={cities.Amsterdam}
                   points={offers.map<Point>((o) => mapOfferDetailsToPoint(o))}

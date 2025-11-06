@@ -1,6 +1,8 @@
-﻿import { RatingScore } from './rating-score.ts';
+﻿import { ReviewContent } from './review-content.ts';
+import { ReviewerInfo } from './reviewer-info.ts';
 
-export type Review = {
-  comment: string;
-  score?: RatingScore;
+export type Review = ReviewContent & {
+  id: string;
+  user: ReviewerInfo;
+  date: Date;
 };
