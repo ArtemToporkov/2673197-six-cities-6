@@ -18,7 +18,7 @@ export function App({offers}: AppProps): ReactNode {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<MainPage offers={offers} />} />
+        <Route path={AppRoute.Main} element={<MainPage />} />
         <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route path={AppRoute.Offer} element={<OfferPage />} />
         <Route
