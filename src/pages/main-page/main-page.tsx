@@ -24,7 +24,7 @@ const onCityClick = async (city: CityName) => {
   await new Promise((resolve) => setTimeout(resolve, 100));
   store.dispatch(switchCityWithOffers({
     city: city,
-    offers: offers
+    offers: city === CityName.Amsterdam ? offers : []
   }));
 };
 
@@ -114,7 +114,7 @@ export function MainPage(): ReactNode {
               </form>
               <div className="cities__places-list places__list tabs__content">
                 <OffersList
-                  offers={offers}
+                  offers={currentOffers}
                   onOfferCardHover={setHoveredOfferId}
                   onOfferCardUnhover={() => setHoveredOfferId(null)}
                 />
@@ -124,7 +124,7 @@ export function MainPage(): ReactNode {
               <section className="cities__map map" style={{backgroundImage: 'none'}}>
                 <Map
                   city={cities.Amsterdam}
-                  points={offers.map<Point>((o) => mapOfferDetailsToPoint(o))}
+                  points={currentOffers.map<Point>((o) => mapOfferDetailsToPoint(o))}
                   selectedPoint={selectedPoint}
                 />
               </section>
