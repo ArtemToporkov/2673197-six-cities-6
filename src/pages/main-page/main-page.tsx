@@ -9,7 +9,7 @@ import { CityName } from '../../enums/city-name.ts';
 import { store } from '../../store';
 import { offers } from '../../mocks/offers.ts';
 import { switchCityWithOffers } from '../../store/action.ts';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
 
 function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   return ({
@@ -29,8 +29,8 @@ const onCityClick = async (city: CityName) => {
 };
 
 export function MainPage(): ReactNode {
-  const currentOffers = useSelector((state: ReturnType<typeof store.getState>) => state.offers);
-  const currentCity = useSelector((state: ReturnType<typeof store.getState>) => state.city);
+  const currentOffers = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector((state) => state.city);
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const selectedPoint = hoveredOfferId
     ? mapOfferDetailsToPoint(currentOffers.find((o) => o.id === hoveredOfferId) as OfferDetails)

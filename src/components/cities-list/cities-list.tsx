@@ -1,7 +1,6 @@
 ﻿import { CityName } from '../../enums/city-name.ts';
 import { ReactNode } from 'react';
-import { store } from '../../store';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
 
 type CitiesListProps = {
   cities: CityName[];
@@ -9,7 +8,7 @@ type CitiesListProps = {
 }
 
 export function CitiesList({cities, onCityClick}: CitiesListProps): ReactNode {
-  const selectedCity = useSelector((state: ReturnType<typeof store.getState>) => state.city);
+  const selectedCity = useAppSelector((state) => state.city);
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
