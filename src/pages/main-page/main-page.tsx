@@ -1,6 +1,6 @@
 ﻿import { OfferDetails } from '../../types/offer-details.ts';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Map } from '../../components/map/map.tsx';
 import { cities } from '../../mocks/cities.ts';
 import { Point } from '../../types/point.ts';
@@ -10,6 +10,7 @@ import { store } from '../../store';
 import { offers } from '../../mocks/offers.ts';
 import { switchCityWithOffers } from '../../store/action.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 
 function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   return ({
@@ -29,6 +30,11 @@ const onCityClick = async (city: CityName) => {
 };
 
 export function MainPage(): ReactNode {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    // TODO: заменить на запрос к серверу
+    dispatch(switchCityWithOffers({city: CityName.Paris, offers: []}));
+  }, []);
   const currentOffers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
