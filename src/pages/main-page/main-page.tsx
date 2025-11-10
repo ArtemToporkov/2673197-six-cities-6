@@ -1,10 +1,15 @@
 ﻿import { OfferDetails } from '../../types/offer-details.ts';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { Map } from '../../components/map/map.tsx';
 import { cities } from '../../mocks/cities.ts';
 import { Point } from '../../types/point.ts';
-import { useState } from 'react';
+import { CitiesList } from '../../components/cities-list/cities-list.tsx';
+import { CityName } from '../../enums/city-name.ts';
+import { store } from '../../store';
+import { offers } from '../../mocks/offers.ts';
+import { switchCityWithOffers } from '../../store/action.ts';
+import { useSelector } from 'react-redux';
 
 function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   return ({
@@ -14,14 +19,21 @@ function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   });
 }
 
-type MainPageProps = {
-  offers: OfferDetails[];
-}
+const onCityClick = async (city: CityName) => {
+  // TODO: заменить на запрос к серверу
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  store.dispatch(switchCityWithOffers({
+    city: city,
+    offers: offers
+  }));
+};
 
-export function MainPage({offers}: MainPageProps): ReactNode {
+export function MainPage(): ReactNode {
+  const currentOffers = useSelector((state: ReturnType<typeof store.getState>) => state.offers);
+  const currentCity = useSelector((state: ReturnType<typeof store.getState>) => state.city);
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const selectedPoint = hoveredOfferId
-    ? mapOfferDetailsToPoint(offers.find((o) => o.id === hoveredOfferId) as OfferDetails)
+    ? mapOfferDetailsToPoint(currentOffers.find((o) => o.id === hoveredOfferId) as OfferDetails)
     : null;
 
   return (
@@ -67,46 +79,13 @@ export function MainPage({offers}: MainPageProps): ReactNode {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <CitiesList cities={Object.values(CityName)} onCityClick={onCityClick}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{currentOffers.length} places to stay in {currentCity}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
