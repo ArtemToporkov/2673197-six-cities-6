@@ -1,7 +1,6 @@
 ﻿import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
 import { Good } from '../../enums/good.ts';
 import { useParams } from 'react-router-dom';
-import { offers } from '../../mocks/offers.ts';
 import { NotFoundPage } from '../not-found-page/not-found-page.tsx';
 import { ReviewForm } from '../../components/review-form/review-form.tsx';
 import { HostCard } from '../../components/host-card/host-card.tsx';
@@ -13,6 +12,7 @@ import { cities } from '../../mocks/cities.ts';
 import { Point } from '../../types/point.ts';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { OfferDetails } from '../../types/offer-details.ts';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
 
 function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   return ({
@@ -23,14 +23,15 @@ function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
 }
 
 export function OfferPage(): ReactNode {
-  const nearbyOffers = offers.slice(0, 3);
+  const currentOffers = useAppSelector((state) => state.offers);
+  const nearbyOffers = currentOffers.slice(0, 3);
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const selectedPoint: Point | null = hoveredOfferId
-    ? mapOfferDetailsToPoint(offers.find((o) => o.id === hoveredOfferId) as OfferDetails)
+    ? mapOfferDetailsToPoint(currentOffers.find((o) => o.id === hoveredOfferId) as OfferDetails)
     : null;
 
   const { id } = useParams<{ id: string }>();
-  const offer = offers.find((of) => of.id === id);
+  const offer = currentOffers.find((of) => of.id === id);
   if (offer === undefined) {
     return <NotFoundPage />;
   }

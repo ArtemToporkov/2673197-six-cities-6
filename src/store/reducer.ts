@@ -1,0 +1,20 @@
+﻿import { CityName } from '../enums/city-name.ts';
+import { offers } from '../mocks/offers.ts';
+import { createReducer } from '@reduxjs/toolkit';
+import { switchCityWithOffers } from './action.ts';
+import { CityWithOffers } from '../types/city-with-offers.ts';
+
+const initialState: CityWithOffers = {
+  city: CityName.Amsterdam,
+  offers: offers
+};
+
+export const reducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(switchCityWithOffers, (state, action) => ({
+      // как я понял, здесь не получится использовать Immer, потому что в OfferDetails[] есть readonly
+      ...state,
+      city: action.payload.city,
+      offers: action.payload.offers,
+    }));
+});
