@@ -1,5 +1,5 @@
-﻿import { HotelType } from '../enums/hotel-type.ts';
-import { Url } from './url.ts';
+﻿import type { HotelType } from '../enums/hotel-type.ts';
+import type { Url } from './url.ts';
 
 export type HotelInfo = {
   id: string;

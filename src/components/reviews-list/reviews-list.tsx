@@ -1,6 +1,5 @@
-﻿import { ReactNode } from 'react';
-
-import { Review } from '../../types/review';
+﻿import type { ReactNode } from 'react';
+import type { Review } from '../../types/review';
 import { ReviewComponent as ReviewComponent } from '../review-component/review-component.tsx';
 
 type ReviewsListProps = {

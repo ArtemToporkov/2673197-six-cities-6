@@ -1,8 +1,8 @@
-﻿import { ReactNode } from 'react';
+﻿import type { ReactNode } from 'react';
 
 import { FavouritesSection } from '../../components/favourites-section/favourites-section.tsx';
-import { CityName } from '../../enums/city-name.ts';
-import { OfferDetails } from '../../types/offer-details.ts';
+import type { CityName } from '../../enums/city-name.ts';
+import type { OfferDetails } from '../../types/offer-details.ts';
 
 type FavouritesPageProps = {
   favouriteOffers: OfferDetails[];

@@ -1,4 +1,5 @@
-﻿import { ReactNode, useState } from 'react';
+﻿import type { ReactNode } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { HostCard } from '../../components/host-card/host-card.tsx';
@@ -11,9 +12,9 @@ import { cities } from '../../mocks/cities.ts';
 import { reviews } from '../../mocks/reviews.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { Good } from '../../enums/good.ts';
-import { OfferDetails } from '../../types/offer-details.ts';
-import { Point } from '../../types/point.ts';
 import { NotFoundPage } from '../not-found-page/not-found-page.tsx';
+import type { OfferDetails } from '../../types/offer-details.ts';
+import type { Point } from '../../types/point.ts';
 
 function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   return ({

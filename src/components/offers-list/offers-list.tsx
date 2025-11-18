@@ -1,6 +1,5 @@
-﻿import { ReactNode } from 'react';
-
-import { OfferDetails } from '../../types/offer-details.ts';
+﻿import type { ReactNode } from 'react';
+import type { OfferDetails } from '../../types/offer-details.ts';
 import { HotelCard } from '../hotel-card/hotel-card.tsx';
 
 type OffersListProps = {

@@ -1,4 +1,4 @@
-﻿import { ReactNode } from 'react';
+﻿import type { ReactNode } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { AppRoute } from '../../enums/app-route.ts';
@@ -8,7 +8,7 @@ import { LoginPage } from '../../pages/login-page/login-page.tsx';
 import { MainPage } from '../../pages/main-page/main-page.tsx';
 import { NotFoundPage } from '../../pages/not-found-page/not-found-page.tsx';
 import { OfferPage } from '../../pages/offer-page/offer-page.tsx';
-import { OfferDetails } from '../../types/offer-details.ts';
+import type { OfferDetails } from '../../types/offer-details.ts';
 import { PrivateRoute } from '../private-route/private-route.tsx';
 
 type AppProps = {

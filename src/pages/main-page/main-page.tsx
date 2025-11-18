@@ -1,4 +1,5 @@
-﻿import { ReactNode, useEffect, useState } from 'react';
+﻿import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CitiesList } from '../../components/cities-list/cities-list.tsx';
 import { Map } from '../../components/map/map.tsx';
@@ -10,8 +11,8 @@ import { offers } from '../../mocks/offers.ts';
 import { CityName } from '../../enums/city-name.ts';
 import { switchCityWithOffers } from '../../store/action.ts';
 import { store } from '../../store';
-import { OfferDetails } from '../../types/offer-details.ts';
-import { Point } from '../../types/point.ts';
+import type { OfferDetails } from '../../types/offer-details.ts';
+import type { Point } from '../../types/point.ts';
 
 function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   return ({

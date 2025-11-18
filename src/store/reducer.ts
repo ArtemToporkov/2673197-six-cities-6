@@ -2,8 +2,8 @@
 
 import { CityName } from '../enums/city-name.ts';
 import { offers } from '../mocks/offers.ts';
-import { CityWithOffers } from '../types/city-with-offers.ts';
 import { switchCityWithOffers } from './action.ts';
+import type { CityWithOffers } from '../types/city-with-offers.ts';
 
 const initialState: CityWithOffers = {
   city: CityName.Amsterdam,

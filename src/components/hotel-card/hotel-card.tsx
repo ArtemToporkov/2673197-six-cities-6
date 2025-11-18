@@ -1,8 +1,8 @@
-﻿import { ReactNode } from 'react';
+﻿import type { ReactNode } from 'react';
 import { generatePath, Link } from 'react-router-dom';
 
 import { AppRoute } from '../../enums/app-route.ts';
-import { HotelInfo } from '../../types/hotel-info.ts';
+import type { HotelInfo } from '../../types/hotel-info.ts';
 import { PremiumLabel } from '../premium-label/premium-label.tsx';
 
 type HotelInfoProps = HotelInfo & {
