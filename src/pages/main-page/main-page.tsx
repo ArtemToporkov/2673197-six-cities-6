@@ -36,7 +36,7 @@ export function MainPage(): ReactNode {
   useEffect(() => {
     // TODO: заменить на запрос к серверу
     dispatch(switchCityWithOffers({city: CityName.Paris, offers: []}));
-  });
+  }, []);
   const currentOffers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
