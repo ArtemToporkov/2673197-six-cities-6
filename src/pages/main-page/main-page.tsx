@@ -13,7 +13,7 @@ import { switchCityWithOffers } from '../../store/action.ts';
 import { store } from '../../store';
 import type { OfferDetails } from '../../types/offer-details.ts';
 import type { Point } from '../../types/point.ts';
-import { SortingTypeMenu } from '../../components/sorting-type/sorting-type-menu.tsx';
+import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
 
 function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   return ({
