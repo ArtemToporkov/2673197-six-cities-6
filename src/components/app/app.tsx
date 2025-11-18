@@ -1,5 +1,5 @@
-﻿import type { ReactNode } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+﻿import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import type { ReactNode } from 'react';
 
 import { AppRoute } from '../../enums/app-route.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
@@ -8,8 +8,8 @@ import { LoginPage } from '../../pages/login-page/login-page.tsx';
 import { MainPage } from '../../pages/main-page/main-page.tsx';
 import { NotFoundPage } from '../../pages/not-found-page/not-found-page.tsx';
 import { OfferPage } from '../../pages/offer-page/offer-page.tsx';
-import type { OfferDetails } from '../../types/offer-details.ts';
 import { PrivateRoute } from '../private-route/private-route.tsx';
+import type { OfferDetails } from '../../types/offer-details.ts';
 
 type AppProps = {
   offers: OfferDetails[];

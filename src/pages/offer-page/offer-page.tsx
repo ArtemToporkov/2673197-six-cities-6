@@ -1,6 +1,6 @@
-﻿import type { ReactNode } from 'react';
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import type { ReactNode } from 'react';
 
 import { HostCard } from '../../components/host-card/host-card.tsx';
 import { Map } from '../../components/map/map.tsx';

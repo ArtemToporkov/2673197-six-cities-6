@@ -1,6 +1,7 @@
 ﻿import type { ReactNode } from 'react';
-import type { OfferDetails } from '../../types/offer-details.ts';
+
 import { HotelCard } from '../hotel-card/hotel-card.tsx';
+import type { OfferDetails } from '../../types/offer-details.ts';
 
 type OffersListProps = {
   offers: OfferDetails[];

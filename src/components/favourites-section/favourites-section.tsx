@@ -1,7 +1,8 @@
 ﻿import type { ReactNode } from 'react';
+
+import { FavouriteCard } from '../favourite-card/favourite-card.tsx';
 import type { CityName } from '../../enums/city-name.ts';
 import type { OfferDetails } from '../../types/offer-details.ts';
-import { FavouriteCard } from '../favourite-card/favourite-card.tsx';
 
 type FavouritesSectionProps = {
   cityName: CityName;

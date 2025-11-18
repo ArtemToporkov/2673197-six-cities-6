@@ -1,5 +1,5 @@
-﻿import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 
 import { CitiesList } from '../../components/cities-list/cities-list.tsx';
 import { Map } from '../../components/map/map.tsx';

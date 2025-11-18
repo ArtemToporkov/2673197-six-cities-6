@@ -1,7 +1,8 @@
-﻿import type { ReactNode } from 'react';
-import type { CityName } from '../../enums/city-name.ts';
+﻿import classNames from 'classnames';
+import type { ReactNode } from 'react';
+
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
-import classNames from 'classnames';
+import { CityName } from '../../enums/city-name.ts';
 
 type CitiesListProps = {
   cities: CityName[];
