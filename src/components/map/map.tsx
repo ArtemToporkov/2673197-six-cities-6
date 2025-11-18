@@ -1,8 +1,9 @@
 ﻿import { useRef, useEffect, ReactNode } from 'react';
 import { Icon, Marker, layerGroup } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
 import { useMap } from '../../hooks/use-map';
 import { City } from '../../types/city';
-import 'leaflet/dist/leaflet.css';
 import { Point } from '../../types/point.ts';
 
 type MapProps = {

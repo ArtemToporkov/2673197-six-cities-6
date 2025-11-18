@@ -1,8 +1,9 @@
-﻿import { HotelInfo } from '../../types/hotel-info.ts';
-import { PremiumLabel } from '../premium-label/premium-label.tsx';
+﻿import { ReactNode } from 'react';
 import { generatePath, Link } from 'react-router-dom';
+
 import { AppRoute } from '../../enums/app-route.ts';
-import { ReactNode } from 'react';
+import { HotelInfo } from '../../types/hotel-info.ts';
+import { PremiumLabel } from '../premium-label/premium-label.tsx';
 
 type HotelInfoProps = HotelInfo & {
   onMouseOver: () => void;

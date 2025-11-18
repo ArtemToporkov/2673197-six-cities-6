@@ -1,16 +1,17 @@
-﻿import { OfferDetails } from '../../types/offer-details.ts';
-import { OffersList } from '../../components/offers-list/offers-list.tsx';
-import { ReactNode, useEffect, useState } from 'react';
-import { Map } from '../../components/map/map.tsx';
-import { cities } from '../../mocks/cities.ts';
-import { Point } from '../../types/point.ts';
+﻿import { ReactNode, useEffect, useState } from 'react';
+
 import { CitiesList } from '../../components/cities-list/cities-list.tsx';
-import { CityName } from '../../enums/city-name.ts';
-import { store } from '../../store';
-import { offers } from '../../mocks/offers.ts';
-import { switchCityWithOffers } from '../../store/action.ts';
-import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import { Map } from '../../components/map/map.tsx';
+import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import { cities } from '../../mocks/cities.ts';
+import { offers } from '../../mocks/offers.ts';
+import { CityName } from '../../enums/city-name.ts';
+import { switchCityWithOffers } from '../../store/action.ts';
+import { store } from '../../store';
+import { OfferDetails } from '../../types/offer-details.ts';
+import { Point } from '../../types/point.ts';
 
 function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   return ({

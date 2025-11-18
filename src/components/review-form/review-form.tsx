@@ -1,5 +1,6 @@
-﻿import { ReviewContent } from '../../types/review-content.ts';
-import { ReactNode, useState } from 'react';
+﻿import { ReactNode, useState } from 'react';
+
+import { ReviewContent } from '../../types/review-content.ts';
 import { ScoreStars } from '../score-stars/score-stars.tsx';
 
 const MIN_COMMENT_LENGTH = 50;

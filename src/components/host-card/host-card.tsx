@@ -1,5 +1,6 @@
-﻿import { HostInfo } from '../../types/host-info.ts';
-import { ReactNode } from 'react';
+﻿import { ReactNode } from 'react';
+
+import { HostInfo } from '../../types/host-info.ts';
 
 type HostCardProps = {
   hostInfo: HostInfo;
