@@ -13,7 +13,6 @@ const initialState: CityWithOffers = {
 export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(switchCityWithOffers, (state, action) => ({
-      // как я понял, здесь не получится использовать Immer, потому что в OfferDetails[] есть readonly
       ...state,
       city: action.payload.city,
       offers: action.payload.offers,

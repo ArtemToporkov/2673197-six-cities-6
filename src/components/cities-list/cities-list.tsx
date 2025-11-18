@@ -1,6 +1,7 @@
 ﻿import type { ReactNode } from 'react';
 import type { CityName } from '../../enums/city-name.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import classNames from 'classnames';
 
 type CitiesListProps = {
   cities: CityName[];
@@ -15,7 +16,11 @@ export function CitiesList({cities, onCityClick}: CitiesListProps): ReactNode {
         {cities.map((city) => (
           <li className="locations__item" key={city}>
             <a
-              className={`locations__item-link tabs__item ${city === currentCity && 'tabs__item--active'}`}
+              className={classNames(
+                'locations__item-link',
+                'tabs__item',
+                { 'tabs__item--active': city === currentCity }
+              )}
               onClick={() => void onCityClick(city)}
             >
               <span>{city}</span>
