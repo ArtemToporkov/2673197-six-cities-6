@@ -1,5 +1,5 @@
-﻿import { City } from '../types/city.ts';
-import { CityName } from '../enums/city-name.ts';
+﻿import { CityName } from '../enums/city-name.ts';
+import type { City } from '../types/city.ts';
 
 export const cities = Object.freeze({
   Amsterdam: {

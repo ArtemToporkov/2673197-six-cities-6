@@ -1,8 +1,8 @@
 ﻿import { HotelType } from '../enums/hotel-type.ts';
 import { Good } from '../enums/good.ts';
-import { OfferDetails } from '../types/offer-details.ts';
 import { HostStatus } from '../enums/host-status.ts';
 import { cities } from './cities.ts';
+import type { OfferDetails } from '../types/offer-details.ts';
 
 export const offers: OfferDetails[] = [
   {

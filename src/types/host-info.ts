@@ -1,5 +1,5 @@
-﻿import { Url } from './url.ts';
-import { HostStatus } from '../enums/host-status.ts';
+﻿import type { Url } from './url.ts';
+import type { HostStatus } from '../enums/host-status.ts';
 
 export type HostInfo = {
   avatarUrl: Url;

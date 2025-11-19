@@ -1,18 +1,20 @@
-﻿import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
-import { Good } from '../../enums/good.ts';
+﻿import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { NotFoundPage } from '../not-found-page/not-found-page.tsx';
-import { ReviewForm } from '../../components/review-form/review-form.tsx';
+import type { ReactNode } from 'react';
+
 import { HostCard } from '../../components/host-card/host-card.tsx';
-import { ReactNode, useState } from 'react';
-import { ReviewsList } from '../../components/reviews-list/reviews-list.tsx';
-import { reviews } from '../../mocks/reviews.ts';
 import { Map } from '../../components/map/map.tsx';
-import { cities } from '../../mocks/cities.ts';
-import { Point } from '../../types/point.ts';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
-import { OfferDetails } from '../../types/offer-details.ts';
+import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
+import { ReviewForm } from '../../components/review-form/review-form.tsx';
+import { ReviewsList } from '../../components/reviews-list/reviews-list.tsx';
+import { cities } from '../../mocks/cities.ts';
+import { reviews } from '../../mocks/reviews.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import { Good } from '../../enums/good.ts';
+import { NotFoundPage } from '../not-found-page/not-found-page.tsx';
+import type { OfferDetails } from '../../types/offer-details.ts';
+import type { Point } from '../../types/point.ts';
 
 function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   return ({

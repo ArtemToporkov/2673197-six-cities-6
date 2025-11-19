@@ -1,16 +1,19 @@
-﻿import { OfferDetails } from '../../types/offer-details.ts';
-import { OffersList } from '../../components/offers-list/offers-list.tsx';
-import { ReactNode, useEffect, useState } from 'react';
-import { Map } from '../../components/map/map.tsx';
-import { cities } from '../../mocks/cities.ts';
-import { Point } from '../../types/point.ts';
+﻿import { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
+
 import { CitiesList } from '../../components/cities-list/cities-list.tsx';
-import { CityName } from '../../enums/city-name.ts';
-import { store } from '../../store';
-import { offers } from '../../mocks/offers.ts';
-import { switchCityWithOffers } from '../../store/action.ts';
-import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import { Map } from '../../components/map/map.tsx';
+import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import { cities } from '../../mocks/cities.ts';
+import { offers } from '../../mocks/offers.ts';
+import { CityName } from '../../enums/city-name.ts';
+import { switchCityWithOffers } from '../../store/action.ts';
+import { store } from '../../store';
+import type { OfferDetails } from '../../types/offer-details.ts';
+import type { Point } from '../../types/point.ts';
+import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
 
 function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   return ({
@@ -34,7 +37,7 @@ export function MainPage(): ReactNode {
   useEffect(() => {
     // TODO: заменить на запрос к серверу
     dispatch(switchCityWithOffers({city: CityName.Paris, offers: []}));
-  });
+  }, []);
   const currentOffers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
@@ -92,32 +95,7 @@ export function MainPage(): ReactNode {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{currentOffers.length} places to stay in {currentCity}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width={7} height={4}>
-                    <use xlinkHref="#icon-arrow-select" />
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li
-                    className="places__option places__option--active"
-                    tabIndex={0}
-                  >
-                    Popular
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: low to high
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: high to low
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Top rated first
-                  </li>
-                </ul>
-              </form>
+              <SortingTypeMenu />
               <div className="cities__places-list places__list tabs__content">
                 <OffersList
                   offers={currentOffers}

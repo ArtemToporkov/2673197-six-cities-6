@@ -1,5 +1,5 @@
-﻿import { ReactNode } from 'react';
-import { Review } from '../../types/review.ts';
+﻿import type { ReactNode } from 'react';
+import type { Review } from '../../types/review.ts';
 
 type ReviewProps = {
   review: Review;

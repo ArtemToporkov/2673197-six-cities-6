@@ -1,4 +1,4 @@
-﻿import { RatingScore } from './rating-score.ts';
+﻿import type { RatingScore } from './rating-score.ts';
 
 export type ReviewContent = {
   comment: string;

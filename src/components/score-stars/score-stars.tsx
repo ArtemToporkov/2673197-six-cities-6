@@ -1,5 +1,7 @@
-﻿import { Fragment, ReactNode } from 'react';
-import { RatingScore } from '../../types/rating-score.ts';
+﻿import { Fragment } from 'react';
+import type { ReactNode } from 'react';
+
+import type { RatingScore } from '../../types/rating-score.ts';
 
 type RatingWithDescription = {
   score: RatingScore;

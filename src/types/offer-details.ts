@@ -1,9 +1,9 @@
-﻿import { Goods } from './goods.ts';
-import { HotelInfo } from './hotel-info.ts';
-import { Url } from './url.ts';
-import { HostInfo } from './host-info.ts';
-import { City } from './city.ts';
-import { Location } from './location.ts';
+﻿import type { Goods } from './goods.ts';
+import type { HotelInfo } from './hotel-info.ts';
+import type { Url } from './url.ts';
+import type { HostInfo } from './host-info.ts';
+import type { City } from './city.ts';
+import type { Location } from './location.ts';
 
 export type OfferDetails = HotelInfo & {
   city: City;
