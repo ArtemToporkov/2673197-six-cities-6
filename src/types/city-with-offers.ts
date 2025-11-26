@@ -1,7 +1,7 @@
-﻿import type { CityName } from '../enums/city-name.ts';
-import type { OfferDetails } from './offer-details.ts';
+﻿import type { OfferDetails } from './offer-details.ts';
+import type { City } from './city.ts';
 
 export type CityWithOffers = {
-  city: CityName;
+  city: City;
   offers: OfferDetails[];
 };

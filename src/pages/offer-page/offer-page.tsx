@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import type { ReactNode } from 'react';
 
@@ -8,13 +8,14 @@ import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
 import { ReviewForm } from '../../components/review-form/review-form.tsx';
 import { ReviewsList } from '../../components/reviews-list/reviews-list.tsx';
-import { cities } from '../../mocks/cities.ts';
-import { reviews } from '../../mocks/reviews.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { Good } from '../../enums/good.ts';
 import { NotFoundPage } from '../not-found-page/not-found-page.tsx';
 import type { OfferDetails } from '../../types/offer-details.ts';
 import type { Point } from '../../types/point.ts';
+import { createApi } from '../../services/api.ts';
+import { Review } from '../../types/review.ts';
+import { ApiRoute } from '../../enums/api-route.ts';
 
 function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   return ({
@@ -26,6 +27,7 @@ function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
 
 export function OfferPage(): ReactNode {
   const currentOffers = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector((state) => state.city);
   const nearbyOffers = currentOffers.slice(0, 3);
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const selectedPoint: Point | null = hoveredOfferId
@@ -33,10 +35,19 @@ export function OfferPage(): ReactNode {
     : null;
 
   const { id } = useParams<{ id: string }>();
+
+  const [reviews, setReviews] = useState([] as Review[]);
+  const api = createApi();
+  useEffect(() => {
+    api.get<Review[]>(`${ApiRoute.Reviews}/${id}`)
+      .then((response) => setReviews(response.data));
+  });
+
   const offer = currentOffers.find((of) => of.id === id);
   if (offer === undefined) {
     return <NotFoundPage />;
   }
+
   const {
     title,
     rating,
@@ -168,7 +179,7 @@ export function OfferPage(): ReactNode {
           </div>
           <section className="offer__map map" style={{ backgroundImage: 'none' }}>
             <Map
-              city={cities.Amsterdam}
+              city={currentCity}
               points={nearbyOffers.map<Point>((o) => ({
                 latitude: o.location.latitude,
                 longitude: o.location.longitude,

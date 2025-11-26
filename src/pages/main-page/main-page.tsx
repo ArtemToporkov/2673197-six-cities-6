@@ -6,8 +6,7 @@ import { Map } from '../../components/map/map.tsx';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
-import { CityName } from '../../enums/city-name.ts';
-import { getOffers, switchCity, switchCityWithOffers } from '../../store/action.ts';
+import { getOffers, switchCity } from '../../store/action.ts';
 import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
 import type { OfferDetails } from '../../types/offer-details.ts';
 import type { Point } from '../../types/point.ts';
@@ -24,10 +23,10 @@ export function MainPage(): ReactNode {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getOffers());
-    dispatch(switchCityWithOffers({city: CityName.Paris, offers: []}));
-  }, []);
+  }, [dispatch]);
   const currentOffers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
+  const cities = useAppSelector((state) => state.cities);
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const selectedPoint = hoveredOfferId
     ? mapOfferDetailsToPoint(currentOffers.find((o) => o.id === hoveredOfferId) as OfferDetails)
@@ -76,13 +75,13 @@ export function MainPage(): ReactNode {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <CitiesList cities={Object.values(CityName)} onCityClick={(city) => dispatch(switchCity(city))}/>
+          <CitiesList cities={cities} onCityClick={(city) => dispatch(switchCity(city))}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{currentOffers.length} places to stay in {currentCity}</b>
+              <b className="places__found">{currentOffers.length} places to stay in {currentCity.name}</b>
               <SortingTypeMenu />
               <div className="cities__places-list places__list tabs__content">
                 <OffersList
@@ -95,7 +94,7 @@ export function MainPage(): ReactNode {
             <div className="cities__right-section">
               <section className="cities__map map" style={{backgroundImage: 'none'}}>
                 <Map
-                  city={cities.Amsterdam}
+                  city={currentCity}
                   points={currentOffers.map<Point>((o) => mapOfferDetailsToPoint(o))}
                   selectedPoint={selectedPoint}
                 />

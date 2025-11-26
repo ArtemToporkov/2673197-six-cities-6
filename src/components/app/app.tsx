@@ -9,13 +9,8 @@ import { MainPage } from '../../pages/main-page/main-page.tsx';
 import { NotFoundPage } from '../../pages/not-found-page/not-found-page.tsx';
 import { OfferPage } from '../../pages/offer-page/offer-page.tsx';
 import { PrivateRoute } from '../private-route/private-route.tsx';
-import type { OfferDetails } from '../../types/offer-details.ts';
 
-type AppProps = {
-  offers: OfferDetails[];
-}
-
-export function App({offers}: AppProps): ReactNode {
+export function App(): ReactNode {
   return (
     <BrowserRouter>
       <Routes>
@@ -26,7 +21,7 @@ export function App({offers}: AppProps): ReactNode {
           path={AppRoute.Favourites}
           element={
             <PrivateRoute authStatus={AuthStatus.Authorized}>
-              <FavouritesPage favouriteOffers={offers} />
+              <FavouritesPage />
             </PrivateRoute>
           }
         />

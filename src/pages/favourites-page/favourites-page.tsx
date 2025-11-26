@@ -1,26 +1,22 @@
 ﻿import type { ReactNode } from 'react';
 
 import { FavouritesSection } from '../../components/favourites-section/favourites-section.tsx';
-import type { CityName } from '../../enums/city-name.ts';
 import type { OfferDetails } from '../../types/offer-details.ts';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
 
-type FavouritesPageProps = {
-  favouriteOffers: OfferDetails[];
-}
-
-function groupOffersByCityName(offers: OfferDetails[]): Record<CityName, OfferDetails[]> {
+function groupOffersByCityName(offers: OfferDetails[]): Record<string, OfferDetails[]> {
   return offers.reduce((acc, item) => {
     if (item.isFavourite) {
       const cityName = item.city.name;
       (acc[cityName] ||= []).push(item);
     }
     return acc;
-  }, {} as Record<CityName, OfferDetails[]>);
+  }, {} as Record<string, OfferDetails[]>);
 }
 
-function getFavouritesSections(offersByCityName: Record<CityName, OfferDetails[]>): ReactNode[] {
+function getFavouritesSections(offersByCityName: Record<string, OfferDetails[]>): ReactNode[] {
   const sections: ReactNode[] = [];
-  for (const [cityName, cityOffers] of Object.entries(offersByCityName) as [CityName, OfferDetails[]][]) {
+  for (const [cityName, cityOffers] of Object.entries(offersByCityName)) {
     sections.push(
       <FavouritesSection
         key={cityName}
@@ -32,7 +28,9 @@ function getFavouritesSections(offersByCityName: Record<CityName, OfferDetails[]
   return sections;
 }
 
-export function FavouritesPage({favouriteOffers}: FavouritesPageProps): ReactNode {
+export function FavouritesPage(): ReactNode {
+  const offers = useAppSelector((state) => state.offers);
+  const favouriteOffers = offers.filter((o) => o.isFavourite);
   const offersByCity = groupOffersByCityName(favouriteOffers);
   const sections = getFavouritesSections(offersByCity);
   return (
