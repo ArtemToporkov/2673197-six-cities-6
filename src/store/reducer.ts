@@ -1,15 +1,14 @@
 ﻿import { createReducer } from '@reduxjs/toolkit';
 
 import { CityName } from '../enums/city-name.ts';
-import { offers } from '../mocks/offers.ts';
-import { switchCityWithOffers, switchSortingType } from './action.ts';
+import { loadOffers, switchCity, switchCityWithOffers, switchSortingType } from './action.ts';
 import { SortingType } from '../enums/sorting-type.ts';
+import type { OfferDetails } from '../types/offer-details.ts';
 import type { OffersState } from '../types/offers-state.ts';
-import { OfferDetails } from '../types/offer-details.ts';
 
 const initialState: OffersState = {
   city: CityName.Paris,
-  offers: offers,
+  offers: [],
   currentSortingType: SortingType.Popular
 };
 
@@ -34,9 +33,17 @@ export const reducer = createReducer(initialState, (builder) => {
       city: action.payload.city,
       offers: sortOffers(action.payload.offers, state.currentSortingType),
     }))
+    .addCase(switchCity, (state, action) => ({
+      ...state,
+      city: action.payload
+    }))
     .addCase(switchSortingType, (state, action) => ({
       ...state,
       currentSortingType: action.payload,
       offers: sortOffers(state.offers, action.payload)
+    }))
+    .addCase(loadOffers, (state, action) => ({
+      ...state,
+      offers: sortOffers(action.payload, state.currentSortingType)
     }));
 });

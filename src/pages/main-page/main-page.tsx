@@ -6,14 +6,11 @@ import { Map } from '../../components/map/map.tsx';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
-import { cities } from '../../mocks/cities.ts';
-import { offers } from '../../mocks/offers.ts';
 import { CityName } from '../../enums/city-name.ts';
-import { switchCityWithOffers } from '../../store/action.ts';
-import { store } from '../../store';
+import { getOffers, switchCity, switchCityWithOffers } from '../../store/action.ts';
+import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
 import type { OfferDetails } from '../../types/offer-details.ts';
 import type { Point } from '../../types/point.ts';
-import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
 
 function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   return ({
@@ -23,19 +20,10 @@ function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
   });
 }
 
-const onCityClick = async (city: CityName) => {
-  // TODO: заменить на запрос к серверу
-  await new Promise((resolve) => setTimeout(resolve, 100));
-  store.dispatch(switchCityWithOffers({
-    city: city,
-    offers: city === CityName.Amsterdam ? offers : []
-  }));
-};
-
 export function MainPage(): ReactNode {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    // TODO: заменить на запрос к серверу
+    dispatch(getOffers());
     dispatch(switchCityWithOffers({city: CityName.Paris, offers: []}));
   }, []);
   const currentOffers = useAppSelector((state) => state.offers);
@@ -88,7 +76,7 @@ export function MainPage(): ReactNode {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <CitiesList cities={Object.values(CityName)} onCityClick={onCityClick}/>
+          <CitiesList cities={Object.values(CityName)} onCityClick={(city) => dispatch(switchCity(city))}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">

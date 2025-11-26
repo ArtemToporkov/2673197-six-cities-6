@@ -6,7 +6,7 @@ import { CityName } from '../../enums/city-name.ts';
 
 type CitiesListProps = {
   cities: CityName[];
-  onCityClick: (city: CityName) => Promise<void>;
+  onCityClick: (city: CityName) => void;
 }
 
 export function CitiesList({cities, onCityClick}: CitiesListProps): ReactNode {
