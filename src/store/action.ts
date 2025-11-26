@@ -35,7 +35,12 @@ export const getOffers = createAsyncThunk<void, undefined, ThunkApiConfig>(
   `${ActionNamespace.Offers}/getOffers`,
   async (_arg, {dispatch, extra: api}) => {
     const response = await api.get<OfferDetails[]>(ApiRoute.Offers);
-    dispatch(loadCities(response.data.map((o) => o.city)));
+    const cities = response.data
+      .map((o) => o.city)
+      .filter((city, index, self) =>
+        index === self.findIndex((c) => c.name === city.name)
+      );
+    dispatch(loadCities(cities));
     dispatch(loadOffers(response.data));
   }
 );
