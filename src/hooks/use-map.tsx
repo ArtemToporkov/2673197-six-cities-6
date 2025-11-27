@@ -12,6 +12,18 @@ export function useMap(
   const isRenderedRef = useRef<boolean>(false);
 
   useEffect(() => {
+    if (map && city) {
+      map.setView(
+        {
+          lat: city.location.latitude,
+          lng: city.location.longitude
+        },
+        city.location.zoom
+      );
+    }
+  }, [map, city]);
+
+  useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = city
         ? new Map(mapRef.current, {
