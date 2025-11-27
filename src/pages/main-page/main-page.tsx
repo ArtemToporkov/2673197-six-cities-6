@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+﻿import { useState } from 'react';
 import type { ReactNode } from 'react';
 
 import { CitiesList } from '../../components/cities-list/cities-list.tsx';
@@ -6,8 +6,8 @@ import { Map } from '../../components/map/map.tsx';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
-import { getOffers, switchCity } from '../../store/action.ts';
 import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
+import { switchCity } from '../../store/action.ts';
 import type { Point } from '../../types/point.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 
@@ -21,9 +21,6 @@ function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
 
 export function MainPage(): ReactNode {
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(getOffers());
-  }, [dispatch]);
 
   const currentOffers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
@@ -97,7 +94,7 @@ export function MainPage(): ReactNode {
               <section className="cities__map map" style={{backgroundImage: 'none'}}>
                 <Map
                   city={currentCity}
-                  points={currentOffers.map<Point>((o) => mapOfferPreviewInfoToPoint(o))}
+                  points={currentOffers.map<Point>(mapOfferPreviewInfoToPoint)}
                   selectedPoint={selectedPoint}
                 />
               </section>

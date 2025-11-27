@@ -57,7 +57,7 @@ export function OfferPage(): ReactNode {
   }, [id]);
 
   if (!offer) {
-    return null;
+    return <LoadingScreen />;
   }
 
   return (

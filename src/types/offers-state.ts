@@ -1,8 +1,11 @@
 ﻿import { SortingType } from '../enums/sorting-type.ts';
-import type { CityWithOffers } from './city-with-offers.ts';
 import type { City } from './city.ts';
+import type { OfferPreviewInfo } from './offer-preview-info.ts';
 
-export type OffersState = CityWithOffers & {
+export type OffersState = {
+  city?: City;
+  offers: OfferPreviewInfo[];
   cities: City[];
   currentSortingType: SortingType;
+  isOffersLoading: boolean;
 };

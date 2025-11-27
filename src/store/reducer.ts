@@ -1,15 +1,16 @@
 ﻿import { createReducer } from '@reduxjs/toolkit';
 
-import { loadCities, loadOffers, switchCity, switchSortingType } from './action.ts';
+import { loadCities, loadOffers, switchCity, switchOffersLoadingStatus, switchSortingType } from './action.ts';
 import { SortingType } from '../enums/sorting-type.ts';
 import type { OffersState } from '../types/offers-state.ts';
 import { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 
 const initialState: OffersState = {
-  city: { name: 'Paris', location: { latitude: 1, longitude: 1, zoom: 1 } },
+  city: undefined,
   cities: [],
   offers: [],
-  currentSortingType: SortingType.Popular
+  currentSortingType: SortingType.Popular,
+  isOffersLoading: true
 };
 
 function sortOffers(offersToSort: OfferPreviewInfo[], sortingType: SortingType): OfferPreviewInfo[] {
@@ -44,5 +45,8 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loadCities, (state, action) => ({
       ...state,
       cities: action.payload
-    }));
+    }))
+    .addCase(switchOffersLoadingStatus, (state, action) => {
+      state.isOffersLoading = action.payload;
+    });
 });

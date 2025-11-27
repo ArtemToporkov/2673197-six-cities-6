@@ -31,9 +31,14 @@ export const switchCity = createAction<City>(
   `${ActionNamespace.Cities}/switchCity`
 );
 
+export const switchOffersLoadingStatus = createAction<boolean>(
+  `${ActionNamespace.Offers}/switchOffersLoadingStatus`
+);
+
 export const getOffers = createAsyncThunk<void, undefined, ThunkApiConfig>(
   `${ActionNamespace.Offers}/getOffers`,
   async (_arg, {dispatch, extra: api}) => {
+    dispatch(switchOffersLoadingStatus(true));
     const response = await api.get<OfferPreviewInfo[]>(ApiRoute.Offers);
     const cities = response.data
       .map((o) => o.city)
@@ -42,5 +47,7 @@ export const getOffers = createAsyncThunk<void, undefined, ThunkApiConfig>(
       );
     dispatch(loadCities(cities));
     dispatch(loadOffers(response.data));
+    dispatch(switchCity(cities[0]));
+    dispatch(switchOffersLoadingStatus(false));
   }
 );
