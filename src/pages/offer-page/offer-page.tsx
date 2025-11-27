@@ -1,5 +1,5 @@
 ﻿import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { generatePath, useParams } from 'react-router-dom';
 import type { ReactNode } from 'react';
 
 import { HostCard } from '../../components/host-card/host-card.tsx';
@@ -48,12 +48,17 @@ export function OfferPage(): ReactNode {
     setComments([]);
     setNearByOffers([]);
 
-    api.get<Comment[]>(`${ApiRoute.Comments}/${id}`)
-      .then((response) => setComments(response.data));
-    api.get<OfferFullInfo>(`${ApiRoute.Offers}/${id}`)
-      .then((response) => setOffer(response.data));
-    api.get<OfferPreviewInfo[]>(`${ApiRoute.Offers}/${id}/nearby`)
-      .then((response) => setNearByOffers(response.data));
+    const offerRequest = api.get<OfferFullInfo>(generatePath(ApiRoute.Offer, { id: id ?? null }));
+    const commentsRequest = api.get<Comment[]>(generatePath(ApiRoute.Comments, { id: id ?? null }));
+    const nearByRequest = api.get<OfferPreviewInfo[]>(generatePath(ApiRoute.NearByOffers, { id: id ?? null }));
+
+    Promise.all([offerRequest, commentsRequest, nearByRequest])
+      .then(([offerResponse, commentsResponse, nearByResponse]) => {
+        setOffer(offerResponse.data);
+        setComments(commentsResponse.data);
+        setNearByOffers(nearByResponse.data);
+        scrollTo(0, 0);
+      });
   }, [id]);
 
   if (!offer) {

@@ -8,5 +8,5 @@ export type OffersState = {
   allOffers: OfferPreviewInfo[];
   cities: City[];
   currentSortingType: SortingType;
-  isOffersLoading: boolean;
+  isLoading: boolean;
 };

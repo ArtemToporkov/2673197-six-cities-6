@@ -11,7 +11,7 @@ const initialState: OffersState = {
   offersInCity: [],
   allOffers: [],
   currentSortingType: SortingType.Popular,
-  isOffersLoading: true
+  isLoading: true
 };
 
 function sortOffers(offersToSort: OfferPreviewInfo[], sortingType: SortingType): OfferPreviewInfo[] {
@@ -48,6 +48,6 @@ export const reducer = createReducer(initialState, (builder) => {
       cities: action.payload
     }))
     .addCase(switchOffersLoadingStatus, (state, action) => {
-      state.isOffersLoading = action.payload;
+      state.isLoading = action.payload;
     });
 });
