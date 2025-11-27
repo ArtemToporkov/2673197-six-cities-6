@@ -1,17 +1,29 @@
 ﻿import { createReducer } from '@reduxjs/toolkit';
 
-import { loadCities, loadOffers, switchCity, switchOffersLoadingStatus, switchSortingType } from './action.ts';
+import {
+  getOffer,
+  getOffers,
+  loadCities,
+  loadOffer,
+  loadOffers,
+  switchCity,
+  switchSortingType
+} from './action.ts';
 import { SortingType } from '../enums/sorting-type.ts';
 import type { OffersState } from '../types/offers-state.ts';
-import { OfferPreviewInfo } from '../types/offer-preview-info.ts';
+import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 
 const initialState: OffersState = {
   city: null,
+  offer: null,
+  comments: [],
+  nearbyOffers: [],
   cities: [],
   offersInCity: [],
   allOffers: [],
   currentSortingType: SortingType.Popular,
-  isLoading: true
+  isOffersLoading: true,
+  isOfferLoading: true
 };
 
 function sortOffers(offersToSort: OfferPreviewInfo[], sortingType: SortingType): OfferPreviewInfo[] {
@@ -29,25 +41,35 @@ function sortOffers(offersToSort: OfferPreviewInfo[], sortingType: SortingType):
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(switchCity, (state, action) => ({
-      ...state,
-      city: action.payload,
-      offersInCity: state.allOffers.filter((o) => o.city.name === action.payload.name)
-    }))
-    .addCase(switchSortingType, (state, action) => ({
-      ...state,
-      currentSortingType: action.payload,
-      offersInCity: sortOffers(state.offersInCity, action.payload)
-    }))
-    .addCase(loadOffers, (state, action) => ({
-      ...state,
-      allOffers: sortOffers(action.payload, state.currentSortingType)
-    }))
-    .addCase(loadCities, (state, action) => ({
-      ...state,
-      cities: action.payload
-    }))
-    .addCase(switchOffersLoadingStatus, (state, action) => {
-      state.isLoading = action.payload;
+    .addCase(switchCity, (state, action)=> {
+      state.city = action.payload;
+      state.offersInCity = state.allOffers.filter((o) => o.city.name === action.payload.name);
+    })
+    .addCase(switchSortingType, (state, action) => {
+      state.currentSortingType = action.payload;
+      state.offersInCity = sortOffers(state.offersInCity, action.payload);
+    })
+    .addCase(loadOffers, (state, action)=> {
+      state.allOffers = sortOffers(action.payload, state.currentSortingType);
+    })
+    .addCase(loadCities, (state, action) => {
+      state.cities = action.payload;
+    })
+    .addCase(loadOffer, (state, action) => {
+      state.offer = action.payload.offer;
+      state.comments = action.payload.comments;
+      state.nearbyOffers = action.payload.nearbyOffers;
+    })
+    .addCase(getOffer.pending, (state) => {
+      state.isOfferLoading = true;
+    })
+    .addCase(getOffer.fulfilled, (state) => {
+      state.isOfferLoading = false;
+    })
+    .addCase(getOffers.pending, (state) => {
+      state.isOffersLoading = true;
+    })
+    .addCase(getOffers.fulfilled, (state) => {
+      state.isOffersLoading = false;
     });
 });

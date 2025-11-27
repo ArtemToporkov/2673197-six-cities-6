@@ -19,7 +19,7 @@ export function App(): ReactNode {
   useEffect(() => {
     dispatch(getOffers());
   }, [dispatch]);
-  const isOffersLoading = useAppSelector((state) => state.isLoading);
+  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
   if (isOffersLoading) {
     return <LoadingScreen />;
   }

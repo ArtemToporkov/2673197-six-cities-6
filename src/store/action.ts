@@ -8,12 +8,23 @@ import type { AppDispatch } from '../types/app-dispatch.ts';
 import type { State } from '../types/state.ts';
 import type { City } from '../types/city.ts';
 import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
+import type { OfferFullInfo } from '../types/offer-full-info.ts';
+import { generatePath } from 'react-router-dom';
+import { Comment } from '../types/comment.ts';
 
 type ThunkApiConfig = {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }
+
+export const loadOffer = createAction<{
+  offer: OfferFullInfo;
+  comments: Comment[];
+  nearbyOffers: OfferPreviewInfo[];
+}>(
+  `${ActionNamespace.Offers}/loadOffer`
+);
 
 export const loadOffers = createAction<OfferPreviewInfo[]>(
   `${ActionNamespace.Offers}/loadOffers`
@@ -31,14 +42,9 @@ export const switchCity = createAction<City>(
   `${ActionNamespace.Cities}/switchCity`
 );
 
-export const switchOffersLoadingStatus = createAction<boolean>(
-  `${ActionNamespace.Offers}/switchOffersLoadingStatus`
-);
-
 export const getOffers = createAsyncThunk<void, undefined, ThunkApiConfig>(
   `${ActionNamespace.Offers}/getOffers`,
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(switchOffersLoadingStatus(true));
     const response = await api.get<OfferPreviewInfo[]>(ApiRoute.Offers);
     const cities = response.data
       .map((o) => o.city)
@@ -48,6 +54,31 @@ export const getOffers = createAsyncThunk<void, undefined, ThunkApiConfig>(
     dispatch(loadCities(cities));
     dispatch(loadOffers(response.data));
     dispatch(switchCity(cities[0]));
-    dispatch(switchOffersLoadingStatus(false));
   }
 );
+
+export const getOffer = createAsyncThunk<void, string, ThunkApiConfig>(
+  `${ActionNamespace.Offers}/getOffer`,
+  async (id, { dispatch, extra: api }) => {
+    const offerRequest = api.get<OfferFullInfo>(
+      generatePath(ApiRoute.Offer, { id })
+    );
+    const commentsRequest = api.get<Comment[]>(
+      generatePath(ApiRoute.Comments, { id })
+    );
+    const nearByRequest = api.get<OfferPreviewInfo[]>(
+      generatePath(ApiRoute.NearByOffers, { id })
+    );
+
+    const [offerResponse, commentsResponse, nearByResponse] = await Promise.all(
+      [offerRequest, commentsRequest, nearByRequest]
+    );
+
+    dispatch(loadOffer({
+      offer: offerResponse.data,
+      comments: commentsResponse.data,
+      nearbyOffers: nearByResponse.data
+    }));
+  }
+);
+

@@ -1,5 +1,5 @@
 ﻿import { useEffect, useState } from 'react';
-import { generatePath, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import type { ReactNode } from 'react';
 
 import { HostCard } from '../../components/host-card/host-card.tsx';
@@ -9,12 +9,10 @@ import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
 import { CommentForm } from '../../components/comment-form/comment-form.tsx';
 import { CommentsList } from '../../components/comments-list/comments-list.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
-import type { OfferFullInfo } from '../../types/offer-full-info.ts';
+import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
+import { getOffer } from '../../store/action.ts';
+import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { Point } from '../../types/point.ts';
-import { createApi } from '../../services/api.ts';
-import { Comment } from '../../types/comment.ts';
-import { ApiRoute } from '../../enums/api-route.ts';
-import { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
 
 function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
@@ -25,49 +23,33 @@ function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
   });
 }
 
-const api = createApi();
-
 export function OfferPage(): ReactNode {
-  const currentCity = useAppSelector((state) => state.city);
+  const dispatch = useAppDispatch();
 
   const { id } = useParams<{ id: string }>() as { id: string };
+  useEffect(() => {
+    dispatch(getOffer(id));
+  }, [id, dispatch]);
 
-  const [offer, setOffer] = useState<OfferFullInfo | null>(null);
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [nearByOffers, setNearByOffers] = useState<OfferPreviewInfo[]>([]);
+  const offer = useAppSelector((state) => state.offer);
+  const currentCity = useAppSelector((state) => state.city);
+  const comments = useAppSelector((state) => state.comments);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const isOfferLoading = useAppSelector((state) => state.isOfferLoading);
 
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
-  const hoveredOffer = nearByOffers.find((o) => o.id === hoveredOfferId);
+  const hoveredOffer = nearbyOffers.find((o) => o.id === hoveredOfferId);
 
   const selectedPoint: Point | null = hoveredOfferId && hoveredOffer
     ? mapOfferPreviewInfoToPoint(hoveredOffer)
     : null;
 
-  useEffect(() => {
-    setOffer(null);
-    setComments([]);
-    setNearByOffers([]);
-
-    const offerRequest = api.get<OfferFullInfo>(
-      generatePath(ApiRoute.Offer, { id }));
-    const commentsRequest = api.get<Comment[]>(
-      generatePath(ApiRoute.Comments, { id })
-    );
-    const nearByRequest = api.get<OfferPreviewInfo[]>(
-      generatePath(ApiRoute.NearByOffers, { id })
-    );
-
-    Promise.all([offerRequest, commentsRequest, nearByRequest])
-      .then(([offerResponse, commentsResponse, nearByResponse]) => {
-        setOffer(offerResponse.data);
-        setComments(commentsResponse.data);
-        setNearByOffers(nearByResponse.data);
-        scrollTo(0, 0);
-      });
-  }, [id]);
+  if (isOfferLoading) {
+    return <LoadingScreen />;
+  }
 
   if (!offer) {
-    return <LoadingScreen />;
+    throw new Error('If offer is not loading, it can\'t be undefined or null');
   }
 
   return (
@@ -187,7 +169,7 @@ export function OfferPage(): ReactNode {
           <section className="offer__map map" style={{ backgroundImage: 'none' }}>
             <Map
               city={currentCity}
-              points={nearByOffers.map<Point>(mapOfferPreviewInfoToPoint)}
+              points={nearbyOffers.map<Point>(mapOfferPreviewInfoToPoint)}
               selectedPoint={selectedPoint}
             />
           </section>
@@ -199,7 +181,7 @@ export function OfferPage(): ReactNode {
             </h2>
             <div className="near-places__list places__list">
               <OffersList
-                offers={nearByOffers}
+                offers={nearbyOffers}
                 onOfferCardHover={setHoveredOfferId}
                 onOfferCardUnhover={() => setHoveredOfferId(null)}
               />
