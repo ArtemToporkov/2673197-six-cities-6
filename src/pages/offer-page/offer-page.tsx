@@ -30,7 +30,7 @@ const api = createApi();
 export function OfferPage(): ReactNode {
   const currentCity = useAppSelector((state) => state.city);
 
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>() as { id: string };
 
   const [offer, setOffer] = useState<OfferFullInfo | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -48,9 +48,14 @@ export function OfferPage(): ReactNode {
     setComments([]);
     setNearByOffers([]);
 
-    const offerRequest = api.get<OfferFullInfo>(generatePath(ApiRoute.Offer, { id: id ?? null }));
-    const commentsRequest = api.get<Comment[]>(generatePath(ApiRoute.Comments, { id: id ?? null }));
-    const nearByRequest = api.get<OfferPreviewInfo[]>(generatePath(ApiRoute.NearByOffers, { id: id ?? null }));
+    const offerRequest = api.get<OfferFullInfo>(
+      generatePath(ApiRoute.Offer, { id }));
+    const commentsRequest = api.get<Comment[]>(
+      generatePath(ApiRoute.Comments, { id })
+    );
+    const nearByRequest = api.get<OfferPreviewInfo[]>(
+      generatePath(ApiRoute.NearByOffers, { id })
+    );
 
     Promise.all([offerRequest, commentsRequest, nearByRequest])
       .then(([offerResponse, commentsResponse, nearByResponse]) => {
