@@ -7,7 +7,7 @@ import { Map } from '../../components/map/map.tsx';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
 import { ReviewForm } from '../../components/review-form/review-form.tsx';
-import { ReviewsList } from '../../components/reviews-list/reviews-list.tsx';
+import { CommentsList } from '../../components/reviews-list/comments-list.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import type { OfferFullInfo } from '../../types/offer-full-info.ts';
 import type { Point } from '../../types/point.ts';
@@ -15,6 +15,7 @@ import { createApi } from '../../services/api.ts';
 import { Comment } from '../../types/comment.ts';
 import { ApiRoute } from '../../enums/api-route.ts';
 import { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
+import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
 
 function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
   return ({
@@ -23,6 +24,8 @@ function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
     key: offerDetails.id
   });
 }
+
+const api = createApi();
 
 export function OfferPage(): ReactNode {
   const currentCity = useAppSelector((state) => state.city);
@@ -34,19 +37,28 @@ export function OfferPage(): ReactNode {
   const [nearByOffers, setNearByOffers] = useState<OfferPreviewInfo[]>([]);
 
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
-  const selectedPoint: Point | null = hoveredOfferId
-    ? mapOfferPreviewInfoToPoint(nearByOffers.find((o) => o.id === hoveredOfferId) as OfferPreviewInfo)
+  const hoveredOffer = nearByOffers.find((o) => o.id === hoveredOfferId);
+
+  const selectedPoint: Point | null = hoveredOfferId && hoveredOffer
+    ? mapOfferPreviewInfoToPoint(hoveredOffer)
     : null;
 
-  const api = createApi();
   useEffect(() => {
+    setOffer(null);
+    setComments([]);
+    setNearByOffers([]);
+
     api.get<Comment[]>(`${ApiRoute.Comments}/${id}`)
       .then((response) => setComments(response.data));
     api.get<OfferFullInfo>(`${ApiRoute.Offers}/${id}`)
       .then((response) => setOffer(response.data));
     api.get<OfferPreviewInfo[]>(`${ApiRoute.Offers}/${id}/nearby`)
       .then((response) => setNearByOffers(response.data));
-  });
+  }, [id]);
+
+  if (!offer) {
+    return null;
+  }
 
   return (
     <div className="page">
@@ -92,7 +104,7 @@ export function OfferPage(): ReactNode {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {offer?.images.map((url) => (
+              {offer.images.map((url) => (
                 <div key={url} className="offer__image-wrapper">
                   <img
                     className="offer__image"
@@ -105,10 +117,10 @@ export function OfferPage(): ReactNode {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {offer?.isPremium && <PremiumLabel />}
+              {offer.isPremium && <PremiumLabel />}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {offer?.title}
+                  {offer.title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width={31} height={33}>
@@ -122,25 +134,25 @@ export function OfferPage(): ReactNode {
                   <span style={{ width: '80%' }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">{offer?.rating}</span>
+                <span className="offer__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">{offer?.type}</li>
+                <li className="offer__feature offer__feature--entire">{offer.type}</li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {offer?.bedrooms} Bedrooms
+                  {offer.bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {offer?.maxAdults} adults
+                  Max {offer.maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">€{offer?.price}</b>
+                <b className="offer__price-value">€{offer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  {offer?.goods
+                  {offer.goods
                     .map((g) => (
                       <li key={g} className="offer__inside-item">{g}</li>
                     ))}
@@ -148,16 +160,16 @@ export function OfferPage(): ReactNode {
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
-                {offer?.host && <HostCard hostInfo={offer?.host}/>}
+                <HostCard hostInfo={offer.host}/>
                 <div className="offer__description">
-                  <p className="offer__text">{offer?.description}</p>
+                  <p className="offer__text">{offer.description}</p>
                 </div>
               </div>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews · <span className="reviews__amount">{comments.length}</span>
                 </h2>
-                <ReviewsList reviews={comments} />
+                <CommentsList comments={comments} />
                 <ReviewForm />
               </section>
             </div>

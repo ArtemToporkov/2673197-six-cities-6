@@ -1,18 +1,19 @@
 ﻿import type { ReactNode } from 'react';
 import type { Comment } from '../../types/comment.ts';
 
-type ReviewProps = {
-  review: Comment;
+type CommentProps = {
+  comment: Comment;
 }
 
-export function ReviewComponent({review}: ReviewProps): ReactNode {
+export function CommentComponent({comment}: CommentProps): ReactNode {
+  const date = new Date(comment.date);
   return (
     <>
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img
             className="reviews__avatar user__avatar"
-            src={review.user.avatarUrl}
+            src={comment.user.avatarUrl}
             width={54}
             height={54}
             alt="Reviews avatar"
@@ -22,7 +23,7 @@ export function ReviewComponent({review}: ReviewProps): ReactNode {
           className="reviews__user-name"
           style={{wordBreak: 'normal'}}
         >
-          {review.user.name}
+          {comment.user.name}
         </span>
       </div>
       <div className="reviews__info">
@@ -33,10 +34,10 @@ export function ReviewComponent({review}: ReviewProps): ReactNode {
           </div>
         </div>
         <p className="reviews__text">
-          {review.comment}
+          {comment.comment}
         </p>
-        <time className="reviews__time" dateTime={review.date.toISOString().split('T')[0]}>
-          {review.date.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
+        <time className="reviews__time" dateTime={comment.date}>
+          {date.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
         </time>
       </div>
     </>
