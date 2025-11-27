@@ -3,7 +3,7 @@ import type { City } from './city.ts';
 import type { OfferPreviewInfo } from './offer-preview-info.ts';
 
 export type OffersState = {
-  city?: City;
+  city: City | null;
   offers: OfferPreviewInfo[];
   cities: City[];
   currentSortingType: SortingType;

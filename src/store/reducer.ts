@@ -6,7 +6,7 @@ import type { OffersState } from '../types/offers-state.ts';
 import { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 
 const initialState: OffersState = {
-  city: undefined,
+  city: null,
   cities: [],
   offers: [],
   currentSortingType: SortingType.Popular,
