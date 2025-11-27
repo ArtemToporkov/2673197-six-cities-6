@@ -5,7 +5,7 @@ type HostCardProps = {
   hostInfo: HostInfo;
 }
 
-export function HostCard({hostInfo: {avatarUrl, status, name}}: HostCardProps): ReactNode {
+export function HostCard({hostInfo: {avatarUrl, isPro, name}}: HostCardProps): ReactNode {
   return (
     <div className="offer__host-user user">
       <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
@@ -18,7 +18,7 @@ export function HostCard({hostInfo: {avatarUrl, status, name}}: HostCardProps): 
         />
       </div>
       <span className="offer__user-name">{name}</span>
-      <span className="offer__user-status">{status}</span>
+      <span className="offer__user-status">{isPro}</span>
     </div>
   );
 }

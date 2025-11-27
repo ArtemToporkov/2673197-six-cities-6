@@ -2,8 +2,8 @@
 
 import { loadCities, loadOffers, switchCity, switchSortingType } from './action.ts';
 import { SortingType } from '../enums/sorting-type.ts';
-import type { OfferDetails } from '../types/offer-details.ts';
 import type { OffersState } from '../types/offers-state.ts';
+import { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 
 const initialState: OffersState = {
   city: { name: 'Paris', location: { latitude: 1, longitude: 1, zoom: 1 } },
@@ -12,7 +12,7 @@ const initialState: OffersState = {
   currentSortingType: SortingType.Popular
 };
 
-function sortOffers(offersToSort: OfferDetails[], sortingType: SortingType): OfferDetails[] {
+function sortOffers(offersToSort: OfferPreviewInfo[], sortingType: SortingType): OfferPreviewInfo[] {
   switch (sortingType) {
     case SortingType.PriceLowToHigh:
       return offersToSort.toSorted((a, b) => a.price - b.price);
@@ -21,8 +21,7 @@ function sortOffers(offersToSort: OfferDetails[], sortingType: SortingType): Off
     case SortingType.TopRatedFirst:
       return offersToSort.toSorted((a, b) => b.rating - a.rating);
     case SortingType.Popular:
-      return initialState.offers;
-
+      return offersToSort;
   }
 }
 

@@ -8,14 +8,14 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { getOffers, switchCity } from '../../store/action.ts';
 import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
-import type { OfferDetails } from '../../types/offer-details.ts';
 import type { Point } from '../../types/point.ts';
+import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 
-function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
+function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
   return ({
-    latitude: offerDetails.location.latitude,
-    longitude: offerDetails.location.longitude,
-    key: offerDetails.id
+    latitude: offer.location.latitude,
+    longitude: offer.location.longitude,
+    key: offer.id
   });
 }
 
@@ -24,12 +24,14 @@ export function MainPage(): ReactNode {
   useEffect(() => {
     dispatch(getOffers());
   }, [dispatch]);
+
   const currentOffers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
   const cities = useAppSelector((state) => state.cities);
+
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const selectedPoint = hoveredOfferId
-    ? mapOfferDetailsToPoint(currentOffers.find((o) => o.id === hoveredOfferId) as OfferDetails)
+    ? mapOfferPreviewInfoToPoint(currentOffers.find((o) => o.id === hoveredOfferId) as OfferPreviewInfo)
     : null;
 
   return (
@@ -95,7 +97,7 @@ export function MainPage(): ReactNode {
               <section className="cities__map map" style={{backgroundImage: 'none'}}>
                 <Map
                   city={currentCity}
-                  points={currentOffers.map<Point>((o) => mapOfferDetailsToPoint(o))}
+                  points={currentOffers.map<Point>((o) => mapOfferPreviewInfoToPoint(o))}
                   selectedPoint={selectedPoint}
                 />
               </section>

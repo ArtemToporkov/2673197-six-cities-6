@@ -3,14 +3,14 @@ import type { ReactNode } from 'react';
 
 import { AppRoute } from '../../enums/app-route.ts';
 import { PremiumLabel } from '../premium-label/premium-label.tsx';
-import type { HotelInfo } from '../../types/hotel-info.ts';
+import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 
-type HotelInfoProps = HotelInfo & {
+type HotelInfoProps = OfferPreviewInfo & {
   onMouseOver: () => void;
   onMouseLeave: () => void;
 };
 
-export function HotelCard({id, isPremium = false, imageUrl, price, type, title, onMouseOver, onMouseLeave}: HotelInfoProps): ReactNode {
+export function HotelCard({id, isPremium = false, previewImage, price, type, title, onMouseOver, onMouseLeave}: HotelInfoProps): ReactNode {
   return (
     <article className="cities__card place-card">
       {isPremium && <PremiumLabel />}
@@ -18,7 +18,7 @@ export function HotelCard({id, isPremium = false, imageUrl, price, type, title, 
         <Link to={generatePath(AppRoute.Offer, { id: id })}>
           <img
             className="place-card__image"
-            src={imageUrl}
+            src={previewImage}
             width={260}
             height={200}
             alt="Place image"

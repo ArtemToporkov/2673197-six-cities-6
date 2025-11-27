@@ -3,14 +3,14 @@ import type { ReactNode } from 'react';
 
 import { AppRoute } from '../../enums/app-route.ts';
 import { PremiumLabel } from '../premium-label/premium-label.tsx';
-import type { HotelInfo } from '../../types/hotel-info.ts';
+import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 
 type FavouriteCardProps = {
-  hotelInfo: HotelInfo;
+  offer: OfferPreviewInfo;
 }
 
 export function FavouriteCard({
-  hotelInfo: { id, isPremium, imageUrl, price, title, type },
+  offer: { id, isPremium, previewImage, price, title, type },
 }: FavouriteCardProps): ReactNode {
   return (
     <article className="favorites__card place-card">
@@ -19,7 +19,7 @@ export function FavouriteCard({
         <Link to={generatePath(AppRoute.Offer, { id: id })}>
           <img
             className="place-card__image"
-            src={imageUrl}
+            src={previewImage}
             width={150}
             height={110}
             alt="Place image"

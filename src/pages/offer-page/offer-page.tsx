@@ -9,15 +9,14 @@ import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
 import { ReviewForm } from '../../components/review-form/review-form.tsx';
 import { ReviewsList } from '../../components/reviews-list/reviews-list.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
-import { Good } from '../../enums/good.ts';
-import { NotFoundPage } from '../not-found-page/not-found-page.tsx';
-import type { OfferDetails } from '../../types/offer-details.ts';
+import type { OfferFullInfo } from '../../types/offer-full-info.ts';
 import type { Point } from '../../types/point.ts';
 import { createApi } from '../../services/api.ts';
-import { Review } from '../../types/review.ts';
+import { Comment } from '../../types/comment.ts';
 import { ApiRoute } from '../../enums/api-route.ts';
+import { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 
-function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
+function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
   return ({
     latitude: offerDetails.location.latitude,
     longitude: offerDetails.location.longitude,
@@ -26,41 +25,28 @@ function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
 }
 
 export function OfferPage(): ReactNode {
-  const currentOffers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
-  const nearbyOffers = currentOffers.slice(0, 3);
-  const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
-  const selectedPoint: Point | null = hoveredOfferId
-    ? mapOfferDetailsToPoint(currentOffers.find((o) => o.id === hoveredOfferId) as OfferDetails)
-    : null;
 
   const { id } = useParams<{ id: string }>();
 
-  const [reviews, setReviews] = useState([] as Review[]);
+  const [offer, setOffer] = useState<OfferFullInfo | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [nearByOffers, setNearByOffers] = useState<OfferPreviewInfo[]>([]);
+
+  const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
+  const selectedPoint: Point | null = hoveredOfferId
+    ? mapOfferPreviewInfoToPoint(nearByOffers.find((o) => o.id === hoveredOfferId) as OfferPreviewInfo)
+    : null;
+
   const api = createApi();
   useEffect(() => {
-    api.get<Review[]>(`${ApiRoute.Reviews}/${id}`)
-      .then((response) => setReviews(response.data));
+    api.get<Comment[]>(`${ApiRoute.Comments}/${id}`)
+      .then((response) => setComments(response.data));
+    api.get<OfferFullInfo>(`${ApiRoute.Offers}/${id}`)
+      .then((response) => setOffer(response.data));
+    api.get<OfferPreviewInfo[]>(`${ApiRoute.Offers}/${id}/nearby`)
+      .then((response) => setNearByOffers(response.data));
   });
-
-  const offer = currentOffers.find((of) => of.id === id);
-  if (offer === undefined) {
-    return <NotFoundPage />;
-  }
-
-  const {
-    title,
-    rating,
-    isPremium,
-    bedroomsCount,
-    maxAdultsCount,
-    type,
-    price,
-    goods,
-    images,
-    hostInfo,
-    description
-  } = offer;
 
   return (
     <div className="page">
@@ -106,7 +92,7 @@ export function OfferPage(): ReactNode {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {images.map((url) => (
+              {offer?.images.map((url) => (
                 <div key={url} className="offer__image-wrapper">
                   <img
                     className="offer__image"
@@ -119,10 +105,10 @@ export function OfferPage(): ReactNode {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {isPremium && <PremiumLabel />}
+              {offer?.isPremium && <PremiumLabel />}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {title}
+                  {offer?.title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width={31} height={33}>
@@ -136,43 +122,42 @@ export function OfferPage(): ReactNode {
                   <span style={{ width: '80%' }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">{rating}</span>
+                <span className="offer__rating-value rating__value">{offer?.rating}</span>
               </div>
               <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">{type}</li>
+                <li className="offer__feature offer__feature--entire">{offer?.type}</li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {bedroomsCount} Bedrooms
+                  {offer?.bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {maxAdultsCount} adults
+                  Max {offer?.maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">€{price}</b>
+                <b className="offer__price-value">€{offer?.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  {(Object.keys(goods) as Good[])
-                    .filter((am) => goods[am])
-                    .map((am) => (
-                      <li key={am} className="offer__inside-item">{am}</li>
+                  {offer?.goods
+                    .map((g) => (
+                      <li key={g} className="offer__inside-item">{g}</li>
                     ))}
                 </ul>
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
-                <HostCard hostInfo={hostInfo} />
+                {offer?.host && <HostCard hostInfo={offer?.host}/>}
                 <div className="offer__description">
-                  <p className="offer__text">{description}</p>
+                  <p className="offer__text">{offer?.description}</p>
                 </div>
               </div>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
-                  Reviews · <span className="reviews__amount">{reviews.length}</span>
+                  Reviews · <span className="reviews__amount">{comments.length}</span>
                 </h2>
-                <ReviewsList reviews={reviews} />
+                <ReviewsList reviews={comments} />
                 <ReviewForm />
               </section>
             </div>
@@ -180,11 +165,7 @@ export function OfferPage(): ReactNode {
           <section className="offer__map map" style={{ backgroundImage: 'none' }}>
             <Map
               city={currentCity}
-              points={nearbyOffers.map<Point>((o) => ({
-                latitude: o.location.latitude,
-                longitude: o.location.longitude,
-                key: o.id
-              }))}
+              points={nearByOffers.map<Point>(mapOfferPreviewInfoToPoint)}
               selectedPoint={selectedPoint}
             />
           </section>
@@ -196,7 +177,7 @@ export function OfferPage(): ReactNode {
             </h2>
             <div className="near-places__list places__list">
               <OffersList
-                offers={nearbyOffers}
+                offers={nearByOffers}
                 onOfferCardHover={setHoveredOfferId}
                 onOfferCardUnhover={() => setHoveredOfferId(null)}
               />

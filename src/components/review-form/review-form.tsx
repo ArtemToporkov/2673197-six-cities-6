@@ -2,16 +2,16 @@
 import type { ReactNode } from 'react';
 
 import { ScoreStars } from '../score-stars/score-stars.tsx';
-import type { ReviewContent } from '../../types/review-content.ts';
+import type { CommentContent } from '../../types/comment-content.ts';
 
 const MIN_COMMENT_LENGTH = 50;
 
 export function ReviewForm(): ReactNode {
-  const [review, setReview] = useState<ReviewContent>({ score: undefined, comment: '' });
+  const [review, setReview] = useState<CommentContent>({ rating: undefined, comment: '' });
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <ScoreStars onScoreChanged={(score) => setReview({...review, score: score})} />
+      <ScoreStars onScoreChanged={(score) => setReview({...review, rating: score})} />
       <textarea className="reviews__textarea form__textarea"
         id="review"
         name="review"
@@ -27,7 +27,7 @@ export function ReviewForm(): ReactNode {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={review.comment.length < MIN_COMMENT_LENGTH || review.score === undefined}
+          disabled={review.comment.length < MIN_COMMENT_LENGTH || review.rating === undefined}
           onClick={() => {
             // TODO: отправить форму
           }}

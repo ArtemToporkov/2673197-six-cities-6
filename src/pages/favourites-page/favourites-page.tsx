@@ -1,26 +1,26 @@
 ﻿import type { ReactNode } from 'react';
 
 import { FavouritesSection } from '../../components/favourites-section/favourites-section.tsx';
-import type { OfferDetails } from '../../types/offer-details.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 
-function groupOffersByCityName(offers: OfferDetails[]): Record<string, OfferDetails[]> {
+function groupOffersByCityName(offers: OfferPreviewInfo[]): Record<string, OfferPreviewInfo[]> {
   return offers.reduce((acc, item) => {
     if (item.isFavourite) {
       const cityName = item.city.name;
       (acc[cityName] ||= []).push(item);
     }
     return acc;
-  }, {} as Record<string, OfferDetails[]>);
+  }, {} as Record<string, OfferPreviewInfo[]>);
 }
 
-function getFavouritesSections(offersByCityName: Record<string, OfferDetails[]>): ReactNode[] {
+function getFavouritesSections(offersByCityName: Record<string, OfferPreviewInfo[]>): ReactNode[] {
   const sections: ReactNode[] = [];
   for (const [cityName, cityOffers] of Object.entries(offersByCityName)) {
     sections.push(
       <FavouritesSection
         key={cityName}
-        cityName={cityName}
+        city={cityName}
         offers={cityOffers}
       />
     );

@@ -6,8 +6,8 @@ import { AxiosInstance } from 'axios';
 import { ApiRoute } from '../enums/api-route.ts';
 import type { AppDispatch } from '../types/app-dispatch.ts';
 import type { State } from '../types/state.ts';
-import type { OfferDetails } from '../types/offer-details.ts';
-import { City } from '../types/city.ts';
+import type { City } from '../types/city.ts';
+import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 
 type ThunkApiConfig = {
   dispatch: AppDispatch;
@@ -15,7 +15,7 @@ type ThunkApiConfig = {
   extra: AxiosInstance;
 }
 
-export const loadOffers = createAction<OfferDetails[]>(
+export const loadOffers = createAction<OfferPreviewInfo[]>(
   `${ActionNamespace.Offers}/loadOffers`
 );
 
@@ -34,7 +34,7 @@ export const switchCity = createAction<City>(
 export const getOffers = createAsyncThunk<void, undefined, ThunkApiConfig>(
   `${ActionNamespace.Offers}/getOffers`,
   async (_arg, {dispatch, extra: api}) => {
-    const response = await api.get<OfferDetails[]>(ApiRoute.Offers);
+    const response = await api.get<OfferPreviewInfo[]>(ApiRoute.Offers);
     const cities = response.data
       .map((o) => o.city)
       .filter((city, index, self) =>

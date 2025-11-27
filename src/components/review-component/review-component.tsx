@@ -1,8 +1,8 @@
 ﻿import type { ReactNode } from 'react';
-import type { Review } from '../../types/review.ts';
+import type { Comment } from '../../types/comment.ts';
 
 type ReviewProps = {
-  review: Review;
+  review: Comment;
 }
 
 export function ReviewComponent({review}: ReviewProps): ReactNode {
