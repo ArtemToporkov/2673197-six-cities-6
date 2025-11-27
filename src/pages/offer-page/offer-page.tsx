@@ -6,8 +6,8 @@ import { HostCard } from '../../components/host-card/host-card.tsx';
 import { Map } from '../../components/map/map.tsx';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
-import { ReviewForm } from '../../components/review-form/review-form.tsx';
-import { CommentsList } from '../../components/reviews-list/comments-list.tsx';
+import { CommentForm } from '../../components/comment-form/comment-form.tsx';
+import { CommentsList } from '../../components/comments-list/comments-list.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import type { OfferFullInfo } from '../../types/offer-full-info.ts';
 import type { Point } from '../../types/point.ts';
@@ -170,7 +170,7 @@ export function OfferPage(): ReactNode {
                   Reviews · <span className="reviews__amount">{comments.length}</span>
                 </h2>
                 <CommentsList comments={comments} />
-                <ReviewForm />
+                <CommentForm />
               </section>
             </div>
           </div>
