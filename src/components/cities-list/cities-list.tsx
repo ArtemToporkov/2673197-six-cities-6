@@ -22,7 +22,7 @@ export function CitiesList({cities, onCityClick}: CitiesListProps): ReactNode {
                 'tabs__item',
                 { 'tabs__item--active': city === currentCity }
               )}
-              onClick={() => void onCityClick(city)}
+              onClick={() => onCityClick(city)}
             >
               <span>{city.name}</span>
             </a>

@@ -8,7 +8,8 @@ import { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 const initialState: OffersState = {
   city: null,
   cities: [],
-  offers: [],
+  offersInCity: [],
+  allOffers: [],
   currentSortingType: SortingType.Popular,
   isOffersLoading: true
 };
@@ -31,16 +32,16 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(switchCity, (state, action) => ({
       ...state,
       city: action.payload,
-      offers: state.offers.filter((o) => o.city.name === action.payload.name)
+      offersInCity: state.allOffers.filter((o) => o.city.name === action.payload.name)
     }))
     .addCase(switchSortingType, (state, action) => ({
       ...state,
       currentSortingType: action.payload,
-      offers: sortOffers(state.offers, action.payload)
+      offersInCity: sortOffers(state.offersInCity, action.payload)
     }))
     .addCase(loadOffers, (state, action) => ({
       ...state,
-      offers: sortOffers(action.payload, state.currentSortingType)
+      allOffers: sortOffers(action.payload, state.currentSortingType)
     }))
     .addCase(loadCities, (state, action) => ({
       ...state,

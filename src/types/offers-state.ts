@@ -4,7 +4,8 @@ import type { OfferPreviewInfo } from './offer-preview-info.ts';
 
 export type OffersState = {
   city: City | null;
-  offers: OfferPreviewInfo[];
+  offersInCity: OfferPreviewInfo[];
+  allOffers: OfferPreviewInfo[];
   cities: City[];
   currentSortingType: SortingType;
   isOffersLoading: boolean;

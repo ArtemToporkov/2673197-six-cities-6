@@ -22,7 +22,7 @@ function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
 export function MainPage(): ReactNode {
   const dispatch = useAppDispatch();
 
-  const currentOffers = useAppSelector((state) => state.offers);
+  const currentOffers = useAppSelector((state) => state.offersInCity);
   const currentCity = useAppSelector((state) => state.city);
   const cities = useAppSelector((state) => state.cities);
 
