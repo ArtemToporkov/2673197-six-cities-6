@@ -2,12 +2,11 @@
 
 import { ActionNamespace } from '../enums/action-namespace.ts';
 import { SortingType } from '../enums/sorting-type.ts';
-import { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { ApiRoute } from '../enums/api-route.ts';
 import { generatePath } from 'react-router-dom';
 import { Comment } from '../types/comment.ts';
 import { AuthStatus } from '../enums/auth-status.ts';
-import { AUTH_HEADER_NAME, AUTH_TOKEN_KEY_NAME } from '../const.ts';
 import type { AppDispatch } from '../types/app-dispatch.ts';
 import type { State } from '../types/state.ts';
 import type { City } from '../types/city.ts';
@@ -90,15 +89,23 @@ export const getOffer = createAsyncThunk<void, string, ThunkApiConfig>(
   }
 );
 
-export const login = createAsyncThunk<void, undefined, ThunkApiConfig>(
-  `${ActionNamespace.User}/login`,
+export const checkAuthStatus = createAsyncThunk<void, undefined, ThunkApiConfig>(
+  `${ActionNamespace.User}/checkAuthStatus`,
   async (_arg, { dispatch, extra: api }) => {
-    const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME) ?? '';
-    const response = await api.get(ApiRoute.Login, {
-      headers: {
-        [AUTH_HEADER_NAME]: token
-      }
-    });
+    const response = await api.get(ApiRoute.Login);
+    const userInfo = response.data as UserInfo;
+    const user: User = {
+      authStatus: AuthStatus.Authorized,
+      info: userInfo,
+    };
+    dispatch(changeUserInfo(user));
+  }
+);
+
+export const login = createAsyncThunk<void, { email: string; password: string }, ThunkApiConfig>(
+  `${ActionNamespace.User}/login`,
+  async (arg, { dispatch, extra: api }) => {
+    const response = await api.post(ApiRoute.Login, { email: arg.email, password: arg.password });
     const userInfo = response.data as UserInfo;
     const user: User = {
       authStatus: AuthStatus.Authorized,

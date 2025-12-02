@@ -14,6 +14,7 @@ import { SortingType } from '../enums/sorting-type.ts';
 import { AuthStatus } from '../enums/auth-status.ts';
 import type { AppState } from '../types/app-state.ts';
 import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
+import { AUTH_HEADER_NAME } from '../const.ts';
 
 const initialState: AppState = {
   city: null,
@@ -80,5 +81,6 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeUserInfo, (state, action) => {
       state.user = action.payload;
+      localStorage.setItem(AUTH_HEADER_NAME, action.payload.info?.token ?? '');
     });
 });
