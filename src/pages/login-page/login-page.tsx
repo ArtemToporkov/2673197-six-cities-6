@@ -6,11 +6,14 @@ import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { Navigate } from 'react-router-dom';
 import { AppRoute } from '../../enums/app-route.ts';
+import type { AuthError } from '../../types/auth-error.ts';
 
+import style from './login-page.module.css';
 
 export function LoginPage(): ReactNode {
-  const [loginText, setLoginText] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [errors, setErrors] = useState<string[]>([]);
   const dispatch = useAppDispatch();
 
   const authState = useAppSelector((state) => state.user.authStatus);
@@ -47,17 +50,32 @@ export function LoginPage(): ReactNode {
               method="post"
               onSubmit={(e) => {
                 e.preventDefault();
-                dispatch(login({ email: loginText, password: password }));
+                dispatch(login({ email: email, password: password }))
+                  .unwrap()
+                  .then(() => { })
+                  .catch((err: AuthError) => {
+
+                    if (err.details && err.details.length > 0) {
+                      setErrors(err.details.map((detail) =>
+                        `${detail.property}: ${detail.messages.join(', ')}`)
+                      );
+                    } else {
+                      setErrors([err.message || 'login failed']);
+                    }
+                  });
               }}
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
-                  onChange={(e) => setLoginText(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setErrors([]);
+                  }}
                   className="login__input form__input"
                   type="email"
                   name="email"
-                  value={loginText}
+                  value={email}
                   placeholder="Email"
                   required
                 />
@@ -65,7 +83,10 @@ export function LoginPage(): ReactNode {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
                 <input
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setErrors([]);
+                  }}
                   className="login__input form__input"
                   type="password"
                   name="password"
@@ -81,6 +102,11 @@ export function LoginPage(): ReactNode {
                 Sign in
               </button>
             </form>
+            <div className={style['auth-errors']}>
+              <ul>
+                {errors.map((error) => <li key={error}>{error}</li>)}
+              </ul>
+            </div>
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">

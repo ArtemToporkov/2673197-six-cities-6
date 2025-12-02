@@ -2,7 +2,7 @@
 
 import { ActionNamespace } from '../enums/action-namespace.ts';
 import { SortingType } from '../enums/sorting-type.ts';
-import { AxiosInstance } from 'axios';
+import { AxiosError, AxiosInstance } from 'axios';
 import { ApiRoute } from '../enums/api-route.ts';
 import { generatePath } from 'react-router-dom';
 import { Comment } from '../types/comment.ts';
@@ -14,6 +14,7 @@ import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 import type { OfferFullInfo } from '../types/offer-full-info.ts';
 import type { User } from '../types/user.ts';
 import type { UserInfo } from '../types/user-info.ts';
+import { AuthError } from '../types/auth-error.ts';
 
 type ThunkApiConfig = {
   dispatch: AppDispatch;
@@ -104,13 +105,21 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, ThunkApiConfig>
 
 export const login = createAsyncThunk<void, { email: string; password: string }, ThunkApiConfig>(
   `${ActionNamespace.User}/login`,
-  async (arg, { dispatch, extra: api }) => {
-    const response = await api.post(ApiRoute.Login, { email: arg.email, password: arg.password });
-    const userInfo = response.data as UserInfo;
-    const user: User = {
-      authStatus: AuthStatus.Authorized,
-      info: userInfo,
-    };
-    dispatch(changeUserInfo(user));
+  async (arg, { dispatch, extra: api, rejectWithValue }) => {
+    try {
+      const response = await api.post(ApiRoute.Login, {email: arg.email, password: arg.password});
+      const userInfo = response.data as UserInfo;
+      const user: User = {
+        authStatus: AuthStatus.Authorized,
+        info: userInfo,
+      };
+      dispatch(changeUserInfo(user));
+    } catch (error) {
+      if (error instanceof AxiosError && error.response && error.response.status === 400) {
+        const errorData = error.response.data as AuthError;
+        return rejectWithValue(errorData);
+      }
+      throw error;
+    }
   }
 );
