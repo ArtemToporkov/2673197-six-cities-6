@@ -2,7 +2,7 @@
 
 import { ActionNamespace } from '../enums/action-namespace.ts';
 import { SortingType } from '../enums/sorting-type.ts';
-import axios, { AxiosInstance } from 'axios';
+import { AxiosInstance } from 'axios';
 import { ApiRoute } from '../enums/api-route.ts';
 import { generatePath } from 'react-router-dom';
 import { Comment } from '../types/comment.ts';

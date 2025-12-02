@@ -1,6 +1,23 @@
-﻿import type { ReactNode } from 'react';
+﻿import { ReactNode, useState } from 'react';
+
+import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
+import { login } from '../../store/action.ts';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import { AuthStatus } from '../../enums/auth-status.ts';
+import { Navigate } from 'react-router-dom';
+import { AppRoute } from '../../enums/app-route.ts';
+
 
 export function LoginPage(): ReactNode {
+  const [loginText, setLoginText] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const dispatch = useAppDispatch();
+
+  const authState = useAppSelector((state) => state.user.authStatus);
+  if (authState === AuthStatus.Authorized) {
+    return <Navigate to={AppRoute.Main} />;
+  }
+
   return (
     <div className="page page--gray page--login">
       <header className="header">
@@ -24,13 +41,23 @@ export function LoginPage(): ReactNode {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form
+              className="login__form form"
+              action="#"
+              method="post"
+              onSubmit={(e) => {
+                e.preventDefault();
+                dispatch(login({ email: loginText, password: password }));
+              }}
+            >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
+                  onChange={(e) => setLoginText(e.target.value)}
                   className="login__input form__input"
                   type="email"
                   name="email"
+                  value={loginText}
                   placeholder="Email"
                   required
                 />
@@ -38,14 +65,19 @@ export function LoginPage(): ReactNode {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
                 <input
+                  onChange={(e) => setPassword(e.target.value)}
                   className="login__input form__input"
                   type="password"
                   name="password"
+                  value={password}
                   placeholder="Password"
                   required
                 />
               </div>
-              <button className="login__submit form__submit button" type="submit">
+              <button
+                className="login__submit form__submit button"
+                type="submit"
+              >
                 Sign in
               </button>
             </form>
