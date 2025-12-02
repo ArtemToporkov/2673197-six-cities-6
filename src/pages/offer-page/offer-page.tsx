@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import type { ReactNode } from 'react';
 
@@ -6,17 +6,16 @@ import { HostCard } from '../../components/host-card/host-card.tsx';
 import { Map } from '../../components/map/map.tsx';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
-import { ReviewForm } from '../../components/review-form/review-form.tsx';
-import { ReviewsList } from '../../components/reviews-list/reviews-list.tsx';
-import { cities } from '../../mocks/cities.ts';
-import { reviews } from '../../mocks/reviews.ts';
+import { CommentForm } from '../../components/comment-form/comment-form.tsx';
+import { CommentsList } from '../../components/comments-list/comments-list.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
-import { Good } from '../../enums/good.ts';
-import { NotFoundPage } from '../not-found-page/not-found-page.tsx';
-import type { OfferDetails } from '../../types/offer-details.ts';
+import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
+import { getOffer } from '../../store/action.ts';
+import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { Point } from '../../types/point.ts';
+import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
 
-function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
+function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
   return ({
     latitude: offerDetails.location.latitude,
     longitude: offerDetails.location.longitude,
@@ -25,31 +24,33 @@ function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
 }
 
 export function OfferPage(): ReactNode {
-  const currentOffers = useAppSelector((state) => state.offers);
-  const nearbyOffers = currentOffers.slice(0, 3);
+  const dispatch = useAppDispatch();
+
+  const { id } = useParams<{ id: string }>() as { id: string };
+  useEffect(() => {
+    dispatch(getOffer(id));
+  }, [id, dispatch]);
+
+  const offer = useAppSelector((state) => state.offer);
+  const currentCity = useAppSelector((state) => state.city);
+  const comments = useAppSelector((state) => state.comments);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const isOfferLoading = useAppSelector((state) => state.isOfferLoading);
+
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
-  const selectedPoint: Point | null = hoveredOfferId
-    ? mapOfferDetailsToPoint(currentOffers.find((o) => o.id === hoveredOfferId) as OfferDetails)
+  const hoveredOffer = nearbyOffers.find((o) => o.id === hoveredOfferId);
+
+  const selectedPoint: Point | null = hoveredOfferId && hoveredOffer
+    ? mapOfferPreviewInfoToPoint(hoveredOffer)
     : null;
 
-  const { id } = useParams<{ id: string }>();
-  const offer = currentOffers.find((of) => of.id === id);
-  if (offer === undefined) {
-    return <NotFoundPage />;
+  if (isOfferLoading) {
+    return <LoadingScreen />;
   }
-  const {
-    title,
-    rating,
-    isPremium,
-    bedroomsCount,
-    maxAdultsCount,
-    type,
-    price,
-    goods,
-    images,
-    hostInfo,
-    description
-  } = offer;
+
+  if (!offer) {
+    throw new Error('If offer is not loading, it can\'t be undefined or null');
+  }
 
   return (
     <div className="page">
@@ -95,7 +96,7 @@ export function OfferPage(): ReactNode {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {images.map((url) => (
+              {offer.images.map((url) => (
                 <div key={url} className="offer__image-wrapper">
                   <img
                     className="offer__image"
@@ -108,10 +109,10 @@ export function OfferPage(): ReactNode {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {isPremium && <PremiumLabel />}
+              {offer.isPremium && <PremiumLabel />}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {title}
+                  {offer.title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width={31} height={33}>
@@ -125,55 +126,50 @@ export function OfferPage(): ReactNode {
                   <span style={{ width: '80%' }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">{rating}</span>
+                <span className="offer__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">{type}</li>
+                <li className="offer__feature offer__feature--entire">{offer.type}</li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {bedroomsCount} Bedrooms
+                  {offer.bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {maxAdultsCount} adults
+                  Max {offer.maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">€{price}</b>
+                <b className="offer__price-value">€{offer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  {(Object.keys(goods) as Good[])
-                    .filter((am) => goods[am])
-                    .map((am) => (
-                      <li key={am} className="offer__inside-item">{am}</li>
+                  {offer.goods
+                    .map((g) => (
+                      <li key={g} className="offer__inside-item">{g}</li>
                     ))}
                 </ul>
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
-                <HostCard hostInfo={hostInfo} />
+                <HostCard hostInfo={offer.host}/>
                 <div className="offer__description">
-                  <p className="offer__text">{description}</p>
+                  <p className="offer__text">{offer.description}</p>
                 </div>
               </div>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
-                  Reviews · <span className="reviews__amount">{reviews.length}</span>
+                  Reviews · <span className="reviews__amount">{comments.length}</span>
                 </h2>
-                <ReviewsList reviews={reviews} />
-                <ReviewForm />
+                <CommentsList comments={comments} />
+                <CommentForm />
               </section>
             </div>
           </div>
           <section className="offer__map map" style={{ backgroundImage: 'none' }}>
             <Map
-              city={cities.Amsterdam}
-              points={nearbyOffers.map<Point>((o) => ({
-                latitude: o.location.latitude,
-                longitude: o.location.longitude,
-                key: o.id
-              }))}
+              city={currentCity}
+              points={nearbyOffers.map<Point>(mapOfferPreviewInfoToPoint)}
               selectedPoint={selectedPoint}
             />
           </section>

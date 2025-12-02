@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+﻿import { useState } from 'react';
 import type { ReactNode } from 'react';
 
 import { CitiesList } from '../../components/cities-list/cities-list.tsx';
@@ -6,43 +6,29 @@ import { Map } from '../../components/map/map.tsx';
 import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
-import { cities } from '../../mocks/cities.ts';
-import { offers } from '../../mocks/offers.ts';
-import { CityName } from '../../enums/city-name.ts';
-import { switchCityWithOffers } from '../../store/action.ts';
-import { store } from '../../store';
-import type { OfferDetails } from '../../types/offer-details.ts';
-import type { Point } from '../../types/point.ts';
 import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
+import { switchCity } from '../../store/action.ts';
+import type { Point } from '../../types/point.ts';
+import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 
-function mapOfferDetailsToPoint(offerDetails: OfferDetails): Point {
+function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
   return ({
-    latitude: offerDetails.location.latitude,
-    longitude: offerDetails.location.longitude,
-    key: offerDetails.id
+    latitude: offer.location.latitude,
+    longitude: offer.location.longitude,
+    key: offer.id
   });
 }
 
-const onCityClick = async (city: CityName) => {
-  // TODO: заменить на запрос к серверу
-  await new Promise((resolve) => setTimeout(resolve, 100));
-  store.dispatch(switchCityWithOffers({
-    city: city,
-    offers: city === CityName.Amsterdam ? offers : []
-  }));
-};
-
 export function MainPage(): ReactNode {
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    // TODO: заменить на запрос к серверу
-    dispatch(switchCityWithOffers({city: CityName.Paris, offers: []}));
-  }, []);
-  const currentOffers = useAppSelector((state) => state.offers);
+
+  const currentOffers = useAppSelector((state) => state.offersInCity);
   const currentCity = useAppSelector((state) => state.city);
+  const cities = useAppSelector((state) => state.cities);
+
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const selectedPoint = hoveredOfferId
-    ? mapOfferDetailsToPoint(currentOffers.find((o) => o.id === hoveredOfferId) as OfferDetails)
+    ? mapOfferPreviewInfoToPoint(currentOffers.find((o) => o.id === hoveredOfferId) as OfferPreviewInfo)
     : null;
 
   return (
@@ -88,13 +74,13 @@ export function MainPage(): ReactNode {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <CitiesList cities={Object.values(CityName)} onCityClick={onCityClick}/>
+          <CitiesList cities={cities} onCityClick={(city) => dispatch(switchCity(city))}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{currentOffers.length} places to stay in {currentCity}</b>
+              <b className="places__found">{currentOffers.length} places to stay in {currentCity?.name}</b>
               <SortingTypeMenu />
               <div className="cities__places-list places__list tabs__content">
                 <OffersList
@@ -107,8 +93,8 @@ export function MainPage(): ReactNode {
             <div className="cities__right-section">
               <section className="cities__map map" style={{backgroundImage: 'none'}}>
                 <Map
-                  city={cities.Amsterdam}
-                  points={currentOffers.map<Point>((o) => mapOfferDetailsToPoint(o))}
+                  city={currentCity}
+                  points={currentOffers.map<Point>(mapOfferPreviewInfoToPoint)}
                   selectedPoint={selectedPoint}
                 />
               </section>

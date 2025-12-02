@@ -1,10 +1,10 @@
 ﻿import type { ReactNode } from 'react';
 
 import { HotelCard } from '../hotel-card/hotel-card.tsx';
-import type { OfferDetails } from '../../types/offer-details.ts';
+import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 
 type OffersListProps = {
-  offers: OfferDetails[];
+  offers: OfferPreviewInfo[];
   onOfferCardHover: (hoveredOfferId: string) => void;
   onOfferCardUnhover: () => void;
 }
@@ -12,12 +12,12 @@ type OffersListProps = {
 export function OffersList({offers, onOfferCardHover, onOfferCardUnhover}: OffersListProps): ReactNode {
   return (
     <>
-      {offers.map((offer: OfferDetails) => (
+      {offers.map((offer: OfferPreviewInfo) => (
         <HotelCard
           key={offer.id}
           {...offer}
           isPremium={offer.isPremium}
-          imageUrl={offer.imageUrl}
+          previewImage={offer.previewImage}
           price={offer.price}
           type={offer.type}
           title={offer.title}

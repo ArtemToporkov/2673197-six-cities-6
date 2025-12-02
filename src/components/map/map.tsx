@@ -8,7 +8,7 @@ import type { City } from '../../types/city';
 import type { Point } from '../../types/point.ts';
 
 type MapProps = {
-  city: City;
+  city: City | null;
   points: Point[];
   selectedPoint: Point | null;
 };

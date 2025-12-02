@@ -6,20 +6,34 @@ import type { City } from '../types/city';
 
 export function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
-  city: City
+  city: City | null
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    if (mapRef.current !== null && !isRenderedRef.current) {
-      const instance = new Map(mapRef.current, {
-        center: {
+    if (map && city) {
+      map.setView(
+        {
           lat: city.location.latitude,
           lng: city.location.longitude
         },
-        zoom: city.location.zoom
-      });
+        city.location.zoom
+      );
+    }
+  }, [map, city]);
+
+  useEffect(() => {
+    if (mapRef.current !== null && !isRenderedRef.current) {
+      const instance = city
+        ? new Map(mapRef.current, {
+          center: {
+            lat: city.location.latitude,
+            lng: city.location.longitude
+          },
+          zoom: city.location.zoom
+        })
+        : null;
 
       const layer = new TileLayer(
         'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
@@ -29,7 +43,9 @@ export function useMap(
         }
       );
 
-      instance.addLayer(layer);
+      if (instance) {
+        instance.addLayer(layer);
+      }
 
       setMap(instance);
       isRenderedRef.current = true;
