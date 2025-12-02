@@ -1,4 +1,5 @@
 ﻿export enum ActionNamespace {
   Offers = 'offers',
-  Cities = 'cities'
+  Cities = 'cities',
+  User = 'user'
 }

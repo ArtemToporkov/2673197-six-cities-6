@@ -4,19 +4,24 @@ import { ActionNamespace } from '../enums/action-namespace.ts';
 import { SortingType } from '../enums/sorting-type.ts';
 import { AxiosInstance } from 'axios';
 import { ApiRoute } from '../enums/api-route.ts';
+import { generatePath } from 'react-router-dom';
+import { Comment } from '../types/comment.ts';
+import { AuthStatus } from '../enums/auth-status.ts';
 import type { AppDispatch } from '../types/app-dispatch.ts';
 import type { State } from '../types/state.ts';
 import type { City } from '../types/city.ts';
 import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 import type { OfferFullInfo } from '../types/offer-full-info.ts';
-import { generatePath } from 'react-router-dom';
-import { Comment } from '../types/comment.ts';
 
 type ThunkApiConfig = {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }
+
+export const changeAuthStatus = createAction<AuthStatus>(
+  `${ActionNamespace.User}/changeAuthStatus`
+);
 
 export const loadOffer = createAction<{
   offer: OfferFullInfo;
