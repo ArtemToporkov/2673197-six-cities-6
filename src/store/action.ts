@@ -7,6 +7,7 @@ import { ApiRoute } from '../enums/api-route.ts';
 import { generatePath } from 'react-router-dom';
 import { Comment } from '../types/comment.ts';
 import { AuthStatus } from '../enums/auth-status.ts';
+import { AUTH_HEADER_NAME, AUTH_TOKEN_KEY_NAME } from '../const.ts';
 import type { AppDispatch } from '../types/app-dispatch.ts';
 import type { State } from '../types/state.ts';
 import type { City } from '../types/city.ts';
@@ -87,3 +88,15 @@ export const getOffer = createAsyncThunk<void, string, ThunkApiConfig>(
   }
 );
 
+export const login = createAsyncThunk<void, undefined, ThunkApiConfig>(
+  `${ActionNamespace.User}/login`,
+  async (_arg, { dispatch, extra: api }) => {
+    const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME) ?? '';
+    await api.get(ApiRoute.Login, {
+      headers: {
+        [AUTH_HEADER_NAME]: token
+      }
+    });
+    dispatch(changeAuthStatus(AuthStatus.Authorized));
+  }
+);
