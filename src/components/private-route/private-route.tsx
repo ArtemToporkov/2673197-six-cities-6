@@ -2,13 +2,14 @@
 import type { ReactNode } from 'react';
 
 import { AuthStatus } from '../../enums/auth-status.ts';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
 
 type PrivateRouteProps = {
   children: ReactNode;
-  authStatus: AuthStatus;
 }
 
-export function PrivateRoute({children, authStatus}: PrivateRouteProps): ReactNode {
+export function PrivateRoute({children}: PrivateRouteProps): ReactNode {
+  const authStatus = useAppSelector((state) => state.authStatus);
   return (
     authStatus === AuthStatus.Authorized
       ? children
