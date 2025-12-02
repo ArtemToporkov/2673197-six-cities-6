@@ -2,6 +2,7 @@
 import type { ReactNode } from 'react';
 
 import { AuthStatus } from '../../enums/auth-status.ts';
+import { AppRoute } from '../../enums/app-route.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 
 type PrivateRouteProps = {
@@ -9,10 +10,10 @@ type PrivateRouteProps = {
 }
 
 export function PrivateRoute({children}: PrivateRouteProps): ReactNode {
-  const authStatus = useAppSelector((state) => state.authStatus);
+  const authStatus = useAppSelector((state) => state.user.authStatus);
   return (
     authStatus === AuthStatus.Authorized
       ? children
-      : <Navigate to='/login' />
+      : <Navigate to={AppRoute.Login} />
   );
 }
