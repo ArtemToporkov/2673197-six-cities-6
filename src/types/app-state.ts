@@ -1,9 +1,9 @@
 ﻿import { SortingType } from '../enums/sorting-type.ts';
-import { AuthStatus } from '../enums/auth-status.ts';
 import type { City } from './city.ts';
 import type { OfferPreviewInfo } from './offer-preview-info.ts';
 import type { OfferFullInfo } from './offer-full-info.ts';
 import type { Comment } from './comment.ts';
+import type { User } from './user.ts';
 
 export type AppState = {
   city: City | null;
@@ -16,5 +16,5 @@ export type AppState = {
   currentSortingType: SortingType;
   isOffersLoading: boolean;
   isOfferLoading: boolean;
-  authStatus: AuthStatus;
+  user: User;
 };

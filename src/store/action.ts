@@ -13,6 +13,8 @@ import type { State } from '../types/state.ts';
 import type { City } from '../types/city.ts';
 import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 import type { OfferFullInfo } from '../types/offer-full-info.ts';
+import type { User } from '../types/user.ts';
+import type { UserInfo } from '../types/user-info.ts';
 
 type ThunkApiConfig = {
   dispatch: AppDispatch;
@@ -20,8 +22,8 @@ type ThunkApiConfig = {
   extra: AxiosInstance;
 }
 
-export const changeAuthStatus = createAction<AuthStatus>(
-  `${ActionNamespace.User}/changeAuthStatus`
+export const changeUserInfo = createAction<User>(
+  `${ActionNamespace.User}/changeUserInfo`
 );
 
 export const loadOffer = createAction<{
@@ -92,11 +94,16 @@ export const login = createAsyncThunk<void, undefined, ThunkApiConfig>(
   `${ActionNamespace.User}/login`,
   async (_arg, { dispatch, extra: api }) => {
     const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME) ?? '';
-    await api.get(ApiRoute.Login, {
+    const response = await api.get(ApiRoute.Login, {
       headers: {
         [AUTH_HEADER_NAME]: token
       }
     });
-    dispatch(changeAuthStatus(AuthStatus.Authorized));
+    const userInfo = response.data as UserInfo;
+    const user: User = {
+      authStatus: AuthStatus.Authorized,
+      info: userInfo,
+    };
+    dispatch(changeUserInfo(user));
   }
 );

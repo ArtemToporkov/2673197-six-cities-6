@@ -1,5 +1,5 @@
 ﻿export enum AuthStatus {
   Authorized = 'AUTHORIZED',
-  NotAuthorized = 'NOT_AUTHORIZED',
+  Unauthorized = 'NOT_AUTHORIZED',
   Unknown = 'UNKNOWN'
 }

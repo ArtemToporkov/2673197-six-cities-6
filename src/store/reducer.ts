@@ -1,7 +1,7 @@
 ﻿import { createReducer } from '@reduxjs/toolkit';
 
 import {
-  changeAuthStatus,
+  changeUserInfo,
   getOffer,
   getOffers,
   loadCities,
@@ -26,7 +26,10 @@ const initialState: AppState = {
   currentSortingType: SortingType.Popular,
   isOffersLoading: true,
   isOfferLoading: true,
-  authStatus: AuthStatus.Unknown
+  user: {
+    authStatus: AuthStatus.Unknown,
+    info: null
+  }
 };
 
 function sortOffers(offersToSort: OfferPreviewInfo[], sortingType: SortingType): OfferPreviewInfo[] {
@@ -75,7 +78,7 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(getOffers.fulfilled, (state) => {
       state.isOffersLoading = false;
     })
-    .addCase(changeAuthStatus, (state, action) => {
-      state.authStatus = action.payload;
+    .addCase(changeUserInfo, (state, action) => {
+      state.user = action.payload;
     });
 });
