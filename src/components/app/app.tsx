@@ -2,7 +2,6 @@
 import { ReactNode, useEffect } from 'react';
 
 import { AppRoute } from '../../enums/app-route.ts';
-import { AuthStatus } from '../../enums/auth-status.ts';
 import { FavouritesPage } from '../../pages/favourites-page/favourites-page.tsx';
 import { LoginPage } from '../../pages/login-page/login-page.tsx';
 import { MainPage } from '../../pages/main-page/main-page.tsx';
@@ -33,7 +32,7 @@ export function App(): ReactNode {
         <Route
           path={AppRoute.Favourites}
           element={
-            <PrivateRoute authStatus={AuthStatus.Authorized}>
+            <PrivateRoute>
               <FavouritesPage />
             </PrivateRoute>
           }

@@ -3,8 +3,9 @@ import type { City } from './city.ts';
 import type { OfferPreviewInfo } from './offer-preview-info.ts';
 import type { OfferFullInfo } from './offer-full-info.ts';
 import type { Comment } from './comment.ts';
+import type { User } from './user.ts';
 
-export type OffersState = {
+export type AppState = {
   city: City | null;
   offer: OfferFullInfo | null;
   nearbyOffers: OfferPreviewInfo[];
@@ -15,4 +16,5 @@ export type OffersState = {
   currentSortingType: SortingType;
   isOffersLoading: boolean;
   isOfferLoading: boolean;
+  user: User;
 };
