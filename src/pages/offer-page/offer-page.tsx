@@ -1,6 +1,6 @@
-﻿import { useEffect, useState } from 'react';
+﻿import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import type { ReactNode } from 'react';
 
 import { HostCard } from '../../components/host-card/host-card.tsx';
 import { Map } from '../../components/map/map.tsx';
@@ -11,9 +11,12 @@ import { CommentsList } from '../../components/comments-list/comments-list.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { getOffer } from '../../store/action.ts';
+import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
+import { ErrorPage } from '../error-page/error-page.tsx';
+import { ServerErrorType } from '../../enums/server-error-type.ts';
+import { AuthStatus } from '../../enums/auth-status.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { Point } from '../../types/point.ts';
-import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
 
 function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
   return ({
@@ -36,6 +39,8 @@ export function OfferPage(): ReactNode {
   const comments = useAppSelector((state) => state.comments);
   const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
   const isOfferLoading = useAppSelector((state) => state.isOfferLoading);
+  const error = useAppSelector((state) => state.error);
+  const user = useAppSelector((state) => state.user);
 
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const hoveredOffer = nearbyOffers.find((o) => o.id === hoveredOfferId);
@@ -43,6 +48,10 @@ export function OfferPage(): ReactNode {
   const selectedPoint: Point | null = hoveredOfferId && hoveredOffer
     ? mapOfferPreviewInfoToPoint(hoveredOffer)
     : null;
+
+  if (error && error.errorType === ServerErrorType.CommonError) {
+    return <ErrorPage />;
+  }
 
   if (isOfferLoading) {
     return <LoadingScreen />;
@@ -162,7 +171,7 @@ export function OfferPage(): ReactNode {
                   Reviews · <span className="reviews__amount">{comments.length}</span>
                 </h2>
                 <CommentsList comments={comments} />
-                <CommentForm />
+                {user.authStatus === AuthStatus.Authorized && <CommentForm/>}
               </section>
             </div>
           </div>

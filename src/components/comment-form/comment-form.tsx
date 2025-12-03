@@ -2,21 +2,50 @@
 import type { ReactNode } from 'react';
 
 import { ScoreStars } from '../score-stars/score-stars.tsx';
+import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
+import { resetError, sendComment } from '../../store/action.ts';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import { ServerErrorType } from '../../enums/server-error-type.ts';
 import type { CommentContent } from '../../types/comment-content.ts';
 
 const MIN_COMMENT_LENGTH = 50;
 
 export function CommentForm(): ReactNode {
   const [comment, setComment] = useState<CommentContent>({ rating: null, comment: '' });
+  const dispatch = useAppDispatch();
+  const error = useAppSelector((state) => state.error);
+  const offerId = useAppSelector((state) => state.offer?.id);
+
+  if (!offerId) {
+    throw new Error('CommentForm can\'t be used without an offerId');
+  }
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={(e) => {
+        e.preventDefault();
+        dispatch(sendComment({ comment: comment, offerId: offerId }))
+          .unwrap()
+          .then(() => setComment({ rating: null, comment: '' }));
+      }}
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <ScoreStars onScoreChanged={(score) => setComment({...comment, rating: score})} />
+      <ScoreStars onScoreChanged={(score) => {
+        setComment({...comment, rating: score});
+        dispatch(resetError());
+      }}
+      />
       <textarea className="reviews__textarea form__textarea"
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={(e) => setComment({...comment, comment: e.target.value})}
+        onChange={(e) => {
+          setComment({...comment, comment: e.target.value});
+          dispatch(resetError());
+        }}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -28,13 +57,20 @@ export function CommentForm(): ReactNode {
           className="reviews__submit form__submit button"
           type="submit"
           disabled={comment.comment.length < MIN_COMMENT_LENGTH || comment.rating === undefined}
-          onClick={() => {
-            // TODO: отправить форму
-          }}
         >
           Submit
         </button>
       </div>
+      {error && error.errorType === ServerErrorType.ValidationError && (
+        <div>
+          <ul>
+            {error.details.map((detail) => {
+              const errorMessage = `${detail.property}: ${detail.messages.join(', ')}`;
+              return <li key={errorMessage}>{errorMessage}</li>;
+            })}
+          </ul>
+        </div>
+      )}
     </form>
   );
 }

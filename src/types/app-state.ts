@@ -4,6 +4,7 @@ import type { OfferPreviewInfo } from './offer-preview-info.ts';
 import type { OfferFullInfo } from './offer-full-info.ts';
 import type { Comment } from './comment.ts';
 import type { User } from './user.ts';
+import type { ServerError } from './server-error.ts';
 
 export type AppState = {
   city: City | null;
@@ -17,4 +18,5 @@ export type AppState = {
   isOffersLoading: boolean;
   isOfferLoading: boolean;
   user: User;
+  error: ServerError | null;
 };

@@ -1,20 +1,21 @@
 ﻿import { createReducer } from '@reduxjs/toolkit';
 
 import {
+  addComment,
   changeUserInfo,
   getOffer,
   getOffers,
   loadCities,
   loadOffer,
-  loadOffers,
+  loadOffers, resetError, sendComment,
   switchCity,
   switchSortingType
 } from './action.ts';
 import { SortingType } from '../enums/sorting-type.ts';
 import { AuthStatus } from '../enums/auth-status.ts';
+import { AUTH_TOKEN_KEY_NAME } from '../const.ts';
 import type { AppState } from '../types/app-state.ts';
 import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
-import { AUTH_HEADER_NAME } from '../const.ts';
 
 const initialState: AppState = {
   city: null,
@@ -30,7 +31,8 @@ const initialState: AppState = {
   user: {
     authStatus: AuthStatus.Unknown,
     info: null
-  }
+  },
+  error: null
 };
 
 function sortOffers(offersToSort: OfferPreviewInfo[], sortingType: SortingType): OfferPreviewInfo[] {
@@ -69,9 +71,16 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(getOffer.pending, (state) => {
       state.isOfferLoading = true;
+      state.error = null;
     })
     .addCase(getOffer.fulfilled, (state) => {
       state.isOfferLoading = false;
+    })
+    .addCase(getOffer.rejected, (state, action) => {
+      state.isOfferLoading = false;
+      if (action.payload) {
+        state.error = action.payload;
+      }
     })
     .addCase(getOffers.pending, (state) => {
       state.isOffersLoading = true;
@@ -81,6 +90,17 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeUserInfo, (state, action) => {
       state.user = action.payload;
-      localStorage.setItem(AUTH_HEADER_NAME, action.payload.info?.token ?? '');
+      localStorage.setItem(AUTH_TOKEN_KEY_NAME, action.payload.info?.token ?? '');
+    })
+    .addCase(addComment, (state, action) => {
+      state.comments.push(action.payload);
+    })
+    .addCase(sendComment.rejected, (state, action) => {
+      if (action.payload) {
+        state.error = action.payload;
+      }
+    })
+    .addCase(resetError, (state) => {
+      state.error = null;
     });
 });

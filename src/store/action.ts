@@ -1,12 +1,14 @@
 ﻿import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError, AxiosInstance } from 'axios';
+import { StatusCodes } from 'http-status-codes';
 
 import { ActionNamespace } from '../enums/action-namespace.ts';
 import { SortingType } from '../enums/sorting-type.ts';
-import { AxiosError, AxiosInstance } from 'axios';
 import { ApiRoute } from '../enums/api-route.ts';
 import { generatePath } from 'react-router-dom';
-import { Comment } from '../types/comment.ts';
 import { AuthStatus } from '../enums/auth-status.ts';
+import { ServerError } from '../types/server-error.ts';
+import type { Comment } from '../types/comment.ts';
 import type { AppDispatch } from '../types/app-dispatch.ts';
 import type { State } from '../types/state.ts';
 import type { City } from '../types/city.ts';
@@ -14,13 +16,17 @@ import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 import type { OfferFullInfo } from '../types/offer-full-info.ts';
 import type { User } from '../types/user.ts';
 import type { UserInfo } from '../types/user-info.ts';
-import { AuthError } from '../types/auth-error.ts';
+import type { CommentContent } from '../types/comment-content.ts';
 
 type ThunkApiConfig = {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }
+
+export const resetError = createAction(
+  `${ActionNamespace.Error}/resetError`
+);
 
 export const changeUserInfo = createAction<User>(
   `${ActionNamespace.User}/changeUserInfo`
@@ -32,6 +38,10 @@ export const loadOffer = createAction<{
   nearbyOffers: OfferPreviewInfo[];
 }>(
   `${ActionNamespace.Offers}/loadOffer`
+);
+
+export const addComment = createAction<Comment>(
+  `${ActionNamespace.Offers}/addComment`
 );
 
 export const loadOffers = createAction<OfferPreviewInfo[]>(
@@ -65,28 +75,42 @@ export const getOffers = createAsyncThunk<void, undefined, ThunkApiConfig>(
   }
 );
 
-export const getOffer = createAsyncThunk<void, string, ThunkApiConfig>(
+export const getOffer = createAsyncThunk<void, string,
+  ThunkApiConfig & { rejectValue: ServerError }
+>(
   `${ActionNamespace.Offers}/getOffer`,
-  async (id, { dispatch, extra: api }) => {
-    const offerRequest = api.get<OfferFullInfo>(
-      generatePath(ApiRoute.Offer, { id })
-    );
-    const commentsRequest = api.get<Comment[]>(
-      generatePath(ApiRoute.Comments, { id })
-    );
-    const nearByRequest = api.get<OfferPreviewInfo[]>(
-      generatePath(ApiRoute.NearByOffers, { id })
-    );
+  async (id, { dispatch, extra: api, rejectWithValue }) => {
+    try {
+      const offerRequest = api.get<OfferFullInfo>(
+        generatePath(ApiRoute.Offer, {id})
+      );
+      const commentsRequest = api.get<Comment[]>(
+        generatePath(ApiRoute.Comments, {id})
+      );
+      const nearByRequest = api.get<OfferPreviewInfo[]>(
+        generatePath(ApiRoute.NearByOffers, {id})
+      );
 
-    const [offerResponse, commentsResponse, nearByResponse] = await Promise.all(
-      [offerRequest, commentsRequest, nearByRequest]
-    );
+      const [offerResponse, commentsResponse, nearByResponse] = await Promise.all(
+        [offerRequest, commentsRequest, nearByRequest]
+      );
 
-    dispatch(loadOffer({
-      offer: offerResponse.data,
-      comments: commentsResponse.data,
-      nearbyOffers: nearByResponse.data
-    }));
+      dispatch(loadOffer({
+        offer: offerResponse.data,
+        comments: commentsResponse.data,
+        nearbyOffers: nearByResponse.data
+      }));
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.status === StatusCodes.NOT_FOUND) {
+        let errorInfo = error.response.data as ServerError;
+        errorInfo = {
+          ...errorInfo,
+          status: error.response.status
+        };
+        return rejectWithValue(errorInfo);
+      }
+      throw error;
+    }
   }
 );
 
@@ -115,9 +139,40 @@ export const login = createAsyncThunk<void, { email: string; password: string },
       };
       dispatch(changeUserInfo(user));
     } catch (error) {
-      if (error instanceof AxiosError && error.response && error.response.status === 400) {
-        const errorData = error.response.data as AuthError;
-        return rejectWithValue(errorData);
+      if (error instanceof AxiosError && error.response?.status === StatusCodes.BAD_REQUEST) {
+        let errorInfo = error.response.data as ServerError;
+        errorInfo = {
+          ...errorInfo,
+          status: error.response.status
+        };
+        return rejectWithValue(errorInfo);
+      }
+      throw error;
+    }
+  }
+);
+
+export const sendComment = createAsyncThunk<
+  void,
+  { comment: CommentContent; offerId: string },
+  ThunkApiConfig & { rejectValue: ServerError }
+>(
+  `${ActionNamespace.Offers}/sendComment`,
+  async (arg, { dispatch, extra: api, rejectWithValue }) => {
+    try {
+      const response = await api.post(
+        generatePath(ApiRoute.Comments, {id: arg.offerId}),
+        arg.comment
+      );
+      dispatch(addComment(response.data as Comment));
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        let errorInfo = error.response.data as ServerError;
+        errorInfo = {
+          ...errorInfo,
+          status: error.response.status
+        };
+        return rejectWithValue(errorInfo);
       }
       throw error;
     }
