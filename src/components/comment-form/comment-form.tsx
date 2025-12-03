@@ -14,6 +14,11 @@ export function CommentForm(): ReactNode {
   const [comment, setComment] = useState<CommentContent>({ rating: null, comment: '' });
   const dispatch = useAppDispatch();
   const error = useAppSelector((state) => state.error);
+  const offerId = useAppSelector((state) => state.offer?.id);
+
+  if (!offerId) {
+    throw new Error('CommentForm can\'t be used without an offerId');
+  }
 
   return (
     <form
@@ -22,7 +27,7 @@ export function CommentForm(): ReactNode {
       method="post"
       onSubmit={(e) => {
         e.preventDefault();
-        dispatch(sendComment(comment))
+        dispatch(sendComment({ ...comment, offerId: offerId }))
           .unwrap()
           .then(() => setComment({ rating: null, comment: '' }));
       }}

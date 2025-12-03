@@ -13,7 +13,7 @@ import {
 } from './action.ts';
 import { SortingType } from '../enums/sorting-type.ts';
 import { AuthStatus } from '../enums/auth-status.ts';
-import { AUTH_HEADER_NAME } from '../const.ts';
+import { AUTH_TOKEN_KEY_NAME } from '../const.ts';
 import type { AppState } from '../types/app-state.ts';
 import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 
@@ -90,7 +90,7 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeUserInfo, (state, action) => {
       state.user = action.payload;
-      localStorage.setItem(AUTH_HEADER_NAME, action.payload.info?.token ?? '');
+      localStorage.setItem(AUTH_TOKEN_KEY_NAME, action.payload.info?.token ?? '');
     })
     .addCase(addComment, (state, action) => {
       state.comments.push(action.payload);

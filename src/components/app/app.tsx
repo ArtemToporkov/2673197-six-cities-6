@@ -1,5 +1,6 @@
 ﻿import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ReactNode, useEffect } from 'react';
+import { StatusCodes } from 'http-status-codes';
 
 import { AppRoute } from '../../enums/app-route.ts';
 import { FavouritesPage } from '../../pages/favourites-page/favourites-page.tsx';
@@ -12,7 +13,6 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { getOffers } from '../../store/action.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { LoadingScreen } from '../loading-screen/loading-screen.tsx';
-import { StatusCodes } from 'http-status-codes';
 
 export function App(): ReactNode {
   const dispatch = useAppDispatch();
@@ -40,7 +40,7 @@ export function App(): ReactNode {
         />
         <Route
           path={AppRoute.Unknown}
-          element={<ErrorPage statusCode={StatusCodes.NOT_FOUND} message={'Not found'} />}
+          element={<ErrorPage statusCode={StatusCodes.NOT_FOUND} message={'Not Found'} />}
         />
       </Routes>
     </BrowserRouter>

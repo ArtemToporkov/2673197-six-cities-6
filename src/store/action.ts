@@ -102,7 +102,12 @@ export const getOffer = createAsyncThunk<void, string,
       }));
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === StatusCodes.NOT_FOUND) {
-        return rejectWithValue(error.response.data as ServerError);
+        let errorInfo = error.response.data as ServerError;
+        errorInfo = {
+          ...errorInfo,
+          status: error.response.status
+        };
+        return rejectWithValue(errorInfo);
       }
       throw error;
     }
@@ -135,28 +140,34 @@ export const login = createAsyncThunk<void, { email: string; password: string },
       dispatch(changeUserInfo(user));
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === StatusCodes.BAD_REQUEST) {
-        const errorData = error.response.data as ServerError;
-        return rejectWithValue(errorData);
+        let errorInfo = error.response.data as ServerError;
+        errorInfo = {
+          ...errorInfo,
+          status: error.response.status
+        };
+        return rejectWithValue(errorInfo);
       }
       throw error;
     }
   }
 );
 
-export const sendComment = createAsyncThunk<void, CommentContent,
+export const sendComment = createAsyncThunk<void, CommentContent & { offerId: string },
   ThunkApiConfig & { rejectValue: ServerError }
 >(
   `${ActionNamespace.Offers}/sendComment`,
-  async (arg, { getState, dispatch, extra: api, rejectWithValue }) => {
+  async (arg, { dispatch, extra: api, rejectWithValue }) => {
     try {
-      const offerId = getState().offer?.id ?? null;
-      const response = await api.post(generatePath(ApiRoute.Comments, {id: offerId}), arg);
+      const response = await api.post(generatePath(ApiRoute.Comments, {id: arg.offerId}), arg);
       dispatch(addComment(response.data as Comment));
     } catch (error) {
-      if (error instanceof AxiosError
-        && error.response
-        && [StatusCodes.BAD_REQUEST, StatusCodes.UNAUTHORIZED, StatusCodes.NOT_FOUND].includes(error.response.status)) {
-        return rejectWithValue(error.response.data as ServerError);
+      if (error instanceof AxiosError && error.response) {
+        let errorInfo = error.response.data as ServerError;
+        errorInfo = {
+          ...errorInfo,
+          status: error.response.status
+        };
+        return rejectWithValue(errorInfo);
       }
       throw error;
     }

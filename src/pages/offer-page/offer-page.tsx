@@ -16,7 +16,6 @@ import type { Point } from '../../types/point.ts';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
 import { ErrorPage } from '../error-page/error-page.tsx';
 import { ServerErrorType } from '../../enums/server-error-type.ts';
-import { StatusCodes } from 'http-status-codes';
 
 function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
   return ({
@@ -49,7 +48,7 @@ export function OfferPage(): ReactNode {
     : null;
 
   if (error && error.errorType === ServerErrorType.CommonError) {
-    return <ErrorPage statusCode={StatusCodes.NOT_FOUND} message={error.message} />;
+    return <ErrorPage />;
   }
 
   if (isOfferLoading) {
