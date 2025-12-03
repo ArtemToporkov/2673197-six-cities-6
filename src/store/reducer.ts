@@ -12,9 +12,9 @@ import {
 } from './action.ts';
 import { SortingType } from '../enums/sorting-type.ts';
 import { AuthStatus } from '../enums/auth-status.ts';
+import { AUTH_HEADER_NAME } from '../const.ts';
 import type { AppState } from '../types/app-state.ts';
 import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
-import { AUTH_HEADER_NAME } from '../const.ts';
 
 const initialState: AppState = {
   city: null,
@@ -30,7 +30,8 @@ const initialState: AppState = {
   user: {
     authStatus: AuthStatus.Unknown,
     info: null
-  }
+  },
+  error: null
 };
 
 function sortOffers(offersToSort: OfferPreviewInfo[], sortingType: SortingType): OfferPreviewInfo[] {
@@ -69,9 +70,16 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(getOffer.pending, (state) => {
       state.isOfferLoading = true;
+      state.error = null;
     })
     .addCase(getOffer.fulfilled, (state) => {
       state.isOfferLoading = false;
+    })
+    .addCase(getOffer.rejected, (state, action) => {
+      state.isOfferLoading = false;
+      if (action.payload) {
+        state.error = action.payload;
+      }
     })
     .addCase(getOffers.pending, (state) => {
       state.isOffersLoading = true;

@@ -6,7 +6,7 @@ import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { Navigate } from 'react-router-dom';
 import { AppRoute } from '../../enums/app-route.ts';
-import type { AuthError } from '../../types/auth-error.ts';
+import type { ServerError } from '../../types/server-error.ts';
 
 import style from './login-page.module.css';
 
@@ -53,7 +53,7 @@ export function LoginPage(): ReactNode {
                 dispatch(login({ email: email, password: password }))
                   .unwrap()
                   .then(() => { })
-                  .catch((err: AuthError) => {
+                  .catch((err: ServerError) => {
 
                     if (err.details && err.details.length > 0) {
                       setErrors(err.details.map((detail) =>

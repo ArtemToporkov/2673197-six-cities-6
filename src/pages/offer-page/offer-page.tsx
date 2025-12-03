@@ -14,6 +14,7 @@ import { getOffer } from '../../store/action.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { Point } from '../../types/point.ts';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
+import { NotFoundPage } from '../not-found-page/not-found-page.tsx';
 
 function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
   return ({
@@ -36,6 +37,7 @@ export function OfferPage(): ReactNode {
   const comments = useAppSelector((state) => state.comments);
   const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
   const isOfferLoading = useAppSelector((state) => state.isOfferLoading);
+  const error = useAppSelector((state) => state.error);
 
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const hoveredOffer = nearbyOffers.find((o) => o.id === hoveredOfferId);
@@ -43,6 +45,10 @@ export function OfferPage(): ReactNode {
   const selectedPoint: Point | null = hoveredOfferId && hoveredOffer
     ? mapOfferPreviewInfoToPoint(hoveredOffer)
     : null;
+
+  if (error) {
+    return <NotFoundPage message={error.message} />;
+  }
 
   if (isOfferLoading) {
     return <LoadingScreen />;
