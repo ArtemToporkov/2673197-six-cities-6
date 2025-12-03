@@ -1,12 +1,13 @@
 ﻿import { createReducer } from '@reduxjs/toolkit';
 
 import {
+  addComment,
   changeUserInfo,
   getOffer,
   getOffers,
   loadCities,
   loadOffer,
-  loadOffers,
+  loadOffers, resetError, sendComment,
   switchCity,
   switchSortingType
 } from './action.ts';
@@ -90,5 +91,16 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(changeUserInfo, (state, action) => {
       state.user = action.payload;
       localStorage.setItem(AUTH_HEADER_NAME, action.payload.info?.token ?? '');
+    })
+    .addCase(addComment, (state, action) => {
+      state.comments.push(action.payload);
+    })
+    .addCase(sendComment.rejected, (state, action) => {
+      if (action.payload) {
+        state.error = action.payload;
+      }
+    })
+    .addCase(resetError, (state) => {
+      state.error = null;
     });
 });

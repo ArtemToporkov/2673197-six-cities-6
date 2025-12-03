@@ -6,9 +6,9 @@ import { ActionNamespace } from '../enums/action-namespace.ts';
 import { SortingType } from '../enums/sorting-type.ts';
 import { ApiRoute } from '../enums/api-route.ts';
 import { generatePath } from 'react-router-dom';
-import { Comment } from '../types/comment.ts';
 import { AuthStatus } from '../enums/auth-status.ts';
 import { ServerError } from '../types/server-error.ts';
+import type { Comment } from '../types/comment.ts';
 import type { AppDispatch } from '../types/app-dispatch.ts';
 import type { State } from '../types/state.ts';
 import type { City } from '../types/city.ts';
@@ -16,12 +16,17 @@ import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 import type { OfferFullInfo } from '../types/offer-full-info.ts';
 import type { User } from '../types/user.ts';
 import type { UserInfo } from '../types/user-info.ts';
+import type { CommentContent } from '../types/comment-content.ts';
 
 type ThunkApiConfig = {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }
+
+export const resetError = createAction(
+  `${ActionNamespace.Error}/resetError`
+);
 
 export const changeUserInfo = createAction<User>(
   `${ActionNamespace.User}/changeUserInfo`
@@ -33,6 +38,10 @@ export const loadOffer = createAction<{
   nearbyOffers: OfferPreviewInfo[];
 }>(
   `${ActionNamespace.Offers}/loadOffer`
+);
+
+export const addComment = createAction<Comment>(
+  `${ActionNamespace.Offers}/addComment`
 );
 
 export const loadOffers = createAction<OfferPreviewInfo[]>(
@@ -125,9 +134,29 @@ export const login = createAsyncThunk<void, { email: string; password: string },
       };
       dispatch(changeUserInfo(user));
     } catch (error) {
-      if (error instanceof AxiosError && error.response && error.response.status === 400) {
+      if (error instanceof AxiosError && error.response?.status === StatusCodes.BAD_REQUEST) {
         const errorData = error.response.data as ServerError;
         return rejectWithValue(errorData);
+      }
+      throw error;
+    }
+  }
+);
+
+export const sendComment = createAsyncThunk<void, CommentContent,
+  ThunkApiConfig & { rejectValue: ServerError }
+>(
+  `${ActionNamespace.Offers}/sendComment`,
+  async (arg, { getState, dispatch, extra: api, rejectWithValue }) => {
+    try {
+      const offerId = getState().offer?.id ?? null;
+      const response = await api.post(generatePath(ApiRoute.Comments, {id: offerId}), arg);
+      dispatch(addComment(response.data as Comment));
+    } catch (error) {
+      if (error instanceof AxiosError
+        && error.response
+        && [StatusCodes.BAD_REQUEST, StatusCodes.UNAUTHORIZED, StatusCodes.NOT_FOUND].includes(error.response.status)) {
+        return rejectWithValue(error.response.data as ServerError);
       }
       throw error;
     }

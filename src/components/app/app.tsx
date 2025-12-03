@@ -5,13 +5,14 @@ import { AppRoute } from '../../enums/app-route.ts';
 import { FavouritesPage } from '../../pages/favourites-page/favourites-page.tsx';
 import { LoginPage } from '../../pages/login-page/login-page.tsx';
 import { MainPage } from '../../pages/main-page/main-page.tsx';
-import { NotFoundPage } from '../../pages/not-found-page/not-found-page.tsx';
+import { ErrorPage } from '../../pages/error-page/error-page.tsx';
 import { OfferPage } from '../../pages/offer-page/offer-page.tsx';
 import { PrivateRoute } from '../private-route/private-route.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { getOffers } from '../../store/action.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { LoadingScreen } from '../loading-screen/loading-screen.tsx';
+import { StatusCodes } from 'http-status-codes';
 
 export function App(): ReactNode {
   const dispatch = useAppDispatch();
@@ -37,7 +38,10 @@ export function App(): ReactNode {
             </PrivateRoute>
           }
         />
-        <Route path={AppRoute.Unknown} element={<NotFoundPage />} />
+        <Route
+          path={AppRoute.Unknown}
+          element={<ErrorPage statusCode={StatusCodes.NOT_FOUND} message={'Not found'} />}
+        />
       </Routes>
     </BrowserRouter>
   );

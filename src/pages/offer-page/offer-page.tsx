@@ -1,6 +1,6 @@
-﻿import { useEffect, useState } from 'react';
+﻿import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import type { ReactNode } from 'react';
 
 import { HostCard } from '../../components/host-card/host-card.tsx';
 import { Map } from '../../components/map/map.tsx';
@@ -14,7 +14,9 @@ import { getOffer } from '../../store/action.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { Point } from '../../types/point.ts';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
-import { NotFoundPage } from '../not-found-page/not-found-page.tsx';
+import { ErrorPage } from '../error-page/error-page.tsx';
+import { ServerErrorType } from '../../enums/server-error-type.ts';
+import { StatusCodes } from 'http-status-codes';
 
 function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
   return ({
@@ -46,8 +48,8 @@ export function OfferPage(): ReactNode {
     ? mapOfferPreviewInfoToPoint(hoveredOffer)
     : null;
 
-  if (error) {
-    return <NotFoundPage message={error.message} />;
+  if (error && error.errorType === ServerErrorType.CommonError) {
+    return <ErrorPage statusCode={StatusCodes.NOT_FOUND} message={error.message} />;
   }
 
   if (isOfferLoading) {
