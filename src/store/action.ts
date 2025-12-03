@@ -152,13 +152,18 @@ export const login = createAsyncThunk<void, { email: string; password: string },
   }
 );
 
-export const sendComment = createAsyncThunk<void, CommentContent & { offerId: string },
+export const sendComment = createAsyncThunk<
+  void,
+  { comment: CommentContent; offerId: string },
   ThunkApiConfig & { rejectValue: ServerError }
 >(
   `${ActionNamespace.Offers}/sendComment`,
   async (arg, { dispatch, extra: api, rejectWithValue }) => {
     try {
-      const response = await api.post(generatePath(ApiRoute.Comments, {id: arg.offerId}), arg);
+      const response = await api.post(
+        generatePath(ApiRoute.Comments, {id: arg.offerId}),
+        arg.comment
+      );
       dispatch(addComment(response.data as Comment));
     } catch (error) {
       if (error instanceof AxiosError && error.response) {

@@ -27,7 +27,7 @@ export function CommentForm(): ReactNode {
       method="post"
       onSubmit={(e) => {
         e.preventDefault();
-        dispatch(sendComment({ ...comment, offerId: offerId }))
+        dispatch(sendComment({ comment: comment, offerId: offerId }))
           .unwrap()
           .then(() => setComment({ rating: null, comment: '' }));
       }}
