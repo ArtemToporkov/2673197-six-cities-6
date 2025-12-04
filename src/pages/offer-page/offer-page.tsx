@@ -1,5 +1,5 @@
 ﻿import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { HostCard } from '../../components/host-card/host-card.tsx';
@@ -45,9 +45,12 @@ export function OfferPage(): ReactNode {
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const hoveredOffer = nearbyOffers.find((o) => o.id === hoveredOfferId);
 
-  const selectedPoint: Point | null = hoveredOfferId && hoveredOffer
-    ? mapOfferPreviewInfoToPoint(hoveredOffer)
-    : null;
+  const selectedPoint: Point | null = useMemo(() => {
+    if (!hoveredOfferId || !hoveredOffer) {
+      return null;
+    }
+    return mapOfferPreviewInfoToPoint(hoveredOffer);
+  }, [hoveredOfferId, hoveredOffer]);
 
   if (error && error.errorType === ServerErrorType.CommonError) {
     return <ErrorPage />;

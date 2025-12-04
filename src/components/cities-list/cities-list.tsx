@@ -1,4 +1,5 @@
 ﻿import classNames from 'classnames';
+import { memo, useCallback } from 'react';
 import type { ReactNode } from 'react';
 
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
@@ -9,8 +10,10 @@ type CitiesListProps = {
   onCityClick: (city: City) => void;
 }
 
-export function CitiesList({cities, onCityClick}: CitiesListProps): ReactNode {
+function CitiesListComponent({cities, onCityClick}: CitiesListProps): ReactNode {
   const currentCity = useAppSelector((state) => state.cities.city);
+  const handleCityClick = useCallback((city: City) => onCityClick(city), [onCityClick]);
+
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
@@ -22,7 +25,7 @@ export function CitiesList({cities, onCityClick}: CitiesListProps): ReactNode {
                 'tabs__item',
                 { 'tabs__item--active': currentCity && city.name === currentCity.name }
               )}
-              onClick={() => onCityClick(city)}
+              onClick={() => handleCityClick(city)}
             >
               <span>{city.name}</span>
             </a>
@@ -32,3 +35,5 @@ export function CitiesList({cities, onCityClick}: CitiesListProps): ReactNode {
     </section>
   );
 }
+
+export const CitiesList = memo(CitiesListComponent);
