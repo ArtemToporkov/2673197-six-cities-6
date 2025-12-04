@@ -10,7 +10,7 @@ import { CommentForm } from '../../components/comment-form/comment-form.tsx';
 import { CommentsList } from '../../components/comments-list/comments-list.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
-import { getOffer } from '../../store/action.ts';
+import { getOffer } from '../../store/offers-slice.ts';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
 import { ErrorPage } from '../error-page/error-page.tsx';
 import { ServerErrorType } from '../../enums/server-error-type.ts';
@@ -34,11 +34,11 @@ export function OfferPage(): ReactNode {
     dispatch(getOffer(id));
   }, [id, dispatch]);
 
-  const offer = useAppSelector((state) => state.offer);
-  const currentCity = useAppSelector((state) => state.city);
-  const comments = useAppSelector((state) => state.comments);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
-  const isOfferLoading = useAppSelector((state) => state.isOfferLoading);
+  const offer = useAppSelector((state) => state.offers.offer);
+  const currentCity = useAppSelector((state) => state.cities.city);
+  const comments = useAppSelector((state) => state.offers.comments);
+  const nearbyOffers = useAppSelector((state) => state.offers.nearbyOffers);
+  const isOfferLoading = useAppSelector((state) => state.offers.isOfferLoading);
   const error = useAppSelector((state) => state.error);
   const user = useAppSelector((state) => state.user);
 

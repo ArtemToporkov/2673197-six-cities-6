@@ -1,11 +1,14 @@
 ﻿import { ReactNode, useState } from 'react';
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
-import { login, resetError } from '../../store/action.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
-import { AuthStatus } from '../../enums/auth-status.ts';
 import { Navigate } from 'react-router-dom';
+
+import { login } from '../../store/user-slice.ts';
+import { resetError } from '../../store/error-slice.ts';
+import { AuthStatus } from '../../enums/auth-status.ts';
 import { AppRoute } from '../../enums/app-route.ts';
+import type { ServerError } from '../../types/server-error.ts';
 
 import style from './login-page.module.css';
 import { ServerErrorType } from '../../enums/server-error-type.ts';
@@ -18,7 +21,7 @@ export function LoginPage(): ReactNode {
   dispatch(resetError());
 
   const authState = useAppSelector((state) => state.user.authStatus);
-  const error = useAppSelector((state) => state.error);
+  const error = useAppSelector((state) => state.error) as ServerError | null;
   if (error && error.errorType === ServerErrorType.ValidationError) {
     setErrors(error.details.map(
       (detail) => `${detail.property}: ${detail.messages.join(', ')}`)

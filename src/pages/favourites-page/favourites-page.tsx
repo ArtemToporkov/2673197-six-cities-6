@@ -29,7 +29,7 @@ function getFavouritesSections(offersByCityName: Record<string, OfferPreviewInfo
 }
 
 export function FavouritesPage(): ReactNode {
-  const offers = useAppSelector((state) => state.offersInCity);
+  const offers = useAppSelector((state) => state.offers.offersInCity);
   const favouriteOffers = offers.filter((o) => o.isFavourite);
   const offersByCity = groupOffersByCityName(favouriteOffers);
   const sections = getFavouritesSections(offersByCity);

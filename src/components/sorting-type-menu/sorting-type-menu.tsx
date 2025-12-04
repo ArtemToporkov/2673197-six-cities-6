@@ -2,17 +2,17 @@
 import type { ReactNode } from 'react';
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
-import { switchSortingType } from '../../store/action.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { useToggle } from '../../hooks/use-toggle.ts';
 import { SortingType } from '../../enums/sorting-type.ts';
+import { switchSortingType } from '../../store/offers-slice.ts';
 
 const sortingTypes = Object.values(SortingType) as SortingType[];
 
 export function SortingTypeMenu(): ReactNode {
   const [isOpened, toggleIsOpened] = useToggle(false);
   const dispatch = useAppDispatch();
-  const currentSortingType = useAppSelector((state) => state.currentSortingType);
+  const currentSortingType = useAppSelector((state) => state.offers.currentSortingType);
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by </span>

@@ -7,10 +7,10 @@ import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
-import { switchCity } from '../../store/action.ts';
 import { Header } from '../../components/header/header.tsx';
 import type { Point } from '../../types/point.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
+import { switchCity } from '../../store/cities-slice.ts';
 
 function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
   return ({
@@ -23,9 +23,9 @@ function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
 export function MainPage(): ReactNode {
   const dispatch = useAppDispatch();
 
-  const currentOffers = useAppSelector((state) => state.offersInCity);
-  const currentCity = useAppSelector((state) => state.city);
-  const cities = useAppSelector((state) => state.cities);
+  const currentOffers = useAppSelector((state) => state.offers.offersInCity);
+  const currentCity = useAppSelector((state) => state.cities.city);
+  const cities = useAppSelector((state) => state.cities.cities);
 
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const selectedPoint = hoveredOfferId

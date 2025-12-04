@@ -10,7 +10,7 @@ type CitiesListProps = {
 }
 
 export function CitiesList({cities, onCityClick}: CitiesListProps): ReactNode {
-  const currentCity = useAppSelector((state) => state.city);
+  const currentCity = useAppSelector((state) => state.cities.city);
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
@@ -20,7 +20,7 @@ export function CitiesList({cities, onCityClick}: CitiesListProps): ReactNode {
               className={classNames(
                 'locations__item-link',
                 'tabs__item',
-                { 'tabs__item--active': city === currentCity }
+                { 'tabs__item--active': currentCity && city.name === currentCity.name }
               )}
               onClick={() => onCityClick(city)}
             >
