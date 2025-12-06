@@ -1,4 +1,5 @@
 ﻿import { generatePath, Link } from 'react-router-dom';
+import { memo } from 'react';
 import type { ReactNode } from 'react';
 
 import { AppRoute } from '../../enums/app-route.ts';
@@ -10,7 +11,7 @@ type HotelInfoProps = OfferPreviewInfo & {
   onMouseLeave: () => void;
 };
 
-export function HotelCard({id, isPremium = false, previewImage, price, type, title, onMouseOver, onMouseLeave}: HotelInfoProps): ReactNode {
+function HotelCardComponent({id, isPremium = false, previewImage, price, type, title, onMouseOver, onMouseLeave}: HotelInfoProps): ReactNode {
   return (
     <article className="cities__card place-card">
       {isPremium && <PremiumLabel />}
@@ -63,3 +64,5 @@ export function HotelCard({id, isPremium = false, previewImage, price, type, tit
     </article>
   );
 }
+
+export const HotelCard = memo(HotelCardComponent);

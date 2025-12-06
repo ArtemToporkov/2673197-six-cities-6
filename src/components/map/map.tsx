@@ -1,4 +1,4 @@
-﻿import { useRef, useEffect } from 'react';
+﻿import { memo, useRef, useEffect } from 'react';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { ReactNode } from 'react';
@@ -28,7 +28,7 @@ const currentCustomMarker = new Icon({
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
 });
 
-export function Map({city, points, selectedPoint}: MapProps): ReactNode {
+function MapComponent({city, points, selectedPoint}: MapProps): ReactNode {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -58,3 +58,5 @@ export function Map({city, points, selectedPoint}: MapProps): ReactNode {
 
   return <div style={{height: '500px'}} ref={mapRef}></div>;
 }
+
+export const Map = memo(MapComponent);

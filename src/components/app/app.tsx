@@ -10,16 +10,16 @@ import { ErrorPage } from '../../pages/error-page/error-page.tsx';
 import { OfferPage } from '../../pages/offer-page/offer-page.tsx';
 import { PrivateRoute } from '../private-route/private-route.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
-import { getOffers } from '../../store/action.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { LoadingScreen } from '../loading-screen/loading-screen.tsx';
+import { getOffers } from '../../store/offers-slice.ts';
 
 export function App(): ReactNode {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getOffers());
   }, [dispatch]);
-  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+  const isOffersLoading = useAppSelector((state) => state.offers.isOffersLoading);
   if (isOffersLoading) {
     return <LoadingScreen />;
   }

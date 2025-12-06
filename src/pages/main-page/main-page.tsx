@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+﻿import { useCallback, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import { CitiesList } from '../../components/cities-list/cities-list.tsx';
@@ -7,10 +7,11 @@ import { OffersList } from '../../components/offers-list/offers-list.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
-import { switchCity } from '../../store/action.ts';
 import { Header } from '../../components/header/header.tsx';
 import type { Point } from '../../types/point.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
+import type { City } from '../../types/city.ts';
+import { switchCity } from '../../store/cities-slice.ts';
 
 function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
   return ({
@@ -23,14 +24,28 @@ function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
 export function MainPage(): ReactNode {
   const dispatch = useAppDispatch();
 
-  const currentOffers = useAppSelector((state) => state.offersInCity);
-  const currentCity = useAppSelector((state) => state.city);
-  const cities = useAppSelector((state) => state.cities);
+  const currentOffers = useAppSelector((state) => state.offers.offersInCity);
+  const currentCity = useAppSelector((state) => state.cities.city);
+  const cities = useAppSelector((state) => state.cities.cities);
 
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
-  const selectedPoint = hoveredOfferId
-    ? mapOfferPreviewInfoToPoint(currentOffers.find((o) => o.id === hoveredOfferId) as OfferPreviewInfo)
-    : null;
+  const selectedPoint = useMemo<Point | null>(() => {
+    if (!hoveredOfferId) {
+      return null;
+    }
+    const hoveredOffer = currentOffers.find((o) => o.id === hoveredOfferId);
+    return hoveredOffer ? mapOfferPreviewInfoToPoint(hoveredOffer) : null;
+  }, [hoveredOfferId, currentOffers]);
+
+  const mapPoints = useMemo<Point[]>(() => currentOffers.map<Point>(mapOfferPreviewInfoToPoint), [currentOffers]);
+
+  const handleCityClick = useCallback((city: City) => {
+    dispatch(switchCity(city));
+  }, [dispatch]);
+
+  const handleOfferUnhover = useCallback(() => {
+    setHoveredOfferId(null);
+  }, []);
 
   return (
     <div className="page page--gray page--main">
@@ -38,7 +53,7 @@ export function MainPage(): ReactNode {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <CitiesList cities={cities} onCityClick={(city) => dispatch(switchCity(city))}/>
+          <CitiesList cities={cities} onCityClick={handleCityClick}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
@@ -50,7 +65,7 @@ export function MainPage(): ReactNode {
                 <OffersList
                   offers={currentOffers}
                   onOfferCardHover={setHoveredOfferId}
-                  onOfferCardUnhover={() => setHoveredOfferId(null)}
+                  onOfferCardUnhover={handleOfferUnhover}
                 />
               </div>
             </section>
@@ -58,7 +73,7 @@ export function MainPage(): ReactNode {
               <section className="cities__map map" style={{backgroundImage: 'none'}}>
                 <Map
                   city={currentCity}
-                  points={currentOffers.map<Point>(mapOfferPreviewInfoToPoint)}
+                  points={mapPoints}
                   selectedPoint={selectedPoint}
                 />
               </section>

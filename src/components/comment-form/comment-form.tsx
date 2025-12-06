@@ -3,18 +3,20 @@ import type { ReactNode } from 'react';
 
 import { ScoreStars } from '../score-stars/score-stars.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
-import { resetError, sendComment } from '../../store/action.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { ServerErrorType } from '../../enums/server-error-type.ts';
 import type { CommentContent } from '../../types/comment-content.ts';
+import type { ServerError } from '../../types/server-error.ts';
+import { resetError } from '../../store/error-slice.ts';
+import { sendComment } from '../../store/offers-slice.ts';
 
 const MIN_COMMENT_LENGTH = 50;
 
 export function CommentForm(): ReactNode {
   const [comment, setComment] = useState<CommentContent>({ rating: null, comment: '' });
   const dispatch = useAppDispatch();
-  const error = useAppSelector((state) => state.error);
-  const offerId = useAppSelector((state) => state.offer?.id);
+  const error = useAppSelector((state) => state.error) as ServerError | null;
+  const offerId = useAppSelector((state) => state.offers.offer?.id);
 
   if (!offerId) {
     throw new Error('CommentForm can\'t be used without an offerId');
