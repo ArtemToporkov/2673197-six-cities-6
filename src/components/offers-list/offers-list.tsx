@@ -8,9 +8,10 @@ type OffersListProps = {
   offers: OfferPreviewInfo[];
   onOfferCardHover: (hoveredOfferId: string) => void;
   onOfferCardUnhover: () => void;
+  onBookmarkClick: (offerId: string) => void;
 }
 
-function OffersListComponent({offers, onOfferCardHover, onOfferCardUnhover}: OffersListProps): ReactNode {
+function OffersListComponent({offers, onOfferCardHover, onOfferCardUnhover, onBookmarkClick}: OffersListProps): ReactNode {
   const handleCardUnhover = useCallback(() => onOfferCardUnhover(), [onOfferCardUnhover]);
 
   return (
@@ -28,6 +29,7 @@ function OffersListComponent({offers, onOfferCardHover, onOfferCardUnhover}: Off
             title={offer.title}
             onMouseOver={handleCardHover}
             onMouseLeave={handleCardUnhover}
+            onBookmarkClick={onBookmarkClick}
           />
         );
       })}

@@ -4,13 +4,16 @@ import type { ReactNode } from 'react';
 import { AppRoute } from '../../enums/app-route.ts';
 import { PremiumLabel } from '../premium-label/premium-label.tsx';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
+import { BookmarkButton } from '../bookmark-button/bookmark-button.tsx';
 
 type FavouriteCardProps = {
   offer: OfferPreviewInfo;
+  onBookmarkClick: (offerId: string) => void;
 }
 
 export function FavouriteCard({
   offer: { id, isPremium, previewImage, price, title, type },
+  onBookmarkClick
 }: FavouriteCardProps): ReactNode {
   return (
     <article className="favorites__card place-card">
@@ -34,19 +37,7 @@ export function FavouriteCard({
               /&nbsp;night
             </span>
           </div>
-          <button
-            className="place-card__bookmark-button place-card__bookmark-button--active button"
-            type="button"
-          >
-            <svg
-              className="place-card__bookmark-icon"
-              width={18}
-              height={19}
-            >
-              <use xlinkHref="#icon-bookmark"/>
-            </svg>
-            <span className="visually-hidden">In bookmarks</span>
-          </button>
+          <BookmarkButton active onClick={() => onBookmarkClick(id)}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

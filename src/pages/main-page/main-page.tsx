@@ -1,4 +1,5 @@
-﻿import { useCallback, useMemo, useState } from 'react';
+﻿import { useNavigate } from 'react-router-dom';
+import { useCallback, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import { CitiesList } from '../../components/cities-list/cities-list.tsx';
@@ -8,10 +9,13 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
 import { Header } from '../../components/header/header.tsx';
+import { switchCity } from '../../store/cities-slice.ts';
+import { addOfferToFavourites } from '../../store/offers-slice.ts';
+import { AuthStatus } from '../../enums/auth-status.ts';
+import { AppRoute } from '../../enums/app-route.ts';
 import type { Point } from '../../types/point.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { City } from '../../types/city.ts';
-import { switchCity } from '../../store/cities-slice.ts';
 
 function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
   return ({
@@ -45,6 +49,8 @@ export function MainPage(): ReactNode {
   const currentOffers = useAppSelector((state) => state.offers.offersInCity);
   const currentCity = useAppSelector((state) => state.cities.city);
   const cities = useAppSelector((state) => state.cities.cities);
+  const authStatus = useAppSelector((state) => state.user.authStatus);
+  const navigate = useNavigate();
 
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const selectedPoint = useMemo<Point | null>(() => {
@@ -60,6 +66,14 @@ export function MainPage(): ReactNode {
   const handleCityClick = useCallback((city: City) => {
     dispatch(switchCity(city));
   }, [dispatch]);
+
+  const handleBookmarkClick = (offerId: string) => {
+    if (authStatus !== AuthStatus.Authorized) {
+      navigate(AppRoute.Login);
+    } else {
+      dispatch(addOfferToFavourites({ offerId }));
+    }
+  };
 
   const handleOfferUnhover = useCallback(() => {
     setHoveredOfferId(null);
@@ -87,6 +101,7 @@ export function MainPage(): ReactNode {
                       offers={currentOffers}
                       onOfferCardHover={setHoveredOfferId}
                       onOfferCardUnhover={handleOfferUnhover}
+                      onBookmarkClick={handleBookmarkClick}
                     />
                   </div>
                 </section>

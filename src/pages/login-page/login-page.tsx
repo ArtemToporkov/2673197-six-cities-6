@@ -28,7 +28,6 @@ export function LoginPage(): ReactNode {
     );
   }
 
-
   if (authState === AuthStatus.Authorized) {
     return <Navigate to={AppRoute.Main} />;
   }
