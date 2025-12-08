@@ -11,10 +11,8 @@ import { removeOfferFromFavourites } from '../../store/offers-slice.ts';
 
 function groupOffersByCityName(offers: OfferPreviewInfo[]): Record<string, OfferPreviewInfo[]> {
   return offers.reduce((acc, item) => {
-    if (item.isFavourite) {
-      const cityName = item.city.name;
-      (acc[cityName] ||= []).push(item);
-    }
+    const cityName = item.city.name;
+    (acc[cityName] ||= []).push(item);
     return acc;
   }, {} as Record<string, OfferPreviewInfo[]>);
 }
@@ -45,8 +43,9 @@ export function FavouritesPage(): ReactNode {
     return <Navigate to={AppRoute.Login} />;
   }
   const offersByCity = groupOffersByCityName(favouriteOffers);
-  const onBookmarkClick = (offerId: string) =>
-    dispatch(removeOfferFromFavourites({ offerId }));
+  const onBookmarkClick = (offerId: string) => {
+    dispatch(removeOfferFromFavourites({offerId}));
+  };
   const sections = getFavouritesSections(offersByCity, onBookmarkClick);
   return (
     <div className="page">
