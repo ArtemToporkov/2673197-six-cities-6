@@ -21,6 +21,24 @@ function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
   });
 }
 
+function NoPlacesAvailable({ city }: { city: string | undefined }): ReactNode {
+  return (
+    <div className="cities">
+      <div className="cities__places-container cities__places-container--empty container">
+        <section className="cities__no-places">
+          <div className="cities__status-wrapper tabs__content">
+            <b className="cities__status">No places to stay available</b>
+            <p className="cities__status-description">
+              We could not find any property available at the moment in {city}
+            </p>
+          </div>
+        </section>
+        <div className="cities__right-section" />
+      </div>
+    </div>
+  );
+}
+
 export function MainPage(): ReactNode {
   const dispatch = useAppDispatch();
 
@@ -55,31 +73,35 @@ export function MainPage(): ReactNode {
         <div className="tabs">
           <CitiesList cities={cities} onCityClick={handleCityClick}/>
         </div>
-        <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{currentOffers.length} places to stay in {currentCity?.name}</b>
-              <SortingTypeMenu />
-              <div className="cities__places-list places__list tabs__content">
-                <OffersList
-                  offers={currentOffers}
-                  onOfferCardHover={setHoveredOfferId}
-                  onOfferCardUnhover={handleOfferUnhover}
-                />
+        {currentOffers.length === 0
+          ? <NoPlacesAvailable city={currentCity?.name}></NoPlacesAvailable>
+          : (
+            <div className="cities">
+              <div className="cities__places-container container">
+                <section className="cities__places places">
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">{currentOffers.length} places to stay in {currentCity?.name}</b>
+                  <SortingTypeMenu/>
+                  <div className="cities__places-list places__list tabs__content">
+                    <OffersList
+                      offers={currentOffers}
+                      onOfferCardHover={setHoveredOfferId}
+                      onOfferCardUnhover={handleOfferUnhover}
+                    />
+                  </div>
+                </section>
+                <div className="cities__right-section">
+                  <section className="cities__map map" style={{backgroundImage: 'none'}}>
+                    <Map
+                      city={currentCity}
+                      points={mapPoints}
+                      selectedPoint={selectedPoint}
+                    />
+                  </section>
+                </div>
               </div>
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map" style={{backgroundImage: 'none'}}>
-                <Map
-                  city={currentCity}
-                  points={mapPoints}
-                  selectedPoint={selectedPoint}
-                />
-              </section>
             </div>
-          </div>
-        </div>
+          )}
       </main>
     </div>
   );
