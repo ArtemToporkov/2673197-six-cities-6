@@ -243,10 +243,52 @@ export const offersSlice = createSlice({
       state.offersInCity = sortOffers(state.offersInCity, action.payload);
     },
     addFavourite(state, action: PayloadAction<OfferPreviewInfo>) {
-      state.favouriteOffers.push(action.payload);
+      const payload = action.payload;
+
+      state.favouriteOffers.push(payload);
+
+      const foundInCity = state.offersInCity.find((o) => o.id === payload.id);
+      if (foundInCity) {
+        foundInCity.isFavourite = true;
+      }
+
+      const foundInAll = state.allOffers.find((o) => o.id === payload.id);
+      if (foundInAll) {
+        foundInAll.isFavourite = true;
+      }
+
+      const foundInNearby = state.nearbyOffers.find((o) => o.id === payload.id);
+      if (foundInNearby) {
+        foundInNearby.isFavourite = true;
+      }
+
+      if (state.offer && state.offer.id === payload.id) {
+        state.offer.isFavourite = true;
+      }
     },
     removeFavourite(state, action: PayloadAction<OfferPreviewInfo>) {
-      state.favouriteOffers = state.favouriteOffers.filter((o) => o.id !== action.payload.id);
+      const payload = action.payload;
+
+      state.favouriteOffers = state.favouriteOffers.filter((o) => o.id !== payload.id);
+
+      const foundInCity = state.offersInCity.find((o) => o.id === payload.id);
+      if (foundInCity) {
+        foundInCity.isFavourite = false;
+      }
+
+      const foundInAll = state.allOffers.find((o) => o.id === payload.id);
+      if (foundInAll) {
+        foundInAll.isFavourite = false;
+      }
+
+      const foundInNearby = state.nearbyOffers.find((o) => o.id === payload.id);
+      if (foundInNearby) {
+        foundInNearby.isFavourite = false;
+      }
+
+      if (state.offer && state.offer.id === payload.id) {
+        state.offer.isFavourite = false;
+      }
     },
     loadFavourites(state, action: PayloadAction<OfferPreviewInfo[]>) {
       state.favouriteOffers = action.payload;
