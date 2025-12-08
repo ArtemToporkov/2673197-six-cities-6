@@ -4,6 +4,6 @@
   NearbyOffers = 'offers/:id/nearby',
   Comments = '/comments/:id',
   Login = 'login',
-  FavouriteStatus = '/favourite/:offerId/:status',
-  Favourite = '/favourite'
+  FavouriteStatus = '/favorite/:offerId/:status',
+  Favourite = '/favorite'
 }
