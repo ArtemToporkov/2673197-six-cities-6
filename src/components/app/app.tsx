@@ -12,13 +12,20 @@ import { PrivateRoute } from '../private-route/private-route.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { LoadingScreen } from '../loading-screen/loading-screen.tsx';
-import { getOffers } from '../../store/offers-slice.ts';
+import { getFavouriteOffers, getOffers } from '../../store/offers-slice.ts';
+import { AuthStatus } from '../../enums/auth-status.ts';
 
 export function App(): ReactNode {
   const dispatch = useAppDispatch();
+  const authStatus = useAppSelector((state) => state.user.authStatus);
   useEffect(() => {
     dispatch(getOffers());
   }, [dispatch]);
+  useEffect(() => {
+    if (authStatus === AuthStatus.Authorized) {
+      dispatch(getFavouriteOffers);
+    }
+  }, [authStatus, dispatch]);
   const isOffersLoading = useAppSelector((state) => state.offers.isOffersLoading);
   if (isOffersLoading) {
     return <LoadingScreen />;

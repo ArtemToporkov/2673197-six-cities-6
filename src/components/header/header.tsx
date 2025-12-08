@@ -1,4 +1,5 @@
-﻿import type { ReactNode } from 'react';
+﻿import { Link } from 'react-router-dom';
+import type { ReactNode } from 'react';
 
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
@@ -6,6 +7,7 @@ import { AppRoute } from '../../enums/app-route.ts';
 
 export function Header(): ReactNode {
   const user = useAppSelector((state) => state.user);
+  const favouriteOffers = useAppSelector((state) => state.offers.favouriteOffers);
 
   let navItems: ReactNode;
   switch (user.authStatus) {
@@ -13,16 +15,16 @@ export function Header(): ReactNode {
       navItems = (
         <>
           <li className="header__nav-item user">
-            <a
+            <Link
               className="header__nav-link header__nav-link--profile"
-              href="#"
+              to={AppRoute.Favourites}
             >
               <div className="header__avatar-wrapper user__avatar-wrapper"></div>
               <span className="header__user-name user__name">
                 {user.info.email}
               </span>
-              <span className="header__favorite-count">3</span>
-            </a>
+              <span className="header__favorite-count">{favouriteOffers.length}</span>
+            </Link>
           </li>
           <li className="header__nav-item">
             <a className="header__nav-link" href="#">

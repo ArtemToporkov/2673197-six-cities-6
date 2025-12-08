@@ -1,4 +1,5 @@
-﻿import { useCallback, useMemo, useState } from 'react';
+﻿import { useNavigate } from 'react-router-dom';
+import { useCallback, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import { CitiesList } from '../../components/cities-list/cities-list.tsx';
@@ -8,10 +9,13 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
 import { Header } from '../../components/header/header.tsx';
+import { switchCity } from '../../store/cities-slice.ts';
+import { addOfferToFavourites } from '../../store/offers-slice.ts';
+import { AuthStatus } from '../../enums/auth-status.ts';
+import { AppRoute } from '../../enums/app-route.ts';
 import type { Point } from '../../types/point.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { City } from '../../types/city.ts';
-import { switchCity } from '../../store/cities-slice.ts';
 
 function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
   return ({
@@ -21,12 +25,32 @@ function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
   });
 }
 
+function NoPlacesAvailable({ city }: { city: string | undefined }): ReactNode {
+  return (
+    <div className="cities">
+      <div className="cities__places-container cities__places-container--empty container">
+        <section className="cities__no-places">
+          <div className="cities__status-wrapper tabs__content">
+            <b className="cities__status">No places to stay available</b>
+            <p className="cities__status-description">
+              We could not find any property available at the moment in {city}
+            </p>
+          </div>
+        </section>
+        <div className="cities__right-section" />
+      </div>
+    </div>
+  );
+}
+
 export function MainPage(): ReactNode {
   const dispatch = useAppDispatch();
 
   const currentOffers = useAppSelector((state) => state.offers.offersInCity);
   const currentCity = useAppSelector((state) => state.cities.city);
   const cities = useAppSelector((state) => state.cities.cities);
+  const authStatus = useAppSelector((state) => state.user.authStatus);
+  const navigate = useNavigate();
 
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const selectedPoint = useMemo<Point | null>(() => {
@@ -43,6 +67,14 @@ export function MainPage(): ReactNode {
     dispatch(switchCity(city));
   }, [dispatch]);
 
+  const handleBookmarkClick = (offerId: string) => {
+    if (authStatus !== AuthStatus.Authorized) {
+      navigate(AppRoute.Login);
+    } else {
+      dispatch(addOfferToFavourites({ offerId }));
+    }
+  };
+
   const handleOfferUnhover = useCallback(() => {
     setHoveredOfferId(null);
   }, []);
@@ -55,31 +87,36 @@ export function MainPage(): ReactNode {
         <div className="tabs">
           <CitiesList cities={cities} onCityClick={handleCityClick}/>
         </div>
-        <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{currentOffers.length} places to stay in {currentCity?.name}</b>
-              <SortingTypeMenu />
-              <div className="cities__places-list places__list tabs__content">
-                <OffersList
-                  offers={currentOffers}
-                  onOfferCardHover={setHoveredOfferId}
-                  onOfferCardUnhover={handleOfferUnhover}
-                />
+        {currentOffers.length === 0
+          ? <NoPlacesAvailable city={currentCity?.name}></NoPlacesAvailable>
+          : (
+            <div className="cities">
+              <div className="cities__places-container container">
+                <section className="cities__places places">
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">{currentOffers.length} places to stay in {currentCity?.name}</b>
+                  <SortingTypeMenu/>
+                  <div className="cities__places-list places__list tabs__content">
+                    <OffersList
+                      offers={currentOffers}
+                      onOfferCardHover={setHoveredOfferId}
+                      onOfferCardUnhover={handleOfferUnhover}
+                      onBookmarkClick={handleBookmarkClick}
+                    />
+                  </div>
+                </section>
+                <div className="cities__right-section">
+                  <section className="cities__map map" style={{backgroundImage: 'none'}}>
+                    <Map
+                      city={currentCity}
+                      points={mapPoints}
+                      selectedPoint={selectedPoint}
+                    />
+                  </section>
+                </div>
               </div>
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map" style={{backgroundImage: 'none'}}>
-                <Map
-                  city={currentCity}
-                  points={mapPoints}
-                  selectedPoint={selectedPoint}
-                />
-              </section>
             </div>
-          </div>
-        </div>
+          )}
       </main>
     </div>
   );

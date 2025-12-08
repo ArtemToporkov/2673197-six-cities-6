@@ -1,6 +1,6 @@
 ﻿import type { ReactNode } from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { HostCard } from '../../components/host-card/host-card.tsx';
 import { Map } from '../../components/map/map.tsx';
@@ -10,13 +10,15 @@ import { CommentForm } from '../../components/comment-form/comment-form.tsx';
 import { CommentsList } from '../../components/comments-list/comments-list.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
-import { getOffer } from '../../store/offers-slice.ts';
+import { addOfferToFavourites, getOffer } from '../../store/offers-slice.ts';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
 import { ErrorPage } from '../error-page/error-page.tsx';
 import { ServerErrorType } from '../../enums/server-error-type.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
+import { AppRoute } from '../../enums/app-route.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { Point } from '../../types/point.ts';
+import { BookmarkButton } from '../../components/bookmark-button/bookmark-button.tsx';
 
 function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
   return ({
@@ -33,6 +35,8 @@ export function OfferPage(): ReactNode {
   useEffect(() => {
     dispatch(getOffer(id));
   }, [id, dispatch]);
+
+  const navigate = useNavigate();
 
   const offer = useAppSelector((state) => state.offers.offer);
   const currentCity = useAppSelector((state) => state.cities.city);
@@ -63,6 +67,14 @@ export function OfferPage(): ReactNode {
   if (!offer) {
     throw new Error('If offer is not loading, it can\'t be undefined or null');
   }
+
+  const onBookmarkClick = (offerId: string) => {
+    if (user.authStatus === AuthStatus.Authorized) {
+      dispatch(addOfferToFavourites({ offerId }));
+    } else {
+      navigate(AppRoute.Login);
+    }
+  };
 
   return (
     <div className="page">
@@ -126,12 +138,12 @@ export function OfferPage(): ReactNode {
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width={31} height={33}>
-                    <use xlinkHref="#icon-bookmark" />
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <BookmarkButton
+                  active={offer.isFavourite ?? false}
+                  onClick={() => onBookmarkClick(offer.id)}
+                  width={31}
+                  height={33}
+                />
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
@@ -196,6 +208,7 @@ export function OfferPage(): ReactNode {
                 offers={nearbyOffers}
                 onOfferCardHover={setHoveredOfferId}
                 onOfferCardUnhover={() => setHoveredOfferId(null)}
+                onBookmarkClick={onBookmarkClick}
               />
             </div>
           </section>

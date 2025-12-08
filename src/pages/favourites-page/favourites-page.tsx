@@ -1,20 +1,26 @@
-﻿import type { ReactNode } from 'react';
+﻿import { ReactNode } from 'react';
 
 import { FavouritesSection } from '../../components/favourites-section/favourites-section.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
+import { AuthStatus } from '../../enums/auth-status.ts';
+import { Navigate } from 'react-router-dom';
+import { AppRoute } from '../../enums/app-route.ts';
+import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
+import { removeOfferFromFavourites } from '../../store/offers-slice.ts';
 
 function groupOffersByCityName(offers: OfferPreviewInfo[]): Record<string, OfferPreviewInfo[]> {
   return offers.reduce((acc, item) => {
-    if (item.isFavourite) {
-      const cityName = item.city.name;
-      (acc[cityName] ||= []).push(item);
-    }
+    const cityName = item.city.name;
+    (acc[cityName] ||= []).push(item);
     return acc;
   }, {} as Record<string, OfferPreviewInfo[]>);
 }
 
-function getFavouritesSections(offersByCityName: Record<string, OfferPreviewInfo[]>): ReactNode[] {
+function getFavouritesSections(
+  offersByCityName: Record<string, OfferPreviewInfo[]>,
+  onBookmarkClick: (offerId: string) => void
+): ReactNode[] {
   const sections: ReactNode[] = [];
   for (const [cityName, cityOffers] of Object.entries(offersByCityName)) {
     sections.push(
@@ -22,6 +28,7 @@ function getFavouritesSections(offersByCityName: Record<string, OfferPreviewInfo
         key={cityName}
         city={cityName}
         offers={cityOffers}
+        onBookmarkClick={onBookmarkClick}
       />
     );
   }
@@ -29,10 +36,17 @@ function getFavouritesSections(offersByCityName: Record<string, OfferPreviewInfo
 }
 
 export function FavouritesPage(): ReactNode {
-  const offers = useAppSelector((state) => state.offers.offersInCity);
-  const favouriteOffers = offers.filter((o) => o.isFavourite);
+  const favouriteOffers = useAppSelector((state) => state.offers.favouriteOffers);
+  const authStatus = useAppSelector((state) => state.user.authStatus);
+  const dispatch = useAppDispatch();
+  if (authStatus !== AuthStatus.Authorized) {
+    return <Navigate to={AppRoute.Login} />;
+  }
   const offersByCity = groupOffersByCityName(favouriteOffers);
-  const sections = getFavouritesSections(offersByCity);
+  const onBookmarkClick = (offerId: string) => {
+    dispatch(removeOfferFromFavourites({offerId}));
+  };
+  const sections = getFavouritesSections(offersByCity, onBookmarkClick);
   return (
     <div className="page">
       <header className="header">
