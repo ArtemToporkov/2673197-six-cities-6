@@ -1,7 +1,9 @@
 ﻿export enum ApiRoute {
   Offers = '/offers',
   Offer = 'offers/:id',
-  NearByOffers = 'offers/:id/nearby',
+  NearbyOffers = 'offers/:id/nearby',
   Comments = '/comments/:id',
-  Login = 'login'
+  Login = 'login',
+  FavouriteStatus = '/favourite/:offerId/:status',
+  Favourite = '/favourite'
 }

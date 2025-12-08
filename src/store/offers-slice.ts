@@ -2,10 +2,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, type AxiosInstance } from 'axios';
 import { StatusCodes } from 'http-status-codes';
+import { generatePath } from 'react-router-dom';
 
 import { SortingType } from '../enums/sorting-type.ts';
 import { ActionNamespace } from '../enums/action-namespace.ts';
 import { ApiRoute } from '../enums/api-route.ts';
+import { loadCities, switchCity } from './cities-slice.ts';
+import { FavouriteAction } from '../enums/favourite-action.ts';
 import type { ServerError } from '../types/server-error.ts';
 import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 import type { OfferFullInfo } from '../types/offer-full-info.ts';
@@ -13,8 +16,6 @@ import type { Comment } from '../types/comment.ts';
 import type { CommentContent } from '../types/comment-content.ts';
 import type { AppDispatch } from '../types/app-dispatch.ts';
 import type { State } from '../types/state.ts';
-import { generatePath } from 'react-router-dom';
-import { loadCities, switchCity } from './cities-slice.ts';
 
 type ThunkApiConfig = {
   dispatch: AppDispatch;
@@ -25,6 +26,7 @@ type ThunkApiConfig = {
 type OffersState = {
   offer: OfferFullInfo | null;
   nearbyOffers: OfferPreviewInfo[];
+  favouriteOffers: OfferPreviewInfo[];
   comments: Comment[];
   offersInCity: OfferPreviewInfo[];
   allOffers: OfferPreviewInfo[];
@@ -37,6 +39,7 @@ const initialState: OffersState = {
   offer: null,
   comments: [],
   nearbyOffers: [],
+  favouriteOffers: [],
   offersInCity: [],
   allOffers: [],
   currentSortingType: SortingType.Popular,
@@ -85,7 +88,7 @@ export const getOffer = createAsyncThunk<void, string,
         generatePath(ApiRoute.Comments, { id })
       );
       const nearByRequest = api.get<OfferPreviewInfo[]>(
-        generatePath(ApiRoute.NearByOffers, { id })
+        generatePath(ApiRoute.NearbyOffers, { id })
       );
 
       const [offerResponse, commentsResponse, nearByResponse] = await Promise.all(
@@ -138,6 +141,81 @@ export const sendComment = createAsyncThunk<
   }
 );
 
+export const addOfferToFavourites = createAsyncThunk<
+  void,
+  { offerId: string },
+  ThunkApiConfig
+>(
+  `${ActionNamespace.Offers}/addToFavourites`,
+  async (arg, { dispatch, extra: api, rejectWithValue }) => {
+    try {
+      const response = await api.post(
+        generatePath(ApiRoute.FavouriteStatus, { offerId: arg.offerId, status: FavouriteAction.Add })
+      );
+      const offer = response.data as OfferPreviewInfo;
+      dispatch(addFavourite(offer));
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        let errorInfo = error.response.data as ServerError;
+        errorInfo = {
+          ...errorInfo,
+          status: error.response.status
+        };
+        return rejectWithValue(errorInfo);
+      }
+      throw error;
+    }
+  }
+);
+
+export const getFavouriteOffers = createAsyncThunk<void, undefined, ThunkApiConfig>(
+  `${ActionNamespace.Offers}/getFavouriteOffers`,
+  async (_arg, { dispatch, extra: api, rejectWithValue }) => {
+    try {
+      const response = await api.get(ApiRoute.Favourite);
+      const favouriteOffers = response.data as OfferPreviewInfo[];
+      dispatch(loadFavourites(favouriteOffers));
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        let errorInfo = error.response.data as ServerError;
+        errorInfo = {
+          ...errorInfo,
+          status: error.response.status
+        };
+        return rejectWithValue(errorInfo);
+      }
+      throw error;
+    }
+  }
+);
+
+export const removeOfferFromFavourites = createAsyncThunk<
+  void,
+  { offerId: string },
+  ThunkApiConfig
+>(
+  `${ActionNamespace.Offers}/addToFavourites`,
+  async (arg, { dispatch, extra: api, rejectWithValue }) => {
+    try {
+      const response = await api.post(
+        generatePath(ApiRoute.FavouriteStatus,{ offerId: arg.offerId, status: FavouriteAction.Remove })
+      );
+      const offer = response.data as OfferPreviewInfo;
+      dispatch(removeFavourite(offer));
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        let errorInfo = error.response.data as ServerError;
+        errorInfo = {
+          ...errorInfo,
+          status: error.response.status
+        };
+        return rejectWithValue(errorInfo);
+      }
+      throw error;
+    }
+  }
+);
+
 export const offersSlice = createSlice({
   name: ActionNamespace.Offers,
   initialState,
@@ -163,6 +241,15 @@ export const offersSlice = createSlice({
     switchSortingType(state, action: PayloadAction<SortingType>) {
       state.currentSortingType = action.payload;
       state.offersInCity = sortOffers(state.offersInCity, action.payload);
+    },
+    addFavourite(state, action: PayloadAction<OfferPreviewInfo>) {
+      state.favouriteOffers.push(action.payload);
+    },
+    removeFavourite(state, action: PayloadAction<OfferPreviewInfo>) {
+      state.favouriteOffers = state.favouriteOffers.filter((o) => o.id !== action.payload.id);
+    },
+    loadFavourites(state, action: PayloadAction<OfferPreviewInfo[]>) {
+      state.favouriteOffers = action.payload;
     }
   },
   extraReducers(builder) {
@@ -192,5 +279,8 @@ export const {
   loadOffer,
   addComment,
   loadOffers,
-  switchSortingType
+  switchSortingType,
+  addFavourite,
+  removeFavourite,
+  loadFavourites
 } = offersSlice.actions;
