@@ -27,7 +27,7 @@ function HotelCardComponent({
 }: HotelInfoProps): ReactNode {
   return (
     <article className="cities__card place-card">
-      {isPremium && <PremiumLabel blockClassName='place-card' />}
+      {isPremium && <PremiumLabel />}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={generatePath(AppRoute.Offer, { id: id })}>
           <img
