@@ -103,7 +103,7 @@ export function OfferPage(): ReactNode {
                   {offer.title}
                 </h1>
                 <BookmarkButton
-                  active={offer.isFavourite ?? false}
+                  active={offer.isFavorite ?? false}
                   onClick={() => onBookmarkClick(offer.id)}
                   blockClassName='offer'
                   width={31}
