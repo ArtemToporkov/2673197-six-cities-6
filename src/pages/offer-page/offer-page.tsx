@@ -10,7 +10,7 @@ import { CommentForm } from '../../components/comment-form/comment-form.tsx';
 import { CommentsList } from '../../components/comments-list/comments-list.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
-import { addOfferToFavorites, getOffer } from '../../store/offers-slice.ts';
+import { addOfferToFavorites, getOffer, removeOfferFromFavorites } from '../../store/offers-slice.ts';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
 import { ErrorPage } from '../error-page/error-page.tsx';
 import { ServerErrorType } from '../../enums/server-error-type.ts';
@@ -70,11 +70,22 @@ export function OfferPage(): ReactNode {
   }
 
   const onBookmarkClick = (offerId: string) => {
-    if (user.authStatus === AuthStatus.Authorized) {
-      dispatch(addOfferToFavorites({ offerId }));
-    } else {
+    if (user.authStatus !== AuthStatus.Authorized) {
       navigate(AppRoute.Login);
+      return;
     }
+    let isFavorite = false;
+    if (offerId === offer.id) {
+      isFavorite = offer.isFavorite;
+    } else {
+      const nearbyOffer = nearbyOffers.find((o) => o.id === offerId);
+      if (!nearbyOffer) {
+        throw new Error('Bookmark pressed for an offer that does not exist on the page');
+      }
+      isFavorite = nearbyOffer.isFavorite;
+    }
+
+    dispatch(isFavorite ? removeOfferFromFavorites({ offerId }) : addOfferToFavorites({ offerId }));
   };
 
   return (

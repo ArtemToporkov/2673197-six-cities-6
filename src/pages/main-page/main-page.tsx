@@ -10,7 +10,7 @@ import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
 import { Header } from '../../components/header/header.tsx';
 import { switchCity } from '../../store/cities-slice.ts';
-import { addOfferToFavorites } from '../../store/offers-slice.ts';
+import { addOfferToFavorites, removeOfferFromFavorites } from '../../store/offers-slice.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { AppRoute } from '../../enums/app-route.ts';
 import type { Point } from '../../types/point.ts';
@@ -70,9 +70,14 @@ export function MainPage(): ReactNode {
   const handleBookmarkClick = (offerId: string) => {
     if (authStatus !== AuthStatus.Authorized) {
       navigate(AppRoute.Login);
-    } else {
-      dispatch(addOfferToFavorites({ offerId }));
+      return;
     }
+    const offer = currentOffers.find((o) => o.id === offerId);
+    if (!offer) {
+      throw new Error('Bookmark button pressed for an offer that does not exist on the page');
+    }
+
+    dispatch(offer.isFavorite ? removeOfferFromFavorites({ offerId }) : addOfferToFavorites({ offerId }));
   };
 
   const handleOfferUnhover = useCallback(() => {
