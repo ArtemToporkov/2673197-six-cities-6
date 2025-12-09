@@ -249,21 +249,21 @@ export const offersSlice = createSlice({
 
       const foundInCity = state.offersInCity.find((o) => o.id === payload.id);
       if (foundInCity) {
-        foundInCity.isFavourite = true;
+        foundInCity.isFavorite = true;
       }
 
       const foundInAll = state.allOffers.find((o) => o.id === payload.id);
       if (foundInAll) {
-        foundInAll.isFavourite = true;
+        foundInAll.isFavorite = true;
       }
 
       const foundInNearby = state.nearbyOffers.find((o) => o.id === payload.id);
       if (foundInNearby) {
-        foundInNearby.isFavourite = true;
+        foundInNearby.isFavorite = true;
       }
 
       if (state.offer && state.offer.id === payload.id) {
-        state.offer.isFavourite = true;
+        state.offer.isFavorite = true;
       }
     },
     removeFavourite(state, action: PayloadAction<OfferPreviewInfo>) {
@@ -273,21 +273,21 @@ export const offersSlice = createSlice({
 
       const foundInCity = state.offersInCity.find((o) => o.id === payload.id);
       if (foundInCity) {
-        foundInCity.isFavourite = false;
+        foundInCity.isFavorite = false;
       }
 
       const foundInAll = state.allOffers.find((o) => o.id === payload.id);
       if (foundInAll) {
-        foundInAll.isFavourite = false;
+        foundInAll.isFavorite = false;
       }
 
       const foundInNearby = state.nearbyOffers.find((o) => o.id === payload.id);
       if (foundInNearby) {
-        foundInNearby.isFavourite = false;
+        foundInNearby.isFavorite = false;
       }
 
       if (state.offer && state.offer.id === payload.id) {
-        state.offer.isFavourite = false;
+        state.offer.isFavorite = false;
       }
     },
     loadFavourites(state, action: PayloadAction<OfferPreviewInfo[]>) {
