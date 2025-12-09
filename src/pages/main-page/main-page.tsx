@@ -10,7 +10,7 @@ import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
 import { Header } from '../../components/header/header.tsx';
 import { switchCity } from '../../store/cities-slice.ts';
-import { addOfferToFavourites } from '../../store/offers-slice.ts';
+import { addOfferToFavorites } from '../../store/offers-slice.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { AppRoute } from '../../enums/app-route.ts';
 import type { Point } from '../../types/point.ts';
@@ -71,7 +71,7 @@ export function MainPage(): ReactNode {
     if (authStatus !== AuthStatus.Authorized) {
       navigate(AppRoute.Login);
     } else {
-      dispatch(addOfferToFavourites({ offerId }));
+      dispatch(addOfferToFavorites({ offerId }));
     }
   };
 

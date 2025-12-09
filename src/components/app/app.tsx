@@ -3,7 +3,7 @@ import { ReactNode, useEffect } from 'react';
 import { StatusCodes } from 'http-status-codes';
 
 import { AppRoute } from '../../enums/app-route.ts';
-import { FavouritesPage } from '../../pages/favourites-page/favourites-page.tsx';
+import { FavoritesPage } from '../../pages/favorites-page/favorites-page.tsx';
 import { LoginPage } from '../../pages/login-page/login-page.tsx';
 import { MainPage } from '../../pages/main-page/main-page.tsx';
 import { ErrorPage } from '../../pages/error-page/error-page.tsx';
@@ -12,7 +12,7 @@ import { PrivateRoute } from '../private-route/private-route.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { LoadingScreen } from '../loading-screen/loading-screen.tsx';
-import { getFavouriteOffers, getOffers } from '../../store/offers-slice.ts';
+import { getFavoriteOffers, getOffers } from '../../store/offers-slice.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 
 export function App(): ReactNode {
@@ -23,7 +23,7 @@ export function App(): ReactNode {
   }, [dispatch]);
   useEffect(() => {
     if (authStatus === AuthStatus.Authorized) {
-      dispatch(getFavouriteOffers());
+      dispatch(getFavoriteOffers());
     }
   }, [authStatus, dispatch]);
   const isOffersLoading = useAppSelector((state) => state.offers.isOffersLoading);
@@ -38,10 +38,10 @@ export function App(): ReactNode {
         <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route path={AppRoute.Offer} element={<OfferPage />} />
         <Route
-          path={AppRoute.Favourites}
+          path={AppRoute.Favorites}
           element={
             <PrivateRoute>
-              <FavouritesPage />
+              <FavoritesPage />
             </PrivateRoute>
           }
         />

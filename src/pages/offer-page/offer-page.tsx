@@ -10,7 +10,7 @@ import { CommentForm } from '../../components/comment-form/comment-form.tsx';
 import { CommentsList } from '../../components/comments-list/comments-list.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
-import { addOfferToFavourites, getOffer } from '../../store/offers-slice.ts';
+import { addOfferToFavorites, getOffer } from '../../store/offers-slice.ts';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
 import { ErrorPage } from '../error-page/error-page.tsx';
 import { ServerErrorType } from '../../enums/server-error-type.ts';
@@ -71,7 +71,7 @@ export function OfferPage(): ReactNode {
 
   const onBookmarkClick = (offerId: string) => {
     if (user.authStatus === AuthStatus.Authorized) {
-      dispatch(addOfferToFavourites({ offerId }));
+      dispatch(addOfferToFavorites({ offerId }));
     } else {
       navigate(AppRoute.Login);
     }

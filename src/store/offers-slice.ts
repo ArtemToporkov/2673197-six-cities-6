@@ -8,7 +8,7 @@ import { SortingType } from '../enums/sorting-type.ts';
 import { ActionNamespace } from '../enums/action-namespace.ts';
 import { ApiRoute } from '../enums/api-route.ts';
 import { loadCities, switchCity } from './cities-slice.ts';
-import { FavouriteAction } from '../enums/favourite-action.ts';
+import { FavoriteAction } from '../enums/favorite-action.ts';
 import type { ServerError } from '../types/server-error.ts';
 import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 import type { OfferFullInfo } from '../types/offer-full-info.ts';
@@ -26,7 +26,7 @@ type ThunkApiConfig = {
 type OffersState = {
   offer: OfferFullInfo | null;
   nearbyOffers: OfferPreviewInfo[];
-  favouriteOffers: OfferPreviewInfo[];
+  favoriteOffers: OfferPreviewInfo[];
   comments: Comment[];
   offersInCity: OfferPreviewInfo[];
   allOffers: OfferPreviewInfo[];
@@ -39,7 +39,7 @@ const initialState: OffersState = {
   offer: null,
   comments: [],
   nearbyOffers: [],
-  favouriteOffers: [],
+  favoriteOffers: [],
   offersInCity: [],
   allOffers: [],
   currentSortingType: SortingType.Popular,
@@ -141,19 +141,19 @@ export const sendComment = createAsyncThunk<
   }
 );
 
-export const addOfferToFavourites = createAsyncThunk<
+export const addOfferToFavorites = createAsyncThunk<
   void,
   { offerId: string },
   ThunkApiConfig
 >(
-  `${ActionNamespace.Offers}/addToFavourites`,
+  `${ActionNamespace.Offers}/addToFavorites`,
   async (arg, { dispatch, extra: api, rejectWithValue }) => {
     try {
       const response = await api.post(
-        generatePath(ApiRoute.FavouriteStatus, { offerId: arg.offerId, status: FavouriteAction.Add })
+        generatePath(ApiRoute.FavoriteStatus, { offerId: arg.offerId, status: FavoriteAction.Add })
       );
       const offer = response.data as OfferPreviewInfo;
-      dispatch(addFavourite(offer));
+      dispatch(addFavorite(offer));
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         let errorInfo = error.response.data as ServerError;
@@ -168,13 +168,13 @@ export const addOfferToFavourites = createAsyncThunk<
   }
 );
 
-export const getFavouriteOffers = createAsyncThunk<void, undefined, ThunkApiConfig>(
-  `${ActionNamespace.Offers}/getFavouriteOffers`,
+export const getFavoriteOffers = createAsyncThunk<void, undefined, ThunkApiConfig>(
+  `${ActionNamespace.Offers}/getFavoriteOffers`,
   async (_arg, { dispatch, extra: api, rejectWithValue }) => {
     try {
-      const response = await api.get(ApiRoute.Favourite);
-      const favouriteOffers = response.data as OfferPreviewInfo[];
-      dispatch(loadFavourites(favouriteOffers));
+      const response = await api.get(ApiRoute.Favorite);
+      const favoriteOffers = response.data as OfferPreviewInfo[];
+      dispatch(loadFavorites(favoriteOffers));
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         let errorInfo = error.response.data as ServerError;
@@ -189,19 +189,19 @@ export const getFavouriteOffers = createAsyncThunk<void, undefined, ThunkApiConf
   }
 );
 
-export const removeOfferFromFavourites = createAsyncThunk<
+export const removeOfferFromFavorites = createAsyncThunk<
   void,
   { offerId: string },
   ThunkApiConfig
 >(
-  `${ActionNamespace.Offers}/addToFavourites`,
+  `${ActionNamespace.Offers}/addToFavorites`,
   async (arg, { dispatch, extra: api, rejectWithValue }) => {
     try {
       const response = await api.post(
-        generatePath(ApiRoute.FavouriteStatus,{ offerId: arg.offerId, status: FavouriteAction.Remove })
+        generatePath(ApiRoute.FavoriteStatus,{ offerId: arg.offerId, status: FavoriteAction.Remove })
       );
       const offer = response.data as OfferPreviewInfo;
-      dispatch(removeFavourite(offer));
+      dispatch(removeFavorite(offer));
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         let errorInfo = error.response.data as ServerError;
@@ -242,10 +242,10 @@ export const offersSlice = createSlice({
       state.currentSortingType = action.payload;
       state.offersInCity = sortOffers(state.offersInCity, action.payload);
     },
-    addFavourite(state, action: PayloadAction<OfferPreviewInfo>) {
+    addFavorite(state, action: PayloadAction<OfferPreviewInfo>) {
       const payload = action.payload;
 
-      state.favouriteOffers.push(payload);
+      state.favoriteOffers.push(payload);
 
       const foundInCity = state.offersInCity.find((o) => o.id === payload.id);
       if (foundInCity) {
@@ -266,10 +266,10 @@ export const offersSlice = createSlice({
         state.offer.isFavorite = true;
       }
     },
-    removeFavourite(state, action: PayloadAction<OfferPreviewInfo>) {
+    removeFavorite(state, action: PayloadAction<OfferPreviewInfo>) {
       const payload = action.payload;
 
-      state.favouriteOffers = state.favouriteOffers.filter((o) => o.id !== payload.id);
+      state.favoriteOffers = state.favoriteOffers.filter((o) => o.id !== payload.id);
 
       const foundInCity = state.offersInCity.find((o) => o.id === payload.id);
       if (foundInCity) {
@@ -290,8 +290,8 @@ export const offersSlice = createSlice({
         state.offer.isFavorite = false;
       }
     },
-    loadFavourites(state, action: PayloadAction<OfferPreviewInfo[]>) {
-      state.favouriteOffers = action.payload;
+    loadFavorites(state, action: PayloadAction<OfferPreviewInfo[]>) {
+      state.favoriteOffers = action.payload;
     }
   },
   extraReducers(builder) {
@@ -322,7 +322,7 @@ export const {
   addComment,
   loadOffers,
   switchSortingType,
-  addFavourite,
-  removeFavourite,
-  loadFavourites
+  addFavorite,
+  removeFavorite,
+  loadFavorites
 } = offersSlice.actions;
