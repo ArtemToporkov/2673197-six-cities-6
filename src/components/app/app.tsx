@@ -23,7 +23,7 @@ export function App(): ReactNode {
   }, [dispatch]);
   useEffect(() => {
     if (authStatus === AuthStatus.Authorized) {
-      dispatch(getFavouriteOffers);
+      dispatch(getFavouriteOffers());
     }
   }, [authStatus, dispatch]);
   const isOffersLoading = useAppSelector((state) => state.offers.isOffersLoading);
