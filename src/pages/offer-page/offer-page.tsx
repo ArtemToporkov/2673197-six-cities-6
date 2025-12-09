@@ -141,6 +141,7 @@ export function OfferPage(): ReactNode {
                 <BookmarkButton
                   active={offer.isFavourite ?? false}
                   onClick={() => onBookmarkClick(offer.id)}
+                  blockClassName='offer'
                   width={31}
                   height={33}
                 />
