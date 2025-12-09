@@ -133,7 +133,7 @@ export function OfferPage(): ReactNode {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {offer.isPremium && <PremiumLabel />}
+              {offer.isPremium && <PremiumLabel blockClassName='offer' />}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
                   {offer.title}

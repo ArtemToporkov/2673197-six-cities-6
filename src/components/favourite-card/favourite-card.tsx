@@ -17,7 +17,7 @@ export function FavouriteCard({
 }: FavouriteCardProps): ReactNode {
   return (
     <article className="favorites__card place-card">
-      {isPremium && <PremiumLabel />}
+      {isPremium && <PremiumLabel blockClassName='place-card' />}
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to={generatePath(AppRoute.Offer, { id: id })}>
           <img
