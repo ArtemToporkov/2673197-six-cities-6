@@ -8,6 +8,7 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { removeOfferFromFavorites } from '../../store/offers-slice.ts';
 import { Header } from '../../components/header/header.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import { Footer } from '../../components/footer/footer.tsx';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 
 function groupOffersByCityName(offers: OfferPreviewInfo[]): Record<string, OfferPreviewInfo[]> {
@@ -61,17 +62,7 @@ export function FavoritesPage(): ReactNode {
           </section>
         </div>
       </main>
-      <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img
-            className="footer__logo"
-            src="img/logo.svg"
-            alt="6 cities logo"
-            width={64}
-            height={33}
-          />
-        </a>
-      </footer>
+      <Footer />
     </div>
   );
 }
