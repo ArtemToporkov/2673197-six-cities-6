@@ -5,7 +5,7 @@ import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { AppRoute } from '../../enums/app-route.ts';
 
-export function Header(): ReactNode {
+function NavigationItems(): ReactNode {
   const user = useAppSelector((state) => state.user);
   const favoriteOffers = useAppSelector((state) => state.offers.favoriteOffers);
 
@@ -53,6 +53,16 @@ export function Header(): ReactNode {
   }
 
   return (
+    <nav className="header__nav">
+      <ul className="header__nav-list">
+        {navItems}
+      </ul>
+    </nav>
+  );
+}
+
+export function Header({ withNav = true }: { withNav?: boolean }): ReactNode {
+  return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
@@ -70,11 +80,7 @@ export function Header(): ReactNode {
               />
             </Link>
           </div>
-          <nav className="header__nav">
-            <ul className="header__nav-list">
-              {navItems}
-            </ul>
-          </nav>
+          {withNav && <NavigationItems />}
         </div>
       </div>
     </header>
