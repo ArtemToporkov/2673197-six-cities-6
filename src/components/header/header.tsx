@@ -38,9 +38,12 @@ function NavigationItems(): ReactNode {
     case AuthStatus.Unknown:
       navItems = (
         <li className="header__nav-item">
-          <a className="header__nav-link" href={AppRoute.Login}>
+          <Link
+            className="header__nav-link"
+            to={AppRoute.Login}
+          >
             <span className="header__signout">Sign in</span>
-          </a>
+          </Link>
         </li>
       );
       break;

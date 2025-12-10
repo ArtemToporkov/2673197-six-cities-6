@@ -2,7 +2,7 @@
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 import { login } from '../../store/user-slice.ts';
 import { resetError } from '../../store/error-slice.ts';
@@ -13,6 +13,21 @@ import { Header } from '../../components/header/header.tsx';
 import type { ServerError } from '../../types/server-error.ts';
 
 import style from './login-page.module.css';
+
+function CurrentLocation({ cityName }: { cityName: string }): ReactNode {
+  return (
+    <section className="locations locations--login locations--current">
+      <div className="locations__item">
+        <Link
+          className="locations__item-link"
+          to={AppRoute.Main}
+        >
+          <span>{cityName}</span>
+        </Link>
+      </div>
+    </section>
+  );
+}
 
 export function LoginPage(): ReactNode {
   const [email, setEmail] = useState<string>('');
@@ -28,6 +43,7 @@ export function LoginPage(): ReactNode {
       (detail) => `${detail.property}: ${detail.messages.join(', ')}`)
     );
   }
+  const currentCity = useAppSelector((state) => state.cities.city);
 
   if (authState === AuthStatus.Authorized) {
     return <Navigate to={AppRoute.Main} />;
@@ -92,13 +108,7 @@ export function LoginPage(): ReactNode {
               </ul>
             </div>
           </section>
-          <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
-            </div>
-          </section>
+          {currentCity && <CurrentLocation cityName={currentCity.name} />}
         </div>
       </main>
     </div>
