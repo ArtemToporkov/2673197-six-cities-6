@@ -12,7 +12,7 @@ import { PrivateRoute } from '../private-route/private-route.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { LoadingScreen } from '../loading-screen/loading-screen.tsx';
-import { getFavoriteOffers, getOffers } from '../../store/offers-slice.ts';
+import { getFavoriteOffers, getOffers } from '../../store/offers/offers-slice.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 
 export function App(): ReactNode {

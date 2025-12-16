@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ActionNamespace } from '../enums/action-namespace.ts';
-import type { City } from '../types/city.ts';
+import { ActionNamespace } from '../../enums/action-namespace.ts';
+import type { City } from '../../types/city.ts';
 
 type CitiesState = {
   city: City | null;
@@ -27,5 +27,4 @@ export const citiesSlice = createSlice({
 });
 
 export const { loadCities, switchCity } = citiesSlice.actions;
-
 

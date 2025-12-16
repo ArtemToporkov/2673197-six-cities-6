@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { useToggle } from '../../hooks/use-toggle.ts';
 import { SortingType } from '../../enums/sorting-type.ts';
-import { switchSortingType } from '../../store/offers-slice.ts';
+import { switchSortingType } from '../../store/offers/offers-slice.ts';
 
 const sortingTypes = Object.values(SortingType) as SortingType[];
 

@@ -1,9 +1,9 @@
 ﻿import { configureStore } from '@reduxjs/toolkit';
 
-import { offersSlice } from './offers-slice.ts';
-import { citiesSlice } from './cities-slice.ts';
-import { userSlice } from './user-slice.ts';
-import { errorSlice } from './error-slice.ts';
+import { offersSlice } from './offers/offers-slice.ts';
+import { citiesSlice } from './cities/cities-slice.ts';
+import { userSlice } from './user/user-slice.ts';
+import { errorSlice } from './error/error-slice.ts';
 import { createApi } from '../services/api.ts';
 
 const api = createApi();

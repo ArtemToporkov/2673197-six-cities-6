@@ -1,7 +1,7 @@
 ﻿import axios, { AxiosError, type AxiosInstance, HttpStatusCode } from 'axios';
 
 import { store } from '../store';
-import { changeUserInfo } from '../store/user-slice.ts';
+import { changeUserInfo } from '../store/user/user-slice.ts';
 import { AuthStatus } from '../enums/auth-status.ts';
 import { AUTH_HEADER_NAME, AUTH_TOKEN_KEY_NAME } from '../const.ts';
 

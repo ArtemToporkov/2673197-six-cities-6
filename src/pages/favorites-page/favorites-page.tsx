@@ -6,7 +6,7 @@ import { AuthStatus } from '../../enums/auth-status.ts';
 import { Navigate } from 'react-router-dom';
 import { AppRoute } from '../../enums/app-route.ts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
-import { removeOfferFromFavorites } from '../../store/offers-slice.ts';
+import { removeOfferFromFavorites } from '../../store/offers/offers-slice.ts';
 import { Header } from '../../components/header/header.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { Footer } from '../../components/footer/footer.tsx';

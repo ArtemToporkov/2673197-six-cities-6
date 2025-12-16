@@ -4,8 +4,8 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { Link, Navigate } from 'react-router-dom';
 
-import { login } from '../../store/user-slice.ts';
-import { resetError } from '../../store/error-slice.ts';
+import { login } from '../../store/user/user-slice.ts';
+import { resetError } from '../../store/error/error-slice.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { AppRoute } from '../../enums/app-route.ts';
 import { ServerErrorType } from '../../enums/server-error-type.ts';

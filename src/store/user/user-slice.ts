@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, type AxiosInstance } from 'axios';
 
-import { ActionNamespace } from '../enums/action-namespace.ts';
-import { ApiRoute } from '../enums/api-route.ts';
-import { AuthStatus } from '../enums/auth-status.ts';
-import { AUTH_TOKEN_KEY_NAME } from '../const.ts';
-import type { User } from '../types/user.ts';
-import type { UserInfo } from '../types/user-info.ts';
-import type { AppDispatch } from '../types/app-dispatch.ts';
-import type { State } from '../types/state.ts';
-import type { ServerError } from '../types/server-error.ts';
+import { ActionNamespace } from '../../enums/action-namespace.ts';
+import { ApiRoute } from '../../enums/api-route.ts';
+import { AuthStatus } from '../../enums/auth-status.ts';
+import { AUTH_TOKEN_KEY_NAME } from '../../const.ts';
+import type { User } from '../../types/user.ts';
+import type { UserInfo } from '../../types/user-info.ts';
+import type { AppDispatch } from '../../types/app-dispatch.ts';
+import type { State } from '../../types/state.ts';
+import type { ServerError } from '../../types/server-error.ts';
 
 type ThunkApiConfig = {
   dispatch: AppDispatch;

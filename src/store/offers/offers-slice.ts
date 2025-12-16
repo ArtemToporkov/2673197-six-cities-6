@@ -4,18 +4,18 @@ import { AxiosError, type AxiosInstance } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { generatePath } from 'react-router-dom';
 
-import { SortingType } from '../enums/sorting-type.ts';
-import { ActionNamespace } from '../enums/action-namespace.ts';
-import { ApiRoute } from '../enums/api-route.ts';
-import { loadCities, switchCity } from './cities-slice.ts';
-import { FavoriteAction } from '../enums/favorite-action.ts';
-import type { ServerError } from '../types/server-error.ts';
-import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
-import type { OfferFullInfo } from '../types/offer-full-info.ts';
-import type { Comment } from '../types/comment.ts';
-import type { CommentContent } from '../types/comment-content.ts';
-import type { AppDispatch } from '../types/app-dispatch.ts';
-import type { State } from '../types/state.ts';
+import { SortingType } from '../../enums/sorting-type.ts';
+import { ActionNamespace } from '../../enums/action-namespace.ts';
+import { ApiRoute } from '../../enums/api-route.ts';
+import { loadCities, switchCity } from '../cities/cities-slice.ts';
+import { FavoriteAction } from '../../enums/favorite-action.ts';
+import type { ServerError } from '../../types/server-error.ts';
+import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
+import type { OfferFullInfo } from '../../types/offer-full-info.ts';
+import type { Comment } from '../../types/comment.ts';
+import type { CommentContent } from '../../types/comment-content.ts';
+import type { AppDispatch } from '../../types/app-dispatch.ts';
+import type { State } from '../../types/state.ts';
 
 type ThunkApiConfig = {
   dispatch: AppDispatch;
@@ -23,7 +23,7 @@ type ThunkApiConfig = {
   extra: AxiosInstance;
 };
 
-type OffersState = {
+export type OffersState = {
   offer: OfferFullInfo | null;
   nearbyOffers: OfferPreviewInfo[];
   favoriteOffers: OfferPreviewInfo[];

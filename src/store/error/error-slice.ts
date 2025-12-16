@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { ActionNamespace } from '../enums/action-namespace.ts';
-import type { ServerError } from '../types/server-error.ts';
-import { getOffer, sendComment } from './offers-slice.ts';
-import { login } from './user-slice.ts';
+import { ActionNamespace } from '../../enums/action-namespace.ts';
+import type { ServerError } from '../../types/server-error.ts';
+import { getOffer, sendComment } from '../offers/offers-slice.ts';
+import { login } from '../user/user-slice.ts';
 
 type ErrorState = ServerError | null;
 
