@@ -1,11 +1,11 @@
 ﻿import { address, commerce, company, datatype, image, internet, lorem, random } from 'faker';
 
-import { HotelType } from './enums/hotel-type.ts';
-import type { Location } from './types/location.ts';
-import type { City } from './types/city.ts';
-import type { Comment } from './types/comment.ts';
-import type { RatingScore } from './types/rating-score.ts';
-import type { OfferPreviewInfo } from './types/offer-preview-info.ts';
+import { HotelType } from '../enums/hotel-type.ts';
+import type { Location } from '../types/location.ts';
+import type { City } from '../types/city.ts';
+import type { Comment } from '../types/comment.ts';
+import type { RatingScore } from '../types/rating-score.ts';
+import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 
 export const makeComment = (initial?: Partial<Comment>): Comment => ({
   id: datatype.uuid(),

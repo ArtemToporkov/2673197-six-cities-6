@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { makeComment } from '../../utils.ts';
+import { makeComment } from '../../utils/mocks.ts';
 import { CommentComponent } from './comment-component.tsx';
 import type { Comment } from '../../types/comment.ts';
 

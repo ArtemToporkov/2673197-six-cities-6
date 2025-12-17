@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { datatype } from 'faker';
 
-import { makeComment } from '../../utils.ts';
+import { makeComment } from '../../utils/mocks.ts';
 import { CommentsList } from './comments-list.tsx';
 
 describe('Component: Comments list', () => {

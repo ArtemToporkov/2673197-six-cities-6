@@ -1,7 +1,7 @@
 ﻿import { describe, it } from 'vitest';
 import { commerce, datatype, image, internet, random } from 'faker';
 
-import { makeCity, makeComment, makeOfferPreviewInfo } from '../../utils.ts';
+import { makeCity, makeComment, makeOfferPreviewInfo } from '../../utils/mocks.ts';
 import { SortingType } from '../../enums/sorting-type.ts';
 import { Good } from '../../enums/good.ts';
 import {
