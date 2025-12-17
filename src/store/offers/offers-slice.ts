@@ -8,7 +8,7 @@ import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { OfferFullInfo } from '../../types/offer-full-info.ts';
 import type { Comment } from '../../types/comment.ts';
 
-type OffersState = {
+export type OffersState = {
   offer: OfferFullInfo | null;
   nearbyOffers: OfferPreviewInfo[];
   favoriteOffers: OfferPreviewInfo[];

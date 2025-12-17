@@ -1,8 +1,9 @@
 ﻿import { describe, it, expect } from 'vitest';
 import { StatusCodes } from 'http-status-codes';
+
 import { ServerErrorType } from '../../enums/server-error-type.ts';
 import { errorSlice, resetError } from './error-slice.ts';
-import { ServerError } from '../../types/server-error.ts';
+import type { ServerError } from '../../types/server-error.ts';
 
 describe('Error slice', () => {
   it('should reset error', () => {
