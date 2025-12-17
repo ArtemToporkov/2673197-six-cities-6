@@ -1,8 +1,5 @@
-﻿import axios, { AxiosError, type AxiosInstance, HttpStatusCode } from 'axios';
+﻿import axios, { type AxiosInstance } from 'axios';
 
-import { store } from '../store';
-import { changeUserInfo } from '../store/user/user-slice.ts';
-import { AuthStatus } from '../enums/auth-status.ts';
 import { AUTH_HEADER_NAME, AUTH_TOKEN_KEY_NAME } from '../const.ts';
 
 const SERVER_TIMEOUT_MS = 5000;
@@ -20,16 +17,6 @@ export const createApi = (): AxiosInstance => {
     }
     return config;
   });
-
-  api.interceptors.response.use(
-    (response) => response,
-    (error: AxiosError) => {
-      if (error.response?.status === HttpStatusCode.Unauthorized) {
-        store.dispatch(changeUserInfo({ authStatus: AuthStatus.Unauthorized, info: null }));
-      }
-      return Promise.reject(error);
-    }
-  );
 
   return api;
 };
