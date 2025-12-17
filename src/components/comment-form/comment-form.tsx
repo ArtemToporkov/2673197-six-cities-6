@@ -8,7 +8,7 @@ import { ServerErrorType } from '../../enums/server-error-type.ts';
 import type { CommentContent } from '../../types/comment-content.ts';
 import type { ServerError } from '../../types/server-error.ts';
 import { resetError } from '../../store/error/error-slice.ts';
-import { sendComment } from '../../store/offers/offers-slice.ts';
+import { sendComment } from '../../store/api-actions.ts';
 
 const MIN_COMMENT_LENGTH = 50;
 

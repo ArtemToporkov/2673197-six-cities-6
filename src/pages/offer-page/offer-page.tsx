@@ -10,7 +10,6 @@ import { CommentForm } from '../../components/comment-form/comment-form.tsx';
 import { CommentsList } from '../../components/comments-list/comments-list.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
-import { addOfferToFavorites, getOffer, removeOfferFromFavorites } from '../../store/offers/offers-slice.ts';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen.tsx';
 import { ErrorPage } from '../error-page/error-page.tsx';
 import { ServerErrorType } from '../../enums/server-error-type.ts';
@@ -18,6 +17,8 @@ import { AuthStatus } from '../../enums/auth-status.ts';
 import { AppRoute } from '../../enums/app-route.ts';
 import { BookmarkButton } from '../../components/bookmark-button/bookmark-button.tsx';
 import { Header } from '../../components/header/header.tsx';
+import { setFavoriteStatus, getOffer } from '../../store/api-actions.ts';
+import { FavoriteAction } from '../../enums/favorite-action.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { Point } from '../../types/point.ts';
 
@@ -85,7 +86,7 @@ export function OfferPage(): ReactNode {
       isFavorite = nearbyOffer.isFavorite;
     }
 
-    dispatch(isFavorite ? removeOfferFromFavorites({ offerId }) : addOfferToFavorites({ offerId }));
+    dispatch(setFavoriteStatus({ offerId, status: isFavorite ? FavoriteAction.Remove : FavoriteAction.Add }));
   };
 
   return (

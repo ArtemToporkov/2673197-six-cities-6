@@ -1,4 +1,4 @@
-﻿import { BrowserRouter, Route, Routes } from 'react-router-dom';
+﻿import { Route, Routes } from 'react-router-dom';
 import { ReactNode, useEffect } from 'react';
 import { StatusCodes } from 'http-status-codes';
 
@@ -12,7 +12,7 @@ import { PrivateRoute } from '../private-route/private-route.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { LoadingScreen } from '../loading-screen/loading-screen.tsx';
-import { getFavoriteOffers, getOffers } from '../../store/offers/offers-slice.ts';
+import { getFavoriteOffers, getOffers } from '../../store/api-actions.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 
 export function App(): ReactNode {
