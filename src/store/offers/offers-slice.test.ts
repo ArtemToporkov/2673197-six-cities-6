@@ -1,9 +1,8 @@
 ﻿import { describe, it } from 'vitest';
-import { commerce, company, datatype, image, internet, random, lorem } from 'faker';
+import { commerce, datatype, image, internet, random } from 'faker';
 
-import { makeLocation, makeCity } from '../utils.ts';
+import { makeCity, makeComment, makeOfferPreviewInfo } from '../../utils.ts';
 import { SortingType } from '../../enums/sorting-type.ts';
-import { HotelType } from '../../enums/hotel-type.ts';
 import { Good } from '../../enums/good.ts';
 import {
   loadOffer,
@@ -17,36 +16,6 @@ import {
   type OffersState,
 } from './offers-slice.ts';
 import type { OfferFullInfo } from '../../types/offer-full-info.ts';
-import type { RatingScore } from '../../types/rating-score.ts';
-import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
-import type { Comment } from '../../types/comment.ts';
-
-const makeComment = (initial?: Partial<Comment>): Comment => ({
-  id: datatype.uuid(),
-  user: {
-    avatarUrl: image.avatar(),
-    name: internet.userName(),
-    isPro: datatype.boolean()
-  },
-  date: datatype.datetime().toISOString(),
-  comment: lorem.sentence(51),
-  rating: datatype.number({min: 1, max: 5}) as RatingScore,
-  ...initial
-});
-
-const makeOfferPreviewInfo = (initial?: Partial<OfferPreviewInfo>): OfferPreviewInfo => ({
-  city: makeCity(),
-  id: datatype.uuid(),
-  previewImage: image.imageUrl(),
-  isFavorite: datatype.boolean(),
-  isPremium: datatype.boolean(),
-  location: makeLocation(),
-  price: +commerce.price(),
-  rating: datatype.number({min: 1, max: 5}) as RatingScore,
-  title: `${company.companyName()}'s hotel`,
-  type: random.arrayElement(Object.values(HotelType)),
-  ...initial
-});
 
 const makeOfferPreviewInfos = () => Array.from({ length: datatype.number({ min: 3, max: 6 }) }, () =>
   makeOfferPreviewInfo());

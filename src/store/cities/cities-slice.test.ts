@@ -1,7 +1,7 @@
 ﻿import { describe, it, expect } from 'vitest';
 
 import { citiesSlice, loadCities, switchCity } from './cities-slice.ts';
-import { makeCity } from '../utils.ts';
+import { makeCity } from '../../utils.ts';
 
 describe('Cities slice', () => {
   const initialState = {
