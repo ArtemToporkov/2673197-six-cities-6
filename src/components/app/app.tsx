@@ -32,24 +32,22 @@ export function App(): ReactNode {
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={AppRoute.Main} element={<MainPage />} />
-        <Route path={AppRoute.Login} element={<LoginPage />} />
-        <Route path={AppRoute.Offer} element={<OfferPage />} />
-        <Route
-          path={AppRoute.Favorites}
-          element={
-            <PrivateRoute>
-              <FavoritesPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Unknown}
-          element={<ErrorPage statusCode={StatusCodes.NOT_FOUND} message={'Not Found'} />}
-        />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path={AppRoute.Main} element={<MainPage />} />
+      <Route path={AppRoute.Login} element={<LoginPage />} />
+      <Route path={AppRoute.Offer} element={<OfferPage />} />
+      <Route
+        path={AppRoute.Favorites}
+        element={
+          <PrivateRoute>
+            <FavoritesPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path={AppRoute.Unknown}
+        element={<ErrorPage statusCode={StatusCodes.NOT_FOUND} message={'Not Found'} />}
+      />
+    </Routes>
   );
 }
