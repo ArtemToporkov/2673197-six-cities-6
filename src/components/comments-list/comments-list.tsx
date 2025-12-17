@@ -11,7 +11,7 @@ export function CommentsList({comments}: ReviewsListProps): ReactNode {
   return (
     <ul className="reviews__list">
       {comments.map<ReactNode>((comment) => (
-        <li className="reviews__item" key={comment.id}>
+        <li className="reviews__item" key={comment.id} data-testid="comment-item">
           <CommentComponent
             comment={comment}
           />
