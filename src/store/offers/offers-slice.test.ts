@@ -1,35 +1,14 @@
 ﻿import { describe, it } from 'vitest';
-import { commerce, datatype, image, internet, random } from 'faker';
+import { datatype } from 'faker';
 
-import { makeCity, makeComment, makeOfferPreviewInfo } from '../../utils/mocks.ts';
+import { makeCity, makeComment, makeOfferFullInfo, makeOfferPreviewInfo } from '../../utils/mocks.ts';
 import { SortingType } from '../../enums/sorting-type.ts';
-import { Good } from '../../enums/good.ts';
 import { getFavoriteOffers, getOffer, getOffers, sendComment, setFavoriteStatus } from '../api-actions.ts';
 import { offersSlice, type OffersState, switchSortingType, } from './offers-slice.ts';
 import { FavoriteAction } from '../../enums/favorite-action.ts';
-import type { OfferFullInfo } from '../../types/offer-full-info.ts';
 
 const makeOfferPreviewInfos = () => Array.from({ length: datatype.number({ min: 3, max: 6 }) }, () =>
   makeOfferPreviewInfo());
-
-const makeOfferFullInfo = (initial?: Partial<OfferFullInfo>): OfferFullInfo => {
-  const previewInfo = makeOfferPreviewInfo();
-  const { previewImage: _, ...rest } = previewInfo;
-  return ({
-    bedrooms: datatype.number({min: 1, max: 3}),
-    description: commerce.productDescription(),
-    goods: random.arrayElements(Object.values(Good)),
-    host: {
-      name: internet.userName(),
-      avatarUrl: image.avatar(),
-      isPro: datatype.boolean()
-    },
-    images: Array.from({length: 6}, () => image.imageUrl()),
-    maxAdults: datatype.number({min: 1, max: 10}),
-    ...rest,
-    ...initial
-  });
-};
 
 const makeOffersState = (initial?: Partial<OffersState>): OffersState => ({
   allOffers: Array.from({ length: 5 }, () => makeOfferPreviewInfo()),

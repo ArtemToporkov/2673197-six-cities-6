@@ -6,6 +6,8 @@ import type { City } from '../types/city.ts';
 import type { Comment } from '../types/comment.ts';
 import type { RatingScore } from '../types/rating-score.ts';
 import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
+import type { OfferFullInfo } from '../types/offer-full-info.ts';
+import { Good } from '../enums/good.ts';
 
 export const makeComment = (initial?: Partial<Comment>): Comment => ({
   id: datatype.uuid(),
@@ -46,3 +48,22 @@ export const makeOfferPreviewInfo = (initial?: Partial<OfferPreviewInfo>): Offer
   type: random.arrayElement(Object.values(HotelType)),
   ...initial
 });
+
+export const makeOfferFullInfo = (initial?: Partial<OfferFullInfo>): OfferFullInfo => {
+  const previewInfo = makeOfferPreviewInfo();
+  const { previewImage: _, ...rest } = previewInfo;
+  return ({
+    bedrooms: datatype.number({min: 1, max: 3}),
+    description: commerce.productDescription(),
+    goods: random.arrayElements(Object.values(Good)),
+    host: {
+      name: internet.userName(),
+      avatarUrl: image.avatar(),
+      isPro: datatype.boolean()
+    },
+    images: Array.from({length: 6}, () => image.imageUrl()),
+    maxAdults: datatype.number({min: 1, max: 10}),
+    ...rest,
+    ...initial
+  });
+};
