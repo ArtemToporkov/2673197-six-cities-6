@@ -51,6 +51,7 @@ export const makeOfferPreviewInfo = (initial?: Partial<OfferPreviewInfo>): Offer
 
 export const makeOfferFullInfo = (initial?: Partial<OfferFullInfo>): OfferFullInfo => {
   const previewInfo = makeOfferPreviewInfo();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { previewImage: _, ...rest } = previewInfo;
   return ({
     bedrooms: datatype.number({min: 1, max: 3}),
