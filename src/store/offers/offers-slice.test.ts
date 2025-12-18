@@ -57,7 +57,7 @@ describe('Offers slice', () => {
         o.city = city;
         return o;
       })
-      .toSorted((a, b) => {
+      .sort((a, b) => {
         switch (initialState.currentSortingType) {
           case SortingType.PriceLowToHigh:
             return a.price - b.price;
@@ -66,6 +66,7 @@ describe('Offers slice', () => {
           case SortingType.TopRatedFirst:
             return b.rating - a.rating;
           case SortingType.Popular:
+          default:
             return 0;
         }
       });
@@ -194,7 +195,7 @@ describe('Offers slice', () => {
         o.city = city;
         return o;
       })
-      .toSorted((a, b) => a.price - b.price);
+      .sort((a, b) => a.price - b.price);
     const initialState = makeOffersState({
       currentSortingType: SortingType.PriceLowToHigh,
       offersInCity: offers
@@ -202,7 +203,7 @@ describe('Offers slice', () => {
     const expectedSortingType = SortingType.TopRatedFirst;
     const expectedState = {
       ...initialState,
-      offersInCity: offers.toSorted((a, b) => b.rating - a.rating),
+      offersInCity: [...offers].sort((a, b) => b.rating - a.rating),
       currentSortingType: expectedSortingType,
     };
 

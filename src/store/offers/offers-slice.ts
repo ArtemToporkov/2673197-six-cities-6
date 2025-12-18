@@ -35,12 +35,14 @@ const initialState: OffersState = {
 function sortOffers(offersToSort: OfferPreviewInfo[], sortingType: SortingType): OfferPreviewInfo[] {
   switch (sortingType) {
     case SortingType.PriceLowToHigh:
-      return offersToSort.toSorted((a, b) => a.price - b.price);
+      return [...offersToSort].sort((a, b) => a.price - b.price);
     case SortingType.PriceHighToLow:
-      return offersToSort.toSorted((a, b) => b.price - a.price);
+      return [...offersToSort].sort((a, b) => b.price - a.price);
     case SortingType.TopRatedFirst:
-      return offersToSort.toSorted((a, b) => b.rating - a.rating);
+      return [...offersToSort].sort((a, b) => b.rating - a.rating);
     case SortingType.Popular:
+      return [...offersToSort];
+    default:
       return offersToSort;
   }
 }
