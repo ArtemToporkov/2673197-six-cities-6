@@ -1,10 +1,12 @@
 ﻿import { configureStore } from '@reduxjs/toolkit';
 
-import { offersSlice } from './offers-slice.ts';
-import { citiesSlice } from './cities-slice.ts';
-import { userSlice } from './user-slice.ts';
-import { errorSlice } from './error-slice.ts';
+import { offersSlice } from './offers/offers-slice.ts';
+import { citiesSlice } from './cities/cities-slice.ts';
+import { changeUserInfo, userSlice } from './user/user-slice.ts';
+import { errorSlice } from './error/error-slice.ts';
 import { createApi } from '../services/api.ts';
+import { AxiosError, HttpStatusCode } from 'axios';
+import { AuthStatus } from '../enums/auth-status.ts';
 
 const api = createApi();
 
@@ -22,3 +24,13 @@ export const store = configureStore({
       }
     })
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError) => {
+    if (error.response?.status === HttpStatusCode.Unauthorized) {
+      store.dispatch(changeUserInfo({ authStatus: AuthStatus.Unauthorized, info: null }));
+    }
+    return Promise.reject(error);
+  }
+);

@@ -9,10 +9,11 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { SortingTypeMenu } from '../../components/sorting-type-menu/sorting-type-menu.tsx';
 import { Header } from '../../components/header/header.tsx';
-import { switchCity } from '../../store/cities-slice.ts';
-import { addOfferToFavourites } from '../../store/offers-slice.ts';
+import { switchCity } from '../../store/cities/cities-slice.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { AppRoute } from '../../enums/app-route.ts';
+import { setFavoriteStatus } from '../../store/api-actions.ts';
+import { FavoriteAction } from '../../enums/favorite-action.ts';
 import type { Point } from '../../types/point.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { City } from '../../types/city.ts';
@@ -70,9 +71,14 @@ export function MainPage(): ReactNode {
   const handleBookmarkClick = (offerId: string) => {
     if (authStatus !== AuthStatus.Authorized) {
       navigate(AppRoute.Login);
-    } else {
-      dispatch(addOfferToFavourites({ offerId }));
+      return;
     }
+    const offer = currentOffers.find((o) => o.id === offerId);
+    if (!offer) {
+      throw new Error('Bookmark button pressed for an offer that does not exist on the page');
+    }
+
+    dispatch(setFavoriteStatus({ offerId, status: offer.isFavorite ? FavoriteAction.Remove : FavoriteAction.Add }));
   };
 
   const handleOfferUnhover = useCallback(() => {

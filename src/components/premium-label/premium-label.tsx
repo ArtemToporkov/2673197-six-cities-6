@@ -1,8 +1,8 @@
 ﻿import type { ReactNode } from 'react';
 
-export function PremiumLabel(): ReactNode {
+export function PremiumLabel({ blockClassName = 'place-card' }: { blockClassName?: string }): ReactNode {
   return (
-    <div className="place-card__mark">
+    <div className={`${blockClassName}__mark`}>
       <span>Premium</span>
     </div>
   );

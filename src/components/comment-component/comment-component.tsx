@@ -5,7 +5,7 @@ type CommentProps = {
   comment: Comment;
 }
 
-export function CommentComponent({comment}: CommentProps): ReactNode {
+export function CommentComponent({ comment }: CommentProps): ReactNode {
   const date = new Date(comment.date);
   return (
     <>

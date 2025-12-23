@@ -22,7 +22,7 @@ function HotelCardComponent({
   title,
   onMouseOver,
   onMouseLeave,
-  isFavourite,
+  isFavorite,
   onBookmarkClick
 }: HotelInfoProps): ReactNode {
   return (
@@ -47,7 +47,7 @@ function HotelCardComponent({
             <b className="place-card__price-value">€{price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <BookmarkButton active={isFavourite ?? false} onClick={() => onBookmarkClick(id)} />
+          <BookmarkButton active={isFavorite ?? false} onClick={() => onBookmarkClick(id)} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

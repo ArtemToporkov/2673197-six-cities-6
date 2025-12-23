@@ -11,7 +11,7 @@ export type OfferPreviewInfo = {
   price: number;
   city: City;
   location: Location;
-  isFavourite?: boolean;
+  isFavorite: boolean;
   isPremium: boolean;
   rating: RatingScore;
   previewImage: Url;

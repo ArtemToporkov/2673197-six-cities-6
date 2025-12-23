@@ -5,9 +5,9 @@ import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { AppRoute } from '../../enums/app-route.ts';
 
-export function Header(): ReactNode {
+function NavigationItems(): ReactNode {
   const user = useAppSelector((state) => state.user);
-  const favouriteOffers = useAppSelector((state) => state.offers.favouriteOffers);
+  const favoriteOffers = useAppSelector((state) => state.offers.favoriteOffers);
 
   let navItems: ReactNode;
   switch (user.authStatus) {
@@ -17,13 +17,13 @@ export function Header(): ReactNode {
           <li className="header__nav-item user">
             <Link
               className="header__nav-link header__nav-link--profile"
-              to={AppRoute.Favourites}
+              to={AppRoute.Favorites}
             >
               <div className="header__avatar-wrapper user__avatar-wrapper"></div>
               <span className="header__user-name user__name">
                 {user.info.email}
               </span>
-              <span className="header__favorite-count">{favouriteOffers.length}</span>
+              <span className="header__favorite-count">{favoriteOffers.length}</span>
             </Link>
           </li>
           <li className="header__nav-item">
@@ -38,9 +38,12 @@ export function Header(): ReactNode {
     case AuthStatus.Unknown:
       navItems = (
         <li className="header__nav-item">
-          <a className="header__nav-link" href={AppRoute.Login}>
+          <Link
+            className="header__nav-link"
+            to={AppRoute.Login}
+          >
             <span className="header__signout">Sign in</span>
-          </a>
+          </Link>
         </li>
       );
       break;
@@ -53,11 +56,24 @@ export function Header(): ReactNode {
   }
 
   return (
+    <nav className="header__nav">
+      <ul className="header__nav-list">
+        {navItems}
+      </ul>
+    </nav>
+  );
+}
+
+export function Header({ withNav = true }: { withNav?: boolean }): ReactNode {
+  return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <a className="header__logo-link header__logo-link--active">
+            <Link
+              className="header__logo-link header__logo-link--active"
+              to={AppRoute.Main}
+            >
               <img
                 className="header__logo"
                 src="img/logo.svg"
@@ -65,13 +81,9 @@ export function Header(): ReactNode {
                 width={81}
                 height={41}
               />
-            </a>
+            </Link>
           </div>
-          <nav className="header__nav">
-            <ul className="header__nav-list">
-              {navItems}
-            </ul>
-          </nav>
+          {withNav && <NavigationItems />}
         </div>
       </div>
     </header>

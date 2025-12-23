@@ -1,15 +1,15 @@
 ﻿import type { ReactNode } from 'react';
 
-import { FavouriteCard } from '../favourite-card/favourite-card.tsx';
+import { FavoriteCard } from '../favorite-card/favorite-card.tsx';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 
-type FavouritesSectionProps = {
+type FavoritesSectionProps = {
   city: string;
   offers: OfferPreviewInfo[];
   onBookmarkClick: (offerId: string) => void;
 }
 
-export function FavouritesSection({city, offers, onBookmarkClick}: FavouritesSectionProps): ReactNode {
+export function FavoritesSection({city, offers, onBookmarkClick}: FavoritesSectionProps): ReactNode {
   for (const offer of offers) {
     if (offer.city.name !== city) {
       throw new Error(`City mismatch on offer: ${JSON.stringify(offer)}`);
@@ -26,7 +26,7 @@ export function FavouritesSection({city, offers, onBookmarkClick}: FavouritesSec
       </div>
       <div className="favorites__places">
         {offers.map((offer) => (
-          <FavouriteCard
+          <FavoriteCard
             offer={offer}
             key={offer.id}
             onBookmarkClick={onBookmarkClick}

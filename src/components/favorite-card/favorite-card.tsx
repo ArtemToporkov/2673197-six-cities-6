@@ -6,15 +6,15 @@ import { PremiumLabel } from '../premium-label/premium-label.tsx';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import { BookmarkButton } from '../bookmark-button/bookmark-button.tsx';
 
-type FavouriteCardProps = {
+type FavoriteCardProps = {
   offer: OfferPreviewInfo;
   onBookmarkClick: (offerId: string) => void;
 }
 
-export function FavouriteCard({
+export function FavoriteCard({
   offer: { id, isPremium, previewImage, price, title, type },
   onBookmarkClick
-}: FavouriteCardProps): ReactNode {
+}: FavoriteCardProps): ReactNode {
   return (
     <article className="favorites__card place-card">
       {isPremium && <PremiumLabel />}
