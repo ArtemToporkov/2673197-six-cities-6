@@ -2,11 +2,12 @@
 
 import { RATINGS } from '../../const.ts';
 import { RatingStarsInput } from './rating-stars-input.tsx';
+import type { RatingScore } from '../../types/rating-score.ts';
 
 describe('Component: Score stars', () => {
   describe('rendering', () => {
     beforeEach(() => {
-      render(<RatingStarsInput onRatingChanged={() => {}} />);
+      render(<RatingStarsInput value={0 as RatingScore} onChange={() => {}} />);
     });
 
     it('should display correct number of rating radio buttons', () => {

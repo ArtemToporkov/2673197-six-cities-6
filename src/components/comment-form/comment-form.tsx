@@ -40,15 +40,18 @@ export function CommentForm(): ReactNode {
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <RatingStarsInput onRatingChanged={(score) => {
-        setComment({...comment, rating: score});
-        dispatch(resetError());
-      }}
+      <RatingStarsInput
+        value={comment.rating}
+        onChange={(score) => {
+          setComment({...comment, rating: score});
+          dispatch(resetError());
+        }}
       />
       <textarea className="reviews__textarea form__textarea"
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        value={comment.comment}
         onChange={(e) => {
           setComment({...comment, comment: e.target.value});
           dispatch(resetError());
