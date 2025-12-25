@@ -22,6 +22,7 @@ import { FavoriteAction } from '../../enums/favorite-action.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { Point } from '../../types/point.ts';
 import { RatingStars } from '../../components/rating-stars/rating-stars.tsx';
+import { OfferGallery } from '../../components/offer-gallery/offer-gallery.tsx';
 
 function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
   return ({
@@ -95,19 +96,7 @@ export function OfferPage(): ReactNode {
       <Header />
       <main className="page__main page__main--offer">
         <section className="offer">
-          <div className="offer__gallery-container container">
-            <div className="offer__gallery">
-              {offer.images.map((url) => (
-                <div key={url} className="offer__image-wrapper">
-                  <img
-                    className="offer__image"
-                    src={url}
-                    alt="Photo studio"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          <OfferGallery images={offer.images} />
           <div className="offer__container container">
             <div className="offer__wrapper">
               {offer.isPremium && <PremiumLabel blockClassName='offer' />}
