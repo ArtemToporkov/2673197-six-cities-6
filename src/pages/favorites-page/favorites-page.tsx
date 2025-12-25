@@ -2,9 +2,6 @@
 import classNames from 'classnames';
 
 import { FavoritesSection } from '../../components/favorites-section/favorites-section.tsx';
-import { AuthStatus } from '../../enums/auth-status.ts';
-import { Navigate } from 'react-router-dom';
-import { AppRoute } from '../../enums/app-route.ts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { setFavoriteStatus } from '../../store/api-actions.ts';
 import { Header } from '../../components/header/header.tsx';
@@ -41,11 +38,7 @@ function getFavoritesSections(
 
 export function FavoritesPage(): ReactNode {
   const favoriteOffers = useAppSelector((state) => state.offers.favoriteOffers);
-  const authStatus = useAppSelector((state) => state.user.authStatus);
   const dispatch = useAppDispatch();
-  if (authStatus !== AuthStatus.Authorized) {
-    return <Navigate to={AppRoute.Login} />;
-  }
   const offersByCity = groupOffersByCityName(favoriteOffers);
   const onBookmarkClick = (offerId: string) => {
     dispatch(setFavoriteStatus({ offerId, status: FavoriteAction.Remove }));
