@@ -21,12 +21,7 @@ function OffersListComponent({offers, onOfferCardHover, onOfferCardUnhover, onBo
         return (
           <HotelCard
             key={offer.id}
-            {...offer}
-            isPremium={offer.isPremium}
-            previewImage={offer.previewImage}
-            price={offer.price}
-            type={offer.type}
-            title={offer.title}
+            offer={offer}
             onMouseOver={handleCardHover}
             onMouseLeave={handleCardUnhover}
             onBookmarkClick={onBookmarkClick}
