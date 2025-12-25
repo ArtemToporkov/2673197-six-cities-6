@@ -28,8 +28,8 @@ const initialState: OffersState = {
   offersInCity: [],
   allOffers: [],
   currentSortingType: SortingType.Popular,
-  isOffersLoading: false,
-  isOfferLoading: false
+  isOffersLoading: true,
+  isOfferLoading: true
 };
 
 function sortOffers(offersToSort: OfferPreviewInfo[], sortingType: SortingType): OfferPreviewInfo[] {
