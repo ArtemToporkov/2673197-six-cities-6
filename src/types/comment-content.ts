@@ -2,5 +2,5 @@
 
 export type CommentContent = {
   comment: string;
-  rating: RatingScore | null;
+  rating: RatingScore;
 };

@@ -21,6 +21,7 @@ import { setFavoriteStatus, getOffer } from '../../store/api-actions.ts';
 import { FavoriteAction } from '../../enums/favorite-action.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { Point } from '../../types/point.ts';
+import { RatingStars } from '../../components/rating-stars/rating-stars.tsx';
 
 function mapOfferPreviewInfoToPoint(offerDetails: OfferPreviewInfo): Point {
   return ({
@@ -122,13 +123,9 @@ export function OfferPage(): ReactNode {
                   height={33}
                 />
               </div>
-              <div className="offer__rating rating">
-                <div className="offer__stars rating__stars">
-                  <span style={{ width: '80%' }} />
-                  <span className="visually-hidden">Rating</span>
-                </div>
+              <RatingStars rating={offer.rating} blockClassName="offer">
                 <span className="offer__rating-value rating__value">{offer.rating}</span>
-              </div>
+              </RatingStars>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">{offer.type}</li>
                 <li className="offer__feature offer__feature--bedrooms">

@@ -7,6 +7,7 @@ import { AppRoute } from '../../enums/app-route.ts';
 import { PremiumLabel } from '../premium-label/premium-label.tsx';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import { BookmarkButton } from '../bookmark-button/bookmark-button.tsx';
+import { RatingStars } from '../rating-stars/rating-stars.tsx';
 
 type HotelInfoProps = {
   offer: OfferPreviewInfo;
@@ -55,12 +56,7 @@ function HotelCardComponent({
           </div>
           <BookmarkButton active={offer.isFavorite ?? false} onClick={() => onBookmarkClick(offer.id)} />
         </div>
-        <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }} />
-            <span className="visually-hidden">Rating</span>
-          </div>
-        </div>
+        <RatingStars rating={offer.rating} />
         <h2 className="place-card__name">
           <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>
             {offer.title}

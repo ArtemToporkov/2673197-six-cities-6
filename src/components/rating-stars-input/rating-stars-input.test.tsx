@@ -1,12 +1,12 @@
 ﻿import { render, screen } from '@testing-library/react';
 
 import { RATINGS } from '../../const.ts';
-import { ScoreStars } from './score-stars.tsx';
+import { RatingStarsInput } from './rating-stars-input.tsx';
 
 describe('Component: Score stars', () => {
   describe('rendering', () => {
     beforeEach(() => {
-      render(<ScoreStars onScoreChanged={() => {}} />);
+      render(<RatingStarsInput onRatingChanged={() => {}} />);
     });
 
     it('should display correct number of rating radio buttons', () => {

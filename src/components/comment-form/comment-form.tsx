@@ -1,19 +1,24 @@
 ﻿import { useState } from 'react';
 import type { ReactNode } from 'react';
 
-import { ScoreStars } from '../score-stars/score-stars.tsx';
+import { RatingStarsInput } from '../rating-stars-input/rating-stars-input.tsx';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { ServerErrorType } from '../../enums/server-error-type.ts';
-import type { CommentContent } from '../../types/comment-content.ts';
-import type { ServerError } from '../../types/server-error.ts';
 import { resetError } from '../../store/error/error-slice.ts';
 import { sendComment } from '../../store/api-actions.ts';
+import type { CommentContent } from '../../types/comment-content.ts';
+import type { ServerError } from '../../types/server-error.ts';
+import type { RatingScore } from '../../types/rating-score.ts';
 
 const MIN_COMMENT_LENGTH = 50;
 
+type CommentContentState = Omit<CommentContent, 'rating'> & {
+  rating: RatingScore | null;
+}
+
 export function CommentForm(): ReactNode {
-  const [comment, setComment] = useState<CommentContent>({ rating: null, comment: '' });
+  const [comment, setComment] = useState<CommentContentState>({ rating: null, comment: '' });
   const dispatch = useAppDispatch();
   const error = useAppSelector((state) => state.error) as ServerError | null;
   const offerId = useAppSelector((state) => state.offers.offer?.id);
@@ -29,13 +34,13 @@ export function CommentForm(): ReactNode {
       method="post"
       onSubmit={(e) => {
         e.preventDefault();
-        dispatch(sendComment({ comment: comment, offerId: offerId }))
+        dispatch(sendComment({ comment: comment as CommentContent, offerId: offerId }))
           .unwrap()
           .then(() => setComment({ rating: null, comment: '' }));
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <ScoreStars onScoreChanged={(score) => {
+      <RatingStarsInput onRatingChanged={(score) => {
         setComment({...comment, rating: score});
         dispatch(resetError());
       }}
@@ -58,7 +63,7 @@ export function CommentForm(): ReactNode {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={comment.comment.length < MIN_COMMENT_LENGTH || comment.rating === undefined}
+          disabled={comment.comment.length < MIN_COMMENT_LENGTH || !comment.rating}
         >
           Submit
         </button>

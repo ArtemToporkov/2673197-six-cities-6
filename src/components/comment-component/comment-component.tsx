@@ -1,5 +1,6 @@
 ﻿import type { ReactNode } from 'react';
 import type { Comment } from '../../types/comment.ts';
+import { RatingStars } from '../rating-stars/rating-stars.tsx';
 
 type CommentProps = {
   comment: Comment;
@@ -27,12 +28,7 @@ export function CommentComponent({ comment }: CommentProps): ReactNode {
         </span>
       </div>
       <div className="reviews__info">
-        <div className="reviews__rating rating">
-          <div className="reviews__stars rating__stars">
-            <span style={{ width: '80%' }} />
-            <span className="visually-hidden">Rating</span>
-          </div>
-        </div>
+        <RatingStars rating={comment.rating} blockClassName="reviews" />
         <p className="reviews__text">
           {comment.comment}
         </p>

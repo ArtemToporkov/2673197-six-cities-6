@@ -5,28 +5,28 @@ import { RATINGS } from '../../const.ts';
 import type { RatingScore } from '../../types/rating-score.ts';
 
 type ScoreStarsProps = {
-  onScoreChanged: (score: RatingScore) => void;
+  onRatingChanged: (score: RatingScore) => void;
 }
 
-export function ScoreStars({ onScoreChanged }: ScoreStarsProps): ReactNode {
+export function RatingStarsInput({ onRatingChanged }: ScoreStarsProps): ReactNode {
   return (
     <div className="reviews__rating-form form__rating">
-      {RATINGS.map(({score, description}) => (
-        <Fragment key={score}>
+      {RATINGS.map(({rating, description}) => (
+        <Fragment key={rating}>
           <input
             className="form__rating-input visually-hidden"
             name="rating"
-            value={score}
-            id={`${score}-stars`}
+            value={rating}
+            id={`${rating}-stars`}
             type="radio"
           />
           <label
-            htmlFor={`${score}-stars`}
+            htmlFor={`${rating}-stars`}
             className="reviews__rating-label form__rating-label"
             title={description}
             aria-label={description}
           >
-            <svg className="form__star-image" width="37" height="33" onClick={() => onScoreChanged(score)}>
+            <svg className="form__star-image" width="37" height="33" onClick={() => onRatingChanged(rating)}>
               <use xlinkHref="#icon-star"></use>
             </svg>
           </label>
