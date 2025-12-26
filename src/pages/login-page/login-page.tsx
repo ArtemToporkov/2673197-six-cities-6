@@ -66,12 +66,13 @@ export function LoginPage(): ReactNode {
               }}
             >
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">E-mail</label>
+                <label htmlFor="email" className="visually-hidden">E-mail</label>
                 <input
                   onChange={(e) => {
                     setEmail(e.target.value);
                     setErrors([]);
                   }}
+                  id="email"
                   className="login__input form__input"
                   type="email"
                   name="email"
@@ -81,12 +82,13 @@ export function LoginPage(): ReactNode {
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">Password</label>
+                <label htmlFor="password" className="visually-hidden">Password</label>
                 <input
                   onChange={(e) => {
                     setPassword(e.target.value);
                     setErrors([]);
                   }}
+                  id="password"
                   className="login__input form__input"
                   type="password"
                   name="password"
