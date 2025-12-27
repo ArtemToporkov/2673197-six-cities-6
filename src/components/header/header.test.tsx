@@ -2,7 +2,7 @@
 import { MemoryRouter } from 'react-router-dom';
 import { Header } from './header.tsx';
 import { withStore } from '../../utils/component-mocks.tsx';
-import { makeStore, makeUserInfo } from '../../utils/mocks.ts';
+import { makeOfferPreviewInfo, makeStore, makeUserInfo } from '../../utils/mocks.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 
 describe('Component: Header', () => {
@@ -41,14 +41,15 @@ describe('Component: Header', () => {
 
   it('should render favorites count', () => {
     const userInfo = makeUserInfo();
-    const favoriteOffers = [{}, {}, {}];
+    const favoriteOffers = Array.from({ length: 3 }, () =>
+      makeOfferPreviewInfo({isFavorite: true}));
     const { withStoreComponent } = withStore(
       <MemoryRouter>
         <Header />
       </MemoryRouter>,
       makeStore({
         user: { authStatus: AuthStatus.Authorized, info: userInfo },
-        offers: { ...makeStore().offers, favoriteOffers: favoriteOffers as any }
+        offers: { ...makeStore().offers, favoriteOffers }
       })
     );
 
