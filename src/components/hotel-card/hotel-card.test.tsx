@@ -3,11 +3,12 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { HotelCard } from './hotel-card.tsx';
 import { makeOfferPreviewInfo } from '../../utils/mocks.ts';
+import { userEvent } from '@testing-library/user-event';
 
 describe('Component: HotelCard', () => {
-  const offer = makeOfferPreviewInfo();
-
   it('should render correct offer data', () => {
+    const offer = makeOfferPreviewInfo();
+
     render(
       <MemoryRouter>
         <HotelCard
@@ -36,5 +37,45 @@ describe('Component: HotelCard', () => {
     );
 
     expect(screen.getByText(/Premium/i)).toBeInTheDocument();
+  });
+
+  it('should call onMouseOver and onMouseLeave', async () => {
+    const onMouseOver = vi.fn();
+    const onMouseLeave = vi.fn();
+    const offer = makeOfferPreviewInfo();
+    render(
+      <MemoryRouter>
+        <HotelCard
+          offer={offer}
+          onBookmarkClick={vi.fn()}
+          onMouseOver={onMouseOver}
+          onMouseLeave={onMouseLeave}
+        />
+      </MemoryRouter>
+    );
+
+    await userEvent.hover(screen.getByAltText('Place image'));
+    await userEvent.unhover(screen.getByAltText('Place image'));
+
+    expect(onMouseOver).toBeCalledTimes(1);
+    expect(onMouseLeave).toBeCalledTimes(1);
+  });
+
+  it('should call onBookmarkClick when bookmark button is clicked', async () => {
+    const onBookmarkClick = vi.fn();
+    const offer = makeOfferPreviewInfo();
+    render(
+      <MemoryRouter>
+        <HotelCard
+          offer={offer}
+          onBookmarkClick={onBookmarkClick}
+        />
+      </MemoryRouter>
+    );
+
+    await userEvent.click(screen.getByRole('button'));
+
+    expect(onBookmarkClick).toBeCalledTimes(1);
+    expect(onBookmarkClick).toBeCalledWith(offer.id);
   });
 });
