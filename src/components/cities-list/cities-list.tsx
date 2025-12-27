@@ -13,7 +13,6 @@ type CitiesListProps = {
 function CitiesListComponent({cities, onCityClick}: CitiesListProps): ReactNode {
   const currentCity = useAppSelector((state) => state.cities.city);
   const handleCityClick = useCallback((city: City) => onCityClick(city), [onCityClick]);
-
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">

@@ -1,6 +1,6 @@
 ﻿import type { ReactNode } from 'react';
 
-import { FavoriteCard } from '../favorite-card/favorite-card.tsx';
+import { HotelCard } from '../hotel-card/hotel-card.tsx';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 
 type FavoritesSectionProps = {
@@ -26,9 +26,12 @@ export function FavoritesSection({city, offers, onBookmarkClick}: FavoritesSecti
       </div>
       <div className="favorites__places">
         {offers.map((offer) => (
-          <FavoriteCard
-            offer={offer}
+          <HotelCard
             key={offer.id}
+            offer={offer}
+            blockClassName="favorites"
+            offerPreviewImageWidth={150}
+            offerPreviewImageHeight={110}
             onBookmarkClick={onBookmarkClick}
           />
         ))}

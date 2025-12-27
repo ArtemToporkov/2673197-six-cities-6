@@ -56,7 +56,7 @@ function MapComponent({city, points, selectedPoint}: MapProps): ReactNode {
     }
   }, [map, points, selectedPoint]);
 
-  return <div style={{height: '500px'}} ref={mapRef}></div>;
+  return <div style={{height: '500px'}} ref={mapRef} data-testid="map"></div>;
 }
 
 export const Map = memo(MapComponent);
