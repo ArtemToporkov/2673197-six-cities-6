@@ -15,7 +15,10 @@ export function SortingTypeMenu(): ReactNode {
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by </span>
-      <span className="places__sorting-type" tabIndex={0} onClick={() => setIsOpened(!isOpened)}>
+      <span
+        className="places__sorting-type" tabIndex={0} onClick={() => setIsOpened(!isOpened)}
+        data-testid="sorting-caption"
+      >
         {currentSortingType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
