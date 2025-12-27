@@ -36,22 +36,27 @@ describe('Component: CommentForm', () => {
 
   it('should dispatch "sendComment" action when form is submitted', async () => {
     const offer = makeOfferFullInfo();
-    const { withStoreComponent, mockStore } = withStore(
+    const { withStoreComponent, mockStore, mockAxiosAdapter } = withStore(
       <CommentForm />,
       makeStore({ offers: { ...makeStore().offers, offer } })
     );
+
+    mockAxiosAdapter.onPost(new RegExp(`/comments/${offer.id}`)).reply(200, {});
+
     render(withStoreComponent);
     const validCommentText = 'This is a long enough comment to pass the validation check which requires at least 50 characters.';
 
     await userEvent.type(screen.getByPlaceholderText(/Tell how was your stay/i), validCommentText);
     const ratingInputs = screen.getAllByRole('radio');
-    await userEvent.click(ratingInputs[4]);
+    await userEvent.click(ratingInputs[0]);
     await userEvent.click(screen.getByRole('button', { name: /submit/i }));
 
     const actions = mockStore.getActions();
-    const pendingAction = actions[0] as ReturnType<typeof sendComment.pending>;
+    const pendingAction = actions.find(
+      (action) => action.type === sendComment.pending.type
+    ) as ReturnType<typeof sendComment.pending>;
 
-    expect(pendingAction.type).toBe(sendComment.pending.type);
+    expect(pendingAction).toBeDefined();
     expect(pendingAction.meta.arg).toEqual({
       offerId: offer.id,
       comment: {
