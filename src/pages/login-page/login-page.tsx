@@ -1,8 +1,7 @@
-﻿import { ReactNode, useState } from 'react';
-
-import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
+﻿import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { Link, Navigate } from 'react-router-dom';
+import { useEffect, useState, type ReactNode } from 'react';
 
 import { login } from '../../store/api-actions.ts';
 import { resetError } from '../../store/error/error-slice.ts';
@@ -34,16 +33,22 @@ export function LoginPage(): ReactNode {
   const [password, setPassword] = useState<string>('');
   const [errors, setErrors] = useState<string[]>([]);
   const dispatch = useAppDispatch();
-  dispatch(resetError());
 
   const authState = useAppSelector((state) => state.user.authStatus);
   const error = useAppSelector((state) => state.error) as ServerError | null;
-  if (error && error.errorType === ServerErrorType.ValidationError) {
-    setErrors(error.details.map(
-      (detail) => `${detail.property}: ${detail.messages.join(', ')}`)
-    );
-  }
   const currentCity = useAppSelector((state) => state.cities.city);
+
+  useEffect(() => {
+    dispatch(resetError());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (error && error.errorType === ServerErrorType.ValidationError) {
+      setErrors(error.details.map(
+        (detail) => `${detail.property}: ${detail.messages.join(', ')}`)
+      );
+    }
+  }, [error]);
 
   if (authState === AuthStatus.Authorized) {
     return <Navigate to={AppRoute.Main} />;
