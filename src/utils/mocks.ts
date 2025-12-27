@@ -43,7 +43,7 @@ export const makeCity = (initial?: Partial<City>): City => ({
 export const makeOfferPreviewInfo = (initial?: Partial<OfferPreviewInfo>): OfferPreviewInfo => ({
   city: makeCity(),
   id: datatype.uuid(),
-  previewImage: image.imageUrl(),
+  previewImage: `${image.imageUrl()}?${datatype.uuid()}`,
   isFavorite: datatype.boolean(),
   isPremium: datatype.boolean(),
   location: makeLocation(),
@@ -67,7 +67,7 @@ export const makeOfferFullInfo = (initial?: Partial<OfferFullInfo>): OfferFullIn
       avatarUrl: image.avatar(),
       isPro: datatype.boolean()
     },
-    images: Array.from({length: 6}, () => image.imageUrl()),
+    images: Array.from({length: 6}, () => `${image.imageUrl()}?${datatype.uuid()}`),
     maxAdults: datatype.number({min: 1, max: 10}),
     ...rest,
     ...initial
@@ -93,15 +93,13 @@ export const makeOffersState = (initial?: Partial<OffersState>): OffersState => 
   ...initial
 });
 
-export const makeUserInfo = (): UserInfo => {
-  return {
-    avatarUrl: internet.avatar(),
-    email: internet.email(),
-    isPro: datatype.boolean(),
-    name: internet.userName(),
-    token: '123'
-  };
-};
+export const makeUserInfo = (): UserInfo => ({
+  avatarUrl: internet.avatar(),
+  email: internet.email(),
+  isPro: datatype.boolean(),
+  name: internet.userName(),
+  token: '123'
+});
 
 export const makeStore = (initial?: Partial<State>): State => ({
   user: {
