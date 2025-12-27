@@ -1,30 +1,18 @@
 ﻿import { describe, it } from 'vitest';
 import { datatype } from 'faker';
 
-import { makeCity, makeComment, makeOfferFullInfo, makeOfferPreviewInfo } from '../../utils/mocks.ts';
+import {
+  makeCity,
+  makeComment,
+  makeOfferFullInfo,
+  makeOfferPreviewInfo,
+  makeOffersState,
+  makeOfferPreviewInfos
+} from '../../utils/mocks.ts';
 import { SortingType } from '../../enums/sorting-type.ts';
 import { getFavoriteOffers, getOffer, getOffers, sendComment, setFavoriteStatus } from '../api-actions.ts';
-import { offersSlice, type OffersState, switchSortingType, } from './offers-slice.ts';
+import { offersSlice, switchSortingType, } from './offers-slice.ts';
 import { FavoriteAction } from '../../enums/favorite-action.ts';
-
-const makeOfferPreviewInfos = () => Array.from({ length: datatype.number({ min: 3, max: 6 }) }, () =>
-  makeOfferPreviewInfo());
-
-const makeOffersState = (initial?: Partial<OffersState>): OffersState => ({
-  allOffers: Array.from({ length: 5 }, () => makeOfferPreviewInfo()),
-  comments: Array.from({ length: 5 }, () => makeComment()),
-  currentSortingType: SortingType.Popular,
-  favoriteOffers: makeOfferPreviewInfos().map((o) => {
-    o.isFavorite = true;
-    return o;
-  }),
-  isOfferLoading: false,
-  isOffersLoading: false,
-  nearbyOffers: makeOfferPreviewInfos(),
-  offer: makeOfferFullInfo(),
-  offersInCity: makeOfferPreviewInfos(),
-  ...initial
-});
 
 describe('Offers slice', () => {
   it('should load offer on getOffer.fulfilled', () => {

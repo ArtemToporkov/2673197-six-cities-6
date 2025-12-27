@@ -5,17 +5,11 @@ import { internet } from 'faker';
 import { userEvent } from '@testing-library/user-event';
 
 import { LoginPage } from './login-page.tsx';
-import { AuthStatus } from '../../enums/auth-status.ts';
+import { makeStore } from '../../utils/mocks.ts';
 
 describe('Component: LoginPage', () => {
   it('should render correctly', () => {
-    const { withStoreComponent } = withStore(
-      <LoginPage />,
-      {
-        user: { authStatus: AuthStatus.Unknown, info: null },
-        cities: { city: null, cities: [] }
-      }
-    );
+    const { withStoreComponent } = withStore(<LoginPage />, makeStore());
     const withMemoryRouterComponent = <MemoryRouter>{withStoreComponent}</MemoryRouter>;
 
     render(withMemoryRouterComponent);
@@ -25,13 +19,7 @@ describe('Component: LoginPage', () => {
   });
 
   it('should render correctly when user entered email and password', async () => {
-    const { withStoreComponent } = withStore(
-      <LoginPage />,
-      {
-        user: { authStatus: AuthStatus.Unknown, info: null },
-        cities: { city: null, cities: [] }
-      }
-    );
+    const { withStoreComponent } = withStore(<LoginPage />, makeStore());
     const withMemoryRouterComponent = <MemoryRouter>{withStoreComponent}</MemoryRouter>;
     const expectedEmail = internet.email();
     const expectedPassword = internet.password();
