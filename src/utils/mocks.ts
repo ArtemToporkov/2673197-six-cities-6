@@ -93,12 +93,15 @@ export const makeOffersState = (initial?: Partial<OffersState>): OffersState => 
   ...initial
 });
 
+const makeToken = () =>
+  `${random.alphaNumeric(10)}.${random.alphaNumeric(10)}.${random.alphaNumeric(10)}`;
+
 export const makeUserInfo = (): UserInfo => ({
   avatarUrl: internet.avatar(),
   email: internet.email(),
   isPro: datatype.boolean(),
   name: internet.userName(),
-  token: '123'
+  token: makeToken()
 });
 
 export const makeStore = (initial?: Partial<State>): State => ({
