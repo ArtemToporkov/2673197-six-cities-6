@@ -12,6 +12,7 @@ import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 import type { OfferFullInfo } from '../types/offer-full-info.ts';
 import type { State } from '../types/state.ts';
 import type { OffersState } from '../store/offers/offers-slice.ts';
+import { UserInfo } from '../types/user-info.ts';
 
 export const makeComment = (initial?: Partial<Comment>): Comment => ({
   id: datatype.uuid(),
@@ -91,6 +92,16 @@ export const makeOffersState = (initial?: Partial<OffersState>): OffersState => 
   offersInCity: makeOfferPreviewInfos(),
   ...initial
 });
+
+export const makeUserInfo = (): UserInfo => {
+  return {
+    avatarUrl: internet.avatar(),
+    email: internet.email(),
+    isPro: datatype.boolean(),
+    name: internet.userName(),
+    token: '123'
+  };
+};
 
 export const makeStore = (initial?: Partial<State>): State => ({
   user: {
