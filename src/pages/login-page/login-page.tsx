@@ -54,6 +54,21 @@ export function LoginPage(): ReactNode {
     return <Navigate to={AppRoute.Main} />;
   }
 
+  const validatePassword = (value: string) => {
+    let hasLatinLetter = false;
+    let hasDigit = false;
+
+    for (const char of value) {
+      if ((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')) {
+        hasLatinLetter = true;
+      } else if (char >= '0' && char <= '9') {
+        hasDigit = true;
+      }
+    }
+
+    return hasLatinLetter && hasDigit;
+  };
+
   return (
     <div className="page page--gray page--login">
       <Header withNav={false} />
@@ -67,6 +82,10 @@ export function LoginPage(): ReactNode {
               method="post"
               onSubmit={(e) => {
                 e.preventDefault();
+                if (!validatePassword(password)) {
+                  setErrors(['Password must contain at least one Latin letter and one digit']);
+                  return;
+                }
                 dispatch(login({ email: email, password: password }));
               }}
             >
