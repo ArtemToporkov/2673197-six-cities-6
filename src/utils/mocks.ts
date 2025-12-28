@@ -4,10 +4,10 @@ import { HotelType } from '../enums/hotel-type.ts';
 import { Good } from '../enums/good.ts';
 import { AuthStatus } from '../enums/auth-status.ts';
 import { SortingType } from '../enums/sorting-type.ts';
+import { CITIES } from '../const.ts';
 import type { Location } from '../types/location.ts';
 import type { City } from '../types/city.ts';
 import type { Comment } from '../types/comment.ts';
-import type { RatingScore } from '../types/rating-score.ts';
 import type { OfferPreviewInfo } from '../types/offer-preview-info.ts';
 import type { OfferFullInfo } from '../types/offer-full-info.ts';
 import type { State } from '../types/state.ts';
@@ -23,7 +23,7 @@ export const makeComment = (initial?: Partial<Comment>): Comment => ({
   },
   date: datatype.datetime().toISOString(),
   comment: lorem.sentence(51),
-  rating: datatype.number({min: 1, max: 5}) as RatingScore,
+  rating: datatype.number({min: 1, max: 5}),
   ...initial
 });
 
@@ -48,7 +48,7 @@ export const makeOfferPreviewInfo = (initial?: Partial<OfferPreviewInfo>): Offer
   isPremium: datatype.boolean(),
   location: makeLocation(),
   price: +commerce.price(),
-  rating: datatype.number({min: 1, max: 5}) as RatingScore,
+  rating: datatype.number({min: 1, max: 5}),
   title: `${company.companyName()}'s hotel`,
   type: random.arrayElement(Object.values(HotelType)),
   ...initial
@@ -110,8 +110,8 @@ export const makeStore = (initial?: Partial<State>): State => ({
     info: null
   },
   cities: {
-    city: null,
-    cities: []
+    city: CITIES[0],
+    cities: CITIES
   },
   offers: makeOffersState(),
   error: null,

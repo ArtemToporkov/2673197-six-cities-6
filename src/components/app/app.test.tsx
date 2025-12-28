@@ -13,6 +13,7 @@ import { AppRoute } from '../../enums/app-route.ts';
 import { SortingType } from '../../enums/sorting-type.ts';
 import { makeCity, makeComment, makeOfferFullInfo, makeOfferPreviewInfo } from '../../utils/mocks.ts';
 import { ServerErrorType } from '../../enums/server-error-type.ts';
+import { CITIES } from '../../const.ts';
 import type { State } from '../../types/state.ts';
 
 function withMemoryHistory(component: ReactNode, initialEntries: string[] = [AppRoute.Main]): ReactNode {
@@ -41,8 +42,8 @@ function makeState(initial?: Partial<State>): State {
       isOffersLoading: false
     },
     cities: {
-      city: null,
-      cities: []
+      city: CITIES[0],
+      cities: CITIES
     },
     error: null,
     ...initial

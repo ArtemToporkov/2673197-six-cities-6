@@ -2,7 +2,6 @@
 import { describe, it, expect } from 'vitest';
 
 import {
-  makeCity,
   makeComment,
   makeOfferFullInfo,
   makeOfferPreviewInfo,
@@ -14,6 +13,7 @@ import { getFavoriteOffers, getOffer, getOffers, logout, sendComment, setFavorit
 import { offersSlice, switchSortingType, } from './offers-slice.ts';
 import { FavoriteAction } from '../../enums/favorite-action.ts';
 import { switchCity } from '../cities/cities-slice.ts';
+import { CITIES } from '../../const.ts';
 
 describe('Offers slice', () => {
   it('should set isOffersLoading to true on getOffers.pending', () => {
@@ -30,7 +30,7 @@ describe('Offers slice', () => {
 
   it('should load offers on getOffers.fulfilled', () => {
     const initialState = makeOffersState({ allOffers: [], offersInCity: [], isOffersLoading: true });
-    const city = makeCity();
+    const city = CITIES[0];
     const offersToLoad = makeOfferPreviewInfos()
       .map((o) => {
         o.city = city;
@@ -164,8 +164,8 @@ describe('Offers slice', () => {
   });
 
   it('should update offersInCity when city is switched', () => {
-    const paris = makeCity({ name: 'Paris' });
-    const amsterdam = makeCity({ name: 'Amsterdam' });
+    const paris = CITIES[0];
+    const amsterdam = CITIES[3];
     const offerParis = makeOfferPreviewInfo({ city: paris });
     const offerAmsterdam = makeOfferPreviewInfo({ city: amsterdam });
 
