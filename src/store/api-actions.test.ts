@@ -21,7 +21,6 @@ import { AuthStatus } from '../enums/auth-status.ts';
 import { FavoriteAction } from '../enums/favorite-action.ts';
 import type { State } from '../types/state.ts';
 import type { CommentContent } from '../types/comment-content.ts';
-import type { RatingScore } from '../types/rating-score.ts';
 
 const extractActionTypes = (actions: Action<string>[]) => actions.map((action) => action.type);
 
@@ -164,7 +163,7 @@ describe('Async actions', () => {
       const offerId = datatype.uuid();
       const comment: CommentContent = {
         comment: lorem.sentence(),
-        rating: datatype.number({ min: 1, max: 5 }) as RatingScore
+        rating: datatype.number({ min: 1, max: 5 })
       };
       mockAxiosAdapter.onPost(`/comments/${offerId}`).reply(200, {});
 

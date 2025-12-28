@@ -1,7 +1,7 @@
 ﻿import { useNavigate } from 'react-router-dom';
 import { useCallback, useMemo, useState } from 'react';
-import type { ReactNode } from 'react';
 import classNames from 'classnames';
+import type { ReactNode } from 'react';
 
 import { CitiesList } from '../../components/cities-list/cities-list.tsx';
 import { Map } from '../../components/map/map.tsx';

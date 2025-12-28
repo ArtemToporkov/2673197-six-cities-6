@@ -1,6 +1,6 @@
-﻿import type { ReactNode } from 'react';
-import { useEffect, useMemo } from 'react';
+﻿import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import type { ReactNode } from 'react';
 
 import { Map } from '../../components/map/map.tsx';
 import { PremiumLabel } from '../../components/premium-label/premium-label.tsx';
@@ -22,11 +22,11 @@ import { OfferInside } from '../../components/offer-inside/offer-inside.tsx';
 import { OfferHost } from '../../components/offer-host/offer-host.tsx';
 import { OfferReviews } from '../../components/offer-reviews/offer-reviews.tsx';
 import { NearPlaces } from '../../components/near-places/near-places.tsx';
-import type { Point } from '../../types/point.ts';
-import type { Location } from '../../types/location.ts';
 import { getAuthStatus } from '../../store/user/user-selectors.ts';
 import { getError } from '../../store/error/error-selectors.ts';
 import { getComments, getNearbyOffers, getOffer, isOfferLoading as getIsOfferLoading } from '../../store/offers/offers-selectors.ts';
+import type { Point } from '../../types/point.ts';
+import type { Location } from '../../types/location.ts';
 
 const MAX_NEAR_OFFERS_COUNT = 3;
 
