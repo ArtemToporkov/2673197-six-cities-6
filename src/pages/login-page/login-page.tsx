@@ -10,7 +10,9 @@ import { AppRoute } from '../../enums/app-route.ts';
 import { ServerErrorType } from '../../enums/server-error-type.ts';
 import { Header } from '../../components/header/header.tsx';
 import { switchCity } from '../../store/cities/cities-slice.ts';
-import type { ServerError } from '../../types/server-error.ts';
+import { getAuthStatus } from '../../store/user/user-selectors.ts';
+import { getError } from '../../store/error/error-selectors.ts';
+import { getCities } from '../../store/cities/cities-selectors.ts';
 import type { City } from '../../types/city.ts';
 
 import style from './login-page.module.css';
@@ -42,9 +44,9 @@ export function LoginPage(): ReactNode {
   const [errors, setErrors] = useState<string[]>([]);
   const dispatch = useAppDispatch();
 
-  const authState = useAppSelector((state) => state.user.authStatus);
-  const error = useAppSelector((state) => state.error) as ServerError | null;
-  const cities = useAppSelector((state) => state.cities.cities);
+  const authState = useAppSelector(getAuthStatus);
+  const error = useAppSelector(getError);
+  const cities = useAppSelector(getCities);
 
   const randomCity = useMemo(() => {
     if (cities.length === 0) {

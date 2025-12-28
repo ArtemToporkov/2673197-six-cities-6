@@ -14,6 +14,9 @@ import { AuthStatus } from '../../enums/auth-status.ts';
 import { AppRoute } from '../../enums/app-route.ts';
 import { setFavoriteStatus } from '../../store/api-actions.ts';
 import { FavoriteAction } from '../../enums/favorite-action.ts';
+import { getOffersInCity } from '../../store/offers/offers-selectors.ts';
+import { getCities, getCity } from '../../store/cities/cities-selectors.ts';
+import { getAuthStatus } from '../../store/user/user-selectors.ts';
 import type { Point } from '../../types/point.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { City } from '../../types/city.ts';
@@ -47,10 +50,10 @@ function NoPlacesAvailable({ city }: { city: string | undefined }): ReactNode {
 export function MainPage(): ReactNode {
   const dispatch = useAppDispatch();
 
-  const currentOffers = useAppSelector((state) => state.offers.offersInCity);
-  const currentCity = useAppSelector((state) => state.cities.city);
-  const cities = useAppSelector((state) => state.cities.cities);
-  const authStatus = useAppSelector((state) => state.user.authStatus);
+  const currentOffers = useAppSelector(getOffersInCity);
+  const currentCity = useAppSelector(getCity);
+  const cities = useAppSelector(getCities);
+  const authStatus = useAppSelector(getAuthStatus);
   const navigate = useNavigate();
 
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);

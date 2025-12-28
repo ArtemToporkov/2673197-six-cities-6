@@ -14,10 +14,12 @@ import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { LoadingScreen } from '../loading-screen/loading-screen.tsx';
 import { getFavoriteOffers, getOffers } from '../../store/api-actions.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
+import { getAuthStatus } from '../../store/user/user-selectors.ts';
+import { isOffersLoading as getIsOffersLoading } from '../../store/offers/offers-selectors.ts';
 
 export function App(): ReactNode {
   const dispatch = useAppDispatch();
-  const authStatus = useAppSelector((state) => state.user.authStatus);
+  const authStatus = useAppSelector(getAuthStatus);
   useEffect(() => {
     dispatch(getOffers());
   }, [dispatch]);
@@ -26,7 +28,7 @@ export function App(): ReactNode {
       dispatch(getFavoriteOffers());
     }
   }, [authStatus, dispatch]);
-  const isOffersLoading = useAppSelector((state) => state.offers.isOffersLoading);
+  const isOffersLoading = useAppSelector(getIsOffersLoading);
   if (isOffersLoading) {
     return <LoadingScreen />;
   }

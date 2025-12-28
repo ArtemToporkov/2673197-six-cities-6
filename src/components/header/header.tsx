@@ -6,14 +6,17 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { AppRoute } from '../../enums/app-route.ts';
 import { logout } from '../../store/api-actions.ts';
+import { getAuthStatus, getUserInfo } from '../../store/user/user-selectors.ts';
+import { getFavoriteOffers } from '../../store/offers/offers-selectors.ts';
 
 function NavigationItems(): ReactNode {
-  const user = useAppSelector((state) => state.user);
-  const favoriteOffers = useAppSelector((state) => state.offers.favoriteOffers);
+  const authStatus = useAppSelector(getAuthStatus);
+  const userInfo = useAppSelector(getUserInfo);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
   const dispatch = useAppDispatch();
 
   let navItems: ReactNode;
-  switch (user.authStatus) {
+  switch (authStatus) {
     case AuthStatus.Authorized:
       navItems = (
         <>
@@ -24,7 +27,7 @@ function NavigationItems(): ReactNode {
             >
               <div className="header__avatar-wrapper user__avatar-wrapper"></div>
               <span className="header__user-name user__name">
-                {user.info.email}
+                {userInfo?.email}
               </span>
               <span className="header__favorite-count">{favoriteOffers.length}</span>
             </Link>
@@ -61,7 +64,7 @@ function NavigationItems(): ReactNode {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      type _ = never;
+    type _ = never;
       break;
   }
 

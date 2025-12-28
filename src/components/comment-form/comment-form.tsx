@@ -7,8 +7,9 @@ import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { ServerErrorType } from '../../enums/server-error-type.ts';
 import { resetError } from '../../store/error/error-slice.ts';
 import { sendComment } from '../../store/api-actions.ts';
+import { getError } from '../../store/error/error-selectors.ts';
+import { getOffer } from '../../store/offers/offers-selectors.ts';
 import type { CommentContent } from '../../types/comment-content.ts';
-import type { ServerError } from '../../types/server-error.ts';
 import type { RatingScore } from '../../types/rating-score.ts';
 
 const MIN_COMMENT_LENGTH = 50;
@@ -22,8 +23,9 @@ export function CommentForm(): ReactNode {
   const [comment, setComment] = useState<CommentContentState>({ rating: null, comment: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useAppDispatch();
-  const error = useAppSelector((state) => state.error) as ServerError | null;
-  const offerId = useAppSelector((state) => state.offers.offer?.id);
+  const error = useAppSelector(getError);
+  const offer = useAppSelector(getOffer);
+  const offerId = offer?.id;
 
   if (!offerId) {
     throw new Error('CommentForm can\'t be used without an offerId');
@@ -58,15 +60,15 @@ export function CommentForm(): ReactNode {
         }}
       />
       <textarea className="reviews__textarea form__textarea"
-        id="review"
-        name="review"
-        placeholder="Tell how was your stay, what you like and what can be improved"
-        value={comment.comment}
-        disabled={isSubmitting}
-        onChange={(e) => {
-          setComment({...comment, comment: e.target.value});
-          dispatch(resetError());
-        }}
+                id="review"
+                name="review"
+                placeholder="Tell how was your stay, what you like and what can be improved"
+                value={comment.comment}
+                disabled={isSubmitting}
+                onChange={(e) => {
+                  setComment({...comment, comment: e.target.value});
+                  dispatch(resetError());
+                }}
       >
       </textarea>
       <div className="reviews__button-wrapper">

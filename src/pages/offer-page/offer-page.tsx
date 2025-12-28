@@ -13,7 +13,7 @@ import { AuthStatus } from '../../enums/auth-status.ts';
 import { AppRoute } from '../../enums/app-route.ts';
 import { BookmarkButton } from '../../components/bookmark-button/bookmark-button.tsx';
 import { Header } from '../../components/header/header.tsx';
-import { setFavoriteStatus, getOffer } from '../../store/api-actions.ts';
+import { setFavoriteStatus, getOffer as getOfferAction } from '../../store/api-actions.ts';
 import { FavoriteAction } from '../../enums/favorite-action.ts';
 import { RatingStars } from '../../components/rating-stars/rating-stars.tsx';
 import { OfferGallery } from '../../components/offer-gallery/offer-gallery.tsx';
@@ -24,6 +24,9 @@ import { OfferReviews } from '../../components/offer-reviews/offer-reviews.tsx';
 import { NearPlaces } from '../../components/near-places/near-places.tsx';
 import type { Point } from '../../types/point.ts';
 import type { Location } from '../../types/location.ts';
+import { getAuthStatus } from '../../store/user/user-selectors.ts';
+import { getError } from '../../store/error/error-selectors.ts';
+import { getComments, getNearbyOffers, getOffer, isOfferLoading as getIsOfferLoading } from '../../store/offers/offers-selectors.ts';
 
 const MAX_NEAR_OFFERS_COUNT = 3;
 
@@ -41,15 +44,15 @@ export function OfferPage(): ReactNode {
 
   const { id } = useParams<{ id: string }>() as { id: string };
 
-  const offer = useAppSelector((state) => state.offers.offer);
-  const comments = useAppSelector((state) => state.offers.comments);
-  const nearbyOffers = useAppSelector((state) => state.offers.nearbyOffers);
-  const isOfferLoading = useAppSelector((state) => state.offers.isOfferLoading);
-  const error = useAppSelector((state) => state.error);
-  const user = useAppSelector((state) => state.user);
+  const offer = useAppSelector(getOffer);
+  const comments = useAppSelector(getComments);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const isOfferLoading = useAppSelector(getIsOfferLoading);
+  const error = useAppSelector(getError);
+  const authStatus = useAppSelector(getAuthStatus);
 
   useEffect(() => {
-    dispatch(getOffer(id));
+    dispatch(getOfferAction(id));
   }, [id, dispatch]);
 
   const nearbyOffersToDisplay = useMemo(() => nearbyOffers.slice(0, MAX_NEAR_OFFERS_COUNT), [nearbyOffers]);
@@ -76,8 +79,8 @@ export function OfferPage(): ReactNode {
     return <ErrorPage />;
   }
 
-  const onBookmarkClick = (offerId: string) => {
-    if (user.authStatus !== AuthStatus.Authorized) {
+  const handleBookmarkClick = (offerId: string) => {
+    if (authStatus !== AuthStatus.Authorized) {
       navigate(AppRoute.Login);
       return;
     }
@@ -114,7 +117,7 @@ export function OfferPage(): ReactNode {
                 </h1>
                 <BookmarkButton
                   active={offer.isFavorite ?? false}
-                  onClick={() => onBookmarkClick(offer.id)}
+                  onClick={() => handleBookmarkClick(offer.id)}
                   blockClassName='offer'
                   width={31}
                   height={33}
@@ -149,7 +152,7 @@ export function OfferPage(): ReactNode {
         </section>
         <NearPlaces
           offers={nearbyOffersToDisplay}
-          onBookmarkClick={onBookmarkClick}
+          onBookmarkClick={handleBookmarkClick}
         />
       </main>
     </div>

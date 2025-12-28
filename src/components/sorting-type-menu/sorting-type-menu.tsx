@@ -5,13 +5,14 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { SortingType } from '../../enums/sorting-type.ts';
 import { switchSortingType } from '../../store/offers/offers-slice.ts';
+import { getCurrentSortingType } from '../../store/offers/offers-selectors.ts';
 
 const sortingTypes = Object.values(SortingType) as SortingType[];
 
 export function SortingTypeMenu(): ReactNode {
   const [isOpened, setIsOpened] = useState(false);
   const dispatch = useAppDispatch();
-  const currentSortingType = useAppSelector((state) => state.offers.currentSortingType);
+  const currentSortingType = useAppSelector(getCurrentSortingType);
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by </span>

@@ -4,6 +4,7 @@ import { CommentsList } from '../comments-list/comments-list.tsx';
 import { CommentForm } from '../comment-form/comment-form.tsx';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
+import { getAuthStatus } from '../../store/user/user-selectors.ts';
 import type { Comment } from '../../types/comment.ts';
 
 type OfferReviewsProps = {
@@ -11,7 +12,7 @@ type OfferReviewsProps = {
 }
 
 export function OfferReviews({ comments }: OfferReviewsProps): ReactNode {
-  const authStatus = useAppSelector((state) => state.user.authStatus);
+  const authStatus = useAppSelector(getAuthStatus);
 
   const displayedComments = useMemo(() =>
     [...comments]
