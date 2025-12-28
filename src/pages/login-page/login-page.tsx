@@ -1,7 +1,7 @@
 ﻿import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { Link, Navigate } from 'react-router-dom';
-import { useEffect, useState, useMemo, type ReactNode } from 'react';
+import { useEffect, useState, useMemo, ChangeEvent, FormEvent, ReactNode } from 'react';
 
 import { login } from '../../store/api-actions.ts';
 import { resetError } from '../../store/error/error-slice.ts';
@@ -23,13 +23,17 @@ type CurrentLocationProps = {
 }
 
 function CurrentLocation({ city, onCityClick }: CurrentLocationProps): ReactNode {
+  const handleCityClick = () => {
+    onCityClick(city);
+  };
+
   return (
     <section className="locations locations--login locations--current">
       <div className="locations__item">
         <Link
           className="locations__item-link"
           to={AppRoute.Main}
-          onClick={() => onCityClick(city)}
+          onClick={handleCityClick}
         >
           <span>{city.name}</span>
         </Link>
@@ -87,6 +91,22 @@ export function LoginPage(): ReactNode {
     return hasLatinLetter && hasDigit;
   };
 
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    setErrors([]);
+  };
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    setErrors([]);
+  };
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!validatePassword(password)) {
+      setErrors(['Password must contain at least one Latin letter and one digit']);
+      return;
+    }
+    dispatch(login({ email: email, password: password }));
+  };
   const handleCityClick = (city: City) => {
     dispatch(switchCity(city));
   };
@@ -102,22 +122,12 @@ export function LoginPage(): ReactNode {
               className="login__form form"
               action="#"
               method="post"
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (!validatePassword(password)) {
-                  setErrors(['Password must contain at least one Latin letter and one digit']);
-                  return;
-                }
-                dispatch(login({ email: email, password: password }));
-              }}
+              onSubmit={handleFormSubmit}
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label htmlFor="email" className="visually-hidden">E-mail</label>
                 <input
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    setErrors([]);
-                  }}
+                  onChange={handleEmailChange}
                   id="email"
                   className="login__input form__input"
                   type="email"
@@ -130,10 +140,7 @@ export function LoginPage(): ReactNode {
               <div className="login__input-wrapper form__input-wrapper">
                 <label htmlFor="password" className="visually-hidden">Password</label>
                 <input
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    setErrors([]);
-                  }}
+                  onChange={handlePasswordChange}
                   id="password"
                   className="login__input form__input"
                   type="password"

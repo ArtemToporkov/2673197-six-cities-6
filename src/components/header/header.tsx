@@ -1,5 +1,5 @@
 ﻿import { Link } from 'react-router-dom';
-import type { ReactNode } from 'react';
+import { MouseEvent, ReactNode } from 'react';
 
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
@@ -14,7 +14,10 @@ function NavigationItems(): ReactNode {
   const userInfo = useAppSelector(getUserInfo);
   const favoriteOffers = useAppSelector(getFavoriteOffers);
   const dispatch = useAppDispatch();
-
+  const handleLogoutClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    dispatch(logout());
+  };
   let navItems: ReactNode;
   switch (authStatus) {
     case AuthStatus.Authorized:
@@ -36,10 +39,7 @@ function NavigationItems(): ReactNode {
             <a
               className="header__nav-link"
               href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                return dispatch(logout());
-              }}
+              onClick={handleLogoutClick}
             >
               <span className="header__signout">Sign out</span>
             </a>

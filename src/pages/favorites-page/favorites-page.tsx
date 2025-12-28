@@ -21,7 +21,7 @@ function groupOffersByCityName(offers: OfferPreviewInfo[]): Record<string, Offer
 
 function getFavoritesSections(
   offersByCityName: Record<string, OfferPreviewInfo[]>,
-  onBookmarkClick: (offerId: string) => void
+  handleBookmarkClick: (offerId: string) => void
 ): ReactNode[] {
   const sections: ReactNode[] = [];
   for (const [cityName, cityOffers] of Object.entries(offersByCityName)) {
@@ -30,7 +30,7 @@ function getFavoritesSections(
         key={cityName}
         city={cityName}
         offers={cityOffers}
-        onBookmarkClick={onBookmarkClick}
+        onBookmarkClick={handleBookmarkClick}
       />
     );
   }

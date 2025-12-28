@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+﻿import { useState, ChangeEvent, FormEvent } from 'react';
 import type { ReactNode } from 'react';
 
 import { RatingStarsInput } from '../rating-stars-input/rating-stars-input.tsx';
@@ -36,39 +36,44 @@ export function CommentForm(): ReactNode {
     comment.comment.length <= MAX_COMMENT_LENGTH &&
     comment.rating !== null;
 
+  const handleRatingChange = (score: RatingScore) => {
+    setComment({...comment, rating: score});
+    dispatch(resetError());
+  };
+  const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setComment({...comment, comment: e.target.value});
+    dispatch(resetError());
+  };
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    dispatch(sendComment({ comment: comment as CommentContent, offerId: offerId }))
+      .unwrap()
+      .then(() => setComment({ rating: null, comment: '' }))
+      .finally(() => setIsSubmitting(false));
+  };
+
   return (
     <form
       className="reviews__form form"
       action="#"
       method="post"
-      onSubmit={(e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        dispatch(sendComment({ comment: comment as CommentContent, offerId: offerId }))
-          .unwrap()
-          .then(() => setComment({ rating: null, comment: '' }))
-          .finally(() => setIsSubmitting(false));
-      }}
+      onSubmit={handleFormSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <RatingStarsInput
         value={comment.rating}
         disabled={isSubmitting}
-        onChange={(score) => {
-          setComment({...comment, rating: score});
-          dispatch(resetError());
-        }}
+        onChange={handleRatingChange}
       />
-      <textarea className="reviews__textarea form__textarea"
-                id="review"
-                name="review"
-                placeholder="Tell how was your stay, what you like and what can be improved"
-                value={comment.comment}
-                disabled={isSubmitting}
-                onChange={(e) => {
-                  setComment({...comment, comment: e.target.value});
-                  dispatch(resetError());
-                }}
+      <textarea
+        className="reviews__textarea form__textarea"
+        id="review"
+        name="review"
+        placeholder="Tell how was your stay, what you like and what can be improved"
+        value={comment.comment}
+        disabled={isSubmitting}
+        onChange={handleCommentChange}
       >
       </textarea>
       <div className="reviews__button-wrapper">
