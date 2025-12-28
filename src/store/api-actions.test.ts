@@ -11,6 +11,7 @@ import {
   getOffer,
   getOffers,
   login,
+  logout,
   sendComment,
   setFavoriteStatus
 } from './api-actions.ts';
@@ -35,7 +36,7 @@ describe('Async actions', () => {
   let store: ReturnType<typeof mockStoreCreator>;
 
   beforeEach(() => {
-    store = mockStoreCreator({ user: { authStatus: AuthStatus.Unknown } });
+    store = mockStoreCreator({ user: { authStatus: AuthStatus.Unknown, info: null } });
   });
 
   describe('getOffers', () => {
@@ -125,6 +126,21 @@ describe('Async actions', () => {
       expect(actions).toEqual([
         login.pending.type,
         login.fulfilled.type,
+      ]);
+    });
+  });
+
+  describe('logout', () => {
+    it('should dispatch "logout.pending" and "logout.fulfilled" when server response 204', async () => {
+      mockAxiosAdapter.onDelete(ApiRoute.Logout).reply(204);
+
+      await store.dispatch(logout());
+
+      const actions = extractActionTypes(store.getActions());
+
+      expect(actions).toEqual([
+        logout.pending.type,
+        logout.fulfilled.type,
       ]);
     });
   });
