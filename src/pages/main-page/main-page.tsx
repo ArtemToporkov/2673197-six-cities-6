@@ -1,6 +1,7 @@
 ﻿import { useNavigate } from 'react-router-dom';
 import { useCallback, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
+import classNames from 'classnames';
 
 import { CitiesList } from '../../components/cities-list/cities-list.tsx';
 import { Map } from '../../components/map/map.tsx';
@@ -88,15 +89,22 @@ export function MainPage(): ReactNode {
     setHoveredOfferId(null);
   }, []);
 
+  const isEmpty = currentOffers.length === 0;
+
   return (
     <div className="page page--gray page--main">
       <Header />
-      <main className="page__main page__main--index">
+      <main className={classNames(
+        'page__main',
+        'page__main--index',
+        { 'page__main--index-empty': isEmpty }
+      )}
+      >
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <CitiesList cities={cities} onCityClick={handleCityClick}/>
         </div>
-        {currentOffers.length === 0
+        {isEmpty
           ? <NoPlacesAvailable city={currentCity.name}></NoPlacesAvailable>
           : (
             <div className="cities">
