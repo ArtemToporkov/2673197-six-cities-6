@@ -10,7 +10,7 @@ describe('Cities slice', () => {
     cities: []
   };
 
-  it('should load cities on getOffers.fulfilled', () => {
+  it('should load cities and pick the first one on getOffers.fulfilled', () => {
     const paris = makeCity({ name: 'Paris' });
     const amsterdam = makeCity({ name: 'Amsterdam' });
     const expectedCities = [paris, amsterdam];
@@ -22,6 +22,7 @@ describe('Cities slice', () => {
     );
 
     expect(result.cities).toEqual(expectedCities);
+    expect(result.city).toEqual(paris);
   });
 
   it('should switch city', () => {
