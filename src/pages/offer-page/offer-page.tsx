@@ -25,6 +25,8 @@ import { NearPlaces } from '../../components/near-places/near-places.tsx';
 import type { Point } from '../../types/point.ts';
 import type { Location } from '../../types/location.ts';
 
+const MAX_NEAR_OFFERS_COUNT = 3;
+
 function mapToPoint(data: { location: Location; id: string }): Point {
   return ({
     latitude: data.location.latitude,
@@ -50,13 +52,15 @@ export function OfferPage(): ReactNode {
     dispatch(getOffer(id));
   }, [id, dispatch]);
 
+  const nearbyOffersToDisplay = useMemo(() => nearbyOffers.slice(0, MAX_NEAR_OFFERS_COUNT), [nearbyOffers]);
+
   const mapPoints = useMemo(() => {
-    const points = nearbyOffers.map(mapToPoint);
+    const points = nearbyOffersToDisplay.map(mapToPoint);
     if (offer) {
       points.push(mapToPoint(offer));
     }
     return points;
-  }, [nearbyOffers, offer]);
+  }, [nearbyOffersToDisplay, offer]);
 
   const selectedPoint = useMemo(() => (offer ? mapToPoint(offer) : null), [offer]);
 
@@ -144,7 +148,7 @@ export function OfferPage(): ReactNode {
           </section>
         </section>
         <NearPlaces
-          offers={nearbyOffers}
+          offers={nearbyOffersToDisplay}
           onBookmarkClick={onBookmarkClick}
         />
       </main>
