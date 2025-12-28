@@ -65,11 +65,20 @@ export function LoginPage(): ReactNode {
   }, [dispatch]);
 
   useEffect(() => {
+    let isMounted = true;
+
     if (error && error.errorType === ServerErrorType.ValidationError) {
-      setErrors(error.details.map(
-        (detail) => `${detail.property}: ${detail.messages.join(', ')}`)
+      const errorMessages = error.details.map(
+        (detail) => `${detail.property}: ${detail.messages.join(', ')}`
       );
+      if (isMounted) {
+        setErrors(errorMessages);
+      }
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [error]);
 
   if (authState === AuthStatus.Authorized) {

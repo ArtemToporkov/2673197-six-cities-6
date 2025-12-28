@@ -4,10 +4,11 @@ import { AUTH_HEADER_NAME } from '../const.ts';
 import { getToken } from './token.ts';
 
 const SERVER_TIMEOUT_MS = 5000;
+const SERVER_BASE_URL = 'https://14.design.htmlacademy.pro/six-cities';
 
 export const createApi = (): AxiosInstance => {
   const api = axios.create({
-    baseURL: 'https://14.design.htmlacademy.pro/six-cities',
+    baseURL: SERVER_BASE_URL,
     timeout: SERVER_TIMEOUT_MS
   });
 

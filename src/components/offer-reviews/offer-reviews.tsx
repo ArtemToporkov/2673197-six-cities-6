@@ -7,6 +7,8 @@ import { AuthStatus } from '../../enums/auth-status.ts';
 import { getAuthStatus } from '../../store/user/user-selectors.ts';
 import type { Comment } from '../../types/comment.ts';
 
+const MAX_REVIEWS_COUNT = 10;
+
 type OfferReviewsProps = {
   comments: Comment[];
 }
@@ -17,7 +19,7 @@ export function OfferReviews({ comments }: OfferReviewsProps): ReactNode {
   const displayedComments = useMemo(() =>
     [...comments]
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 10),
+      .slice(0, MAX_REVIEWS_COUNT),
   [comments]);
 
   return (
