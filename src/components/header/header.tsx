@@ -2,12 +2,15 @@
 import type { ReactNode } from 'react';
 
 import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
 import { AuthStatus } from '../../enums/auth-status.ts';
 import { AppRoute } from '../../enums/app-route.ts';
+import { logout } from '../../store/api-actions.ts';
 
 function NavigationItems(): ReactNode {
   const user = useAppSelector((state) => state.user);
   const favoriteOffers = useAppSelector((state) => state.offers.favoriteOffers);
+  const dispatch = useAppDispatch();
 
   let navItems: ReactNode;
   switch (user.authStatus) {
@@ -27,7 +30,14 @@ function NavigationItems(): ReactNode {
             </Link>
           </li>
           <li className="header__nav-item">
-            <a className="header__nav-link" href="#">
+            <a
+              className="header__nav-link"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                return dispatch(logout());
+              }}
+            >
               <span className="header__signout">Sign out</span>
             </a>
           </li>

@@ -1,6 +1,7 @@
 ﻿import axios, { type AxiosInstance } from 'axios';
 
-import { AUTH_HEADER_NAME, AUTH_TOKEN_KEY_NAME } from '../const.ts';
+import { AUTH_HEADER_NAME } from '../const.ts';
+import { getToken } from './token.ts';
 
 const SERVER_TIMEOUT_MS = 5000;
 
@@ -11,7 +12,7 @@ export const createApi = (): AxiosInstance => {
   });
 
   api.interceptors.request.use((config) => {
-    const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME);
+    const token = getToken();
     if (config.headers && token) {
       config.headers[AUTH_HEADER_NAME] = token;
     }

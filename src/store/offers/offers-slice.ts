@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SortingType } from '../../enums/sorting-type.ts';
 import { ActionNamespace } from '../../enums/action-namespace.ts';
 import { switchCity } from '../cities/cities-slice.ts';
-import { getFavoriteOffers, getOffer, getOffers, sendComment, setFavoriteStatus } from '../api-actions.ts';
+import { getFavoriteOffers, getOffer, getOffers, logout, sendComment, setFavoriteStatus } from '../api-actions.ts';
 import type { OfferPreviewInfo } from '../../types/offer-preview-info.ts';
 import type { OfferFullInfo } from '../../types/offer-full-info.ts';
 import type { Comment } from '../../types/comment.ts';
@@ -49,6 +49,12 @@ function sortOffers(offersToSort: OfferPreviewInfo[], sortingType: SortingType):
 
 function updateOfferInList(list: OfferPreviewInfo[], updatedOffer: OfferPreviewInfo): OfferPreviewInfo[] {
   return list.map((item) => item.id === updatedOffer.id ? { ...item, isFavorite: updatedOffer.isFavorite } : item);
+}
+
+function setFavoriteToFalse(offers: OfferPreviewInfo[]) {
+  offers.forEach((o) => {
+    o.isFavorite = false;
+  });
 }
 
 export const offersSlice = createSlice({
@@ -120,6 +126,14 @@ export const offersSlice = createSlice({
           state.allOffers.filter((o) => o.city.name === action.payload.name),
           state.currentSortingType
         );
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.favoriteOffers = [];
+        setFavoriteToFalse(state.allOffers);
+        setFavoriteToFalse(state.offersInCity);
+        if (state.offer) {
+          state.offer.isFavorite = false;
+        }
       });
   }
 });
