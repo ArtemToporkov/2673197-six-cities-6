@@ -227,4 +227,29 @@ describe('Application routing', () => {
     expect(screen.getByText(StatusCodes.INTERNAL_SERVER_ERROR)).toBeInTheDocument();
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
+
+  it('should render "Error Page" with 500 status when getOffers fails with 500', () => {
+    const defaultState = makeState();
+    const store = mockStoreCreator({
+      ...defaultState,
+      error: {
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
+        message: 'Internal Server Error',
+        errorType: ServerErrorType.CommonError
+      },
+      offers: {
+        ...defaultState.offers,
+        isOffersLoading: false
+      }
+    });
+
+    render(
+      <Provider store={store}>
+        {withMemoryHistory(<App />)}
+      </Provider>
+    );
+
+    expect(screen.getByText('500')).toBeInTheDocument();
+    expect(screen.getByText('Internal Server Error')).toBeInTheDocument();
+  });
 });

@@ -3,6 +3,7 @@ import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { datatype, internet, lorem } from 'faker';
 import MockAdapter from 'axios-mock-adapter';
+import { StatusCodes } from 'http-status-codes';
 
 import { createApi } from '../services/api.ts';
 import {
@@ -50,6 +51,19 @@ describe('Async actions', () => {
       expect(actions).toEqual([
         getOffers.pending.type,
         getOffers.fulfilled.type,
+      ]);
+    });
+
+    it('should dispatch "getOffers.pending" and "getOffers.rejected" when server response 500', async () => {
+      mockAxiosAdapter.onGet(ApiRoute.Offers).reply(StatusCodes.INTERNAL_SERVER_ERROR);
+
+      await store.dispatch(getOffers());
+
+      const actions = extractActionTypes(store.getActions());
+
+      expect(actions).toEqual([
+        getOffers.pending.type,
+        getOffers.rejected.type,
       ]);
     });
   });
