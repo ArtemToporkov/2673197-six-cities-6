@@ -1,5 +1,5 @@
 ﻿import type { ReactNode } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Map } from '../../components/map/map.tsx';
@@ -46,8 +46,6 @@ export function OfferPage(): ReactNode {
   const error = useAppSelector((state) => state.error);
   const user = useAppSelector((state) => state.user);
 
-  const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
-
   useEffect(() => {
     dispatch(getOffer(id));
   }, [id, dispatch]);
@@ -60,15 +58,7 @@ export function OfferPage(): ReactNode {
     return points;
   }, [nearbyOffers, offer]);
 
-  const selectedPoint = useMemo(() => {
-    if (hoveredOfferId) {
-      const hovered = nearbyOffers.find((o) => o.id === hoveredOfferId);
-      if (hovered) {
-        return mapToPoint(hovered);
-      }
-    }
-    return offer ? mapToPoint(offer) : null;
-  }, [hoveredOfferId, nearbyOffers, offer]);
+  const selectedPoint = useMemo(() => (offer ? mapToPoint(offer) : null), [offer]);
 
   if (error && error.errorType === ServerErrorType.CommonError) {
     return <ErrorPage />;
@@ -155,8 +145,6 @@ export function OfferPage(): ReactNode {
         </section>
         <NearPlaces
           offers={nearbyOffers}
-          onOfferCardHover={setHoveredOfferId}
-          onOfferCardUnhover={() => setHoveredOfferId(null)}
           onBookmarkClick={onBookmarkClick}
         />
       </main>
