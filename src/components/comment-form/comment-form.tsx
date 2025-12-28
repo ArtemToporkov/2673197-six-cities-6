@@ -12,6 +12,7 @@ import type { ServerError } from '../../types/server-error.ts';
 import type { RatingScore } from '../../types/rating-score.ts';
 
 const MIN_COMMENT_LENGTH = 50;
+const MAX_COMMENT_LENGTH = 300;
 
 type CommentContentState = Omit<CommentContent, 'rating'> & {
   rating: RatingScore | null;
@@ -19,6 +20,7 @@ type CommentContentState = Omit<CommentContent, 'rating'> & {
 
 export function CommentForm(): ReactNode {
   const [comment, setComment] = useState<CommentContentState>({ rating: null, comment: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useAppDispatch();
   const error = useAppSelector((state) => state.error) as ServerError | null;
   const offerId = useAppSelector((state) => state.offers.offer?.id);
@@ -27,6 +29,11 @@ export function CommentForm(): ReactNode {
     throw new Error('CommentForm can\'t be used without an offerId');
   }
 
+  const isFormValid =
+    comment.comment.length >= MIN_COMMENT_LENGTH &&
+    comment.comment.length <= MAX_COMMENT_LENGTH &&
+    comment.rating !== null;
+
   return (
     <form
       className="reviews__form form"
@@ -34,14 +41,17 @@ export function CommentForm(): ReactNode {
       method="post"
       onSubmit={(e) => {
         e.preventDefault();
+        setIsSubmitting(true);
         dispatch(sendComment({ comment: comment as CommentContent, offerId: offerId }))
           .unwrap()
-          .then(() => setComment({ rating: null, comment: '' }));
+          .then(() => setComment({ rating: null, comment: '' }))
+          .finally(() => setIsSubmitting(false));
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <RatingStarsInput
         value={comment.rating}
+        disabled={isSubmitting}
         onChange={(score) => {
           setComment({...comment, rating: score});
           dispatch(resetError());
@@ -52,6 +62,7 @@ export function CommentForm(): ReactNode {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment.comment}
+        disabled={isSubmitting}
         onChange={(e) => {
           setComment({...comment, comment: e.target.value});
           dispatch(resetError());
@@ -66,7 +77,7 @@ export function CommentForm(): ReactNode {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={comment.comment.length < MIN_COMMENT_LENGTH || !comment.rating}
+          disabled={!isFormValid || isSubmitting}
         >
           Submit
         </button>
