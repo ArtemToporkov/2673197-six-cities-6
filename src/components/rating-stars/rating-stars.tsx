@@ -8,10 +8,12 @@ type RatingStarsProps = PropsWithChildren<{
 }>
 
 export function RatingStars({ rating, children, blockClassName = 'place-card' }: RatingStarsProps): ReactNode {
+  const clampedRating = Math.min(5, Math.max(0, rating));
+  const roundedRating = Math.round(clampedRating);
   return (
     <div className={`${blockClassName}__rating rating`}>
       <div className={`${blockClassName}__stars rating__stars`}>
-        <span style={{ width: `${rating * 20}%` }} />
+        <span style={{ width: `${roundedRating * 20}%` }} />
         <span className="visually-hidden">Rating</span>
       </div>
       {children}
