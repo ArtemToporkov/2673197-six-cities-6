@@ -29,7 +29,7 @@ function mapOfferPreviewInfoToPoint(offer: OfferPreviewInfo): Point {
   });
 }
 
-function NoPlacesAvailable({ city }: { city: string | undefined }): ReactNode {
+function NoPlacesAvailable({ city }: { city: string }): ReactNode {
   return (
     <div className="cities">
       <div className="cities__places-container cities__places-container--empty container">
@@ -97,13 +97,13 @@ export function MainPage(): ReactNode {
           <CitiesList cities={cities} onCityClick={handleCityClick}/>
         </div>
         {currentOffers.length === 0
-          ? <NoPlacesAvailable city={currentCity?.name}></NoPlacesAvailable>
+          ? <NoPlacesAvailable city={currentCity.name}></NoPlacesAvailable>
           : (
             <div className="cities">
               <div className="cities__places-container container">
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{currentOffers.length} places to stay in {currentCity?.name}</b>
+                  <b className="places__found">{currentOffers.length} places to stay in {currentCity.name}</b>
                   <SortingTypeMenu/>
                   <div className="cities__places-list places__list tabs__content">
                     <OffersList

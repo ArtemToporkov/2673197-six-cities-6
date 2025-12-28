@@ -11,7 +11,7 @@ type CitiesListProps = {
   onCityClick: (city: City) => void;
 }
 
-function CitiesListComponent({cities, onCityClick}: CitiesListProps): ReactNode {
+function CitiesListComponent({ cities, onCityClick }: CitiesListProps): ReactNode {
   const currentCity = useAppSelector(getCity);
   const handleCityClick = useCallback((city: City) => onCityClick(city), [onCityClick]);
   return (
